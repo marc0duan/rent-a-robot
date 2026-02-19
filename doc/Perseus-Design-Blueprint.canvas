@@ -1,0 +1,310 @@
+{
+  "nodes": [
+    {
+      "id": "a1b2c3d4e5f67890",
+      "type": "group",
+      "x": -700,
+      "y": -900,
+      "width": 1400,
+      "height": 500,
+      "label": "Architecture & Infrastructure",
+      "color": "1"
+    },
+    {
+      "id": "b2c3d4e5f6789012",
+      "type": "group",
+      "x": -1800,
+      "y": -200,
+      "width": 900,
+      "height": 700,
+      "label": "Data & Domain",
+      "color": "2"
+    },
+    {
+      "id": "c3d4e5f678901234",
+      "type": "group",
+      "x": 1000,
+      "y": -200,
+      "width": 900,
+      "height": 700,
+      "label": "Features & UX",
+      "color": "3"
+    },
+    {
+      "id": "d4e5f6789012345a",
+      "type": "group",
+      "x": -1800,
+      "y": 600,
+      "width": 900,
+      "height": 650,
+      "label": "Security & Lifecycle",
+      "color": "4"
+    },
+    {
+      "id": "e5f67890123456ab",
+      "type": "group",
+      "x": 1000,
+      "y": 600,
+      "width": 900,
+      "height": 650,
+      "label": "APIs & Integration",
+      "color": "5"
+    },
+    {
+      "id": "0000000000000000",
+      "type": "file",
+      "x": -250,
+      "y": -100,
+      "width": 500,
+      "height": 300,
+      "file": "doc/00-Perseus-Overview.md",
+      "color": "6"
+    },
+    {
+      "id": "0000000000000001",
+      "type": "file",
+      "x": -600,
+      "y": -800,
+      "width": 500,
+      "height": 300,
+      "file": "doc/01-System-Architecture.md"
+    },
+    {
+      "id": "000000000000000a",
+      "type": "file",
+      "x": 100,
+      "y": -800,
+      "width": 500,
+      "height": 300,
+      "file": "doc/10-Infrastructure.md"
+    },
+    {
+      "id": "0000000000000002",
+      "type": "file",
+      "x": -1700,
+      "y": -100,
+      "width": 700,
+      "height": 250,
+      "file": "doc/02-Data-Model.md"
+    },
+    {
+      "id": "0000000000000004",
+      "type": "file",
+      "x": -1700,
+      "y": 250,
+      "width": 700,
+      "height": 200,
+      "file": "doc/04-Platform-Entities.md"
+    },
+    {
+      "id": "0000000000000005",
+      "type": "file",
+      "x": 1100,
+      "y": -100,
+      "width": 700,
+      "height": 250,
+      "file": "doc/05-Chat-System.md"
+    },
+    {
+      "id": "0000000000000006",
+      "type": "file",
+      "x": 1100,
+      "y": 250,
+      "width": 700,
+      "height": 200,
+      "file": "doc/06-Workspace-Files.md"
+    },
+    {
+      "id": "0000000000000003",
+      "type": "file",
+      "x": -1700,
+      "y": 700,
+      "width": 700,
+      "height": 250,
+      "file": "doc/03-Auth-and-Security.md"
+    },
+    {
+      "id": "0000000000000007",
+      "type": "file",
+      "x": -1700,
+      "y": 1050,
+      "width": 700,
+      "height": 150,
+      "file": "doc/07-Robot-Lifecycle.md"
+    },
+    {
+      "id": "0000000000000008",
+      "type": "file",
+      "x": 1100,
+      "y": 700,
+      "width": 700,
+      "height": 250,
+      "file": "doc/08-API-Design.md"
+    },
+    {
+      "id": "0000000000000009",
+      "type": "file",
+      "x": 1100,
+      "y": 1050,
+      "width": 700,
+      "height": 150,
+      "file": "doc/09-MCP-Integration.md"
+    },
+    {
+      "id": "000000000000000b",
+      "type": "file",
+      "x": -250,
+      "y": 600,
+      "width": 500,
+      "height": 300,
+      "file": "doc/11-User-Journeys.md",
+      "color": "3"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e000000000000001",
+      "fromNode": "0000000000000000",
+      "toNode": "0000000000000001",
+      "label": "overview of"
+    },
+    {
+      "id": "e000000000000002",
+      "fromNode": "0000000000000000",
+      "toNode": "000000000000000a",
+      "label": "overview of"
+    },
+    {
+      "id": "e000000000000003",
+      "fromNode": "0000000000000000",
+      "toNode": "0000000000000002",
+      "label": "overview of"
+    },
+    {
+      "id": "e000000000000004",
+      "fromNode": "0000000000000000",
+      "toNode": "0000000000000004",
+      "label": "overview of"
+    },
+    {
+      "id": "e000000000000005",
+      "fromNode": "0000000000000000",
+      "toNode": "0000000000000005",
+      "label": "overview of"
+    },
+    {
+      "id": "e000000000000006",
+      "fromNode": "0000000000000000",
+      "toNode": "0000000000000006",
+      "label": "overview of"
+    },
+    {
+      "id": "e000000000000007",
+      "fromNode": "0000000000000000",
+      "toNode": "0000000000000003",
+      "label": "overview of"
+    },
+    {
+      "id": "e000000000000008",
+      "fromNode": "0000000000000000",
+      "toNode": "0000000000000007",
+      "label": "overview of"
+    },
+    {
+      "id": "e000000000000009",
+      "fromNode": "0000000000000000",
+      "toNode": "0000000000000008",
+      "label": "overview of"
+    },
+    {
+      "id": "e00000000000000a",
+      "fromNode": "0000000000000000",
+      "toNode": "0000000000000009",
+      "label": "overview of"
+    },
+    {
+      "id": "e00000000000000b",
+      "fromNode": "0000000000000000",
+      "toNode": "000000000000000b",
+      "label": "overview of"
+    },
+    {
+      "id": "e100000000000001",
+      "fromNode": "0000000000000001",
+      "toNode": "0000000000000002",
+      "label": "uses"
+    },
+    {
+      "id": "e100000000000002",
+      "fromNode": "0000000000000001",
+      "toNode": "000000000000000a",
+      "label": "deployed via"
+    },
+    {
+      "id": "e100000000000003",
+      "fromNode": "0000000000000002",
+      "toNode": "0000000000000004",
+      "label": "defines schema for"
+    },
+    {
+      "id": "e100000000000004",
+      "fromNode": "0000000000000004",
+      "toNode": "0000000000000005",
+      "label": "entities used in"
+    },
+    {
+      "id": "e100000000000005",
+      "fromNode": "0000000000000005",
+      "toNode": "0000000000000006",
+      "label": "shares files via"
+    },
+    {
+      "id": "e100000000000006",
+      "fromNode": "0000000000000003",
+      "toNode": "0000000000000007",
+      "label": "authenticates"
+    },
+    {
+      "id": "e100000000000007",
+      "fromNode": "0000000000000007",
+      "toNode": "0000000000000009",
+      "label": "uses"
+    },
+    {
+      "id": "e100000000000008",
+      "fromNode": "0000000000000009",
+      "toNode": "0000000000000008",
+      "label": "wraps"
+    },
+    {
+      "id": "e100000000000009",
+      "fromNode": "0000000000000003",
+      "toNode": "0000000000000008",
+      "label": "secures"
+    },
+    {
+      "id": "e10000000000000a",
+      "fromNode": "0000000000000008",
+      "toNode": "0000000000000002",
+      "label": "accesses"
+    },
+    {
+      "id": "e10000000000000b",
+      "fromNode": "000000000000000b",
+      "toNode": "0000000000000005",
+      "label": "wireframes for"
+    },
+    {
+      "id": "e10000000000000c",
+      "fromNode": "000000000000000b",
+      "toNode": "0000000000000007",
+      "label": "user flows for"
+    },
+    {
+      "id": "e10000000000000d",
+      "fromNode": "0000000000000006",
+      "toNode": "000000000000000a",
+      "label": "stored in"
+    }
+  ]
+}
