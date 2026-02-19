@@ -35,7 +35,7 @@ The platform is the central web application where users manage robots, teams, an
 > A robot is a nanobot AI agent running on a real computer. It functions like a digital employee with:
 > - **Ears**: Ability to listen for tasks and commands from the platform.
 > - **Mouth**: Ability to chat and respond to users on the platform.
-> - **Hands**: Ability to execute actions by using specific tools (MCP).
+> - **Hands**: Ability to execute actions by using tools, mcps .
 
 ### What is a Team?
 A team is the fundamental unit of collaboration. It contains humans and robots who work together. Each team has at least one chatgroup on the platform where members can communicate and share files. A team must have at least two members, and cannot consist solely of robots.
