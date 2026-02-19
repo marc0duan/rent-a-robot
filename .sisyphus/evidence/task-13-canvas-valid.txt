@@ -1,0 +1,23 @@
+Canvas Validation Report
+========================
+
+Nodes: 17
+Edges: 24
+
+Node Types:
+- File nodes: 12
+- Group nodes: 5
+
+File References:
+  - doc/00-Perseus-Overview.md
+  - doc/01-System-Architecture.md
+  - doc/10-Infrastructure.md
+  - doc/02-Data-Model.md
+  - doc/04-Platform-Entities.md
+  - doc/05-Chat-System.md
+  - doc/06-Workspace-Files.md
+  - doc/03-Auth-and-Security.md
+  - doc/07-Robot-Lifecycle.md
+  - doc/08-API-Design.md
+  - doc/09-MCP-Integration.md
+  - doc/11-User-Journeys.md

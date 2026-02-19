@@ -1,0 +1,180 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================
+// Identity & Access
+// ============================================================
+
+model Tenant {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  ownerId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users   TenantUser[]
+  teams   Team[]
+  robots  Robot[]
+  apiKeys ApiKey[]
+  files   WorkspaceFile[]
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  phone        String?  @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  tenants TenantUser[]
+  apiKeys ApiKey[]
+}
+
+model TenantUser {
+  userId   String
+  tenantId String
+  role     String // owner, admin, user
+  joinedAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@id([userId, tenantId])
+}
+
+// ============================================================
+// Organizations & Teams
+// ============================================================
+
+model Team {
+  id        String   @id @default(uuid())
+  name      String
+  tenantId  String
+  createdAt DateTime @default(now())
+
+  tenant  Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  members TeamMember[]
+  groups  ChatGroup[]
+  files   WorkspaceFile[]
+}
+
+model TeamMember {
+  teamId     String
+  memberId   String
+  memberType String // human, robot
+  joinedAt   DateTime @default(now())
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@id([teamId, memberId])
+}
+
+// ============================================================
+// Robots & Intelligence
+// ============================================================
+
+model Robot {
+  id             String    @id @default(uuid())
+  name           String
+  tenantId       String
+  createdById    String
+  soulMd         String    @db.Text
+  status         String    @default("created") // created, onboarding, onboard, offline
+  tokenHash      String?
+  tokenExpiresAt DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+}
+
+// ============================================================
+// Communication & Collaboration
+// ============================================================
+
+model ChatGroup {
+  id          String   @id @default(uuid())
+  name        String
+  teamId      String
+  createdById String
+  createdAt   DateTime @default(now())
+
+  team     Team              @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  members  ChatGroupMember[]
+  messages Message[]
+  files    WorkspaceFile[]
+}
+
+model ChatGroupMember {
+  chatGroupId String
+  memberId    String
+  memberType  String // human, robot
+  joinedAt    DateTime @default(now())
+
+  group ChatGroup @relation(fields: [chatGroupId], references: [id], onDelete: Cascade)
+
+  @@id([chatGroupId, memberId])
+}
+
+model Message {
+  id          String   @id @default(uuid())
+  chatGroupId String
+  senderId    String
+  senderType  String // human, robot
+  content     String   @db.Text
+  mentions    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  group ChatGroup @relation(fields: [chatGroupId], references: [id], onDelete: Cascade)
+  // senderId is polymorphic (human or robot) — no FK relation
+
+  @@index([senderId])
+}
+
+// ============================================================
+// Files & API Security
+// ============================================================
+
+model WorkspaceFile {
+  id           String   @id @default(uuid())
+  path         String
+  filename     String
+  mimeType     String
+  size         BigInt
+  uploadedById String
+  scope        String // tenant, team, chatgroup
+  scopeId      String
+  createdAt    DateTime @default(now())
+
+  tenant    Tenant?    @relation(fields: [scopeId], references: [id], map: "ws_file_tenant_fk")
+  team      Team?      @relation(fields: [scopeId], references: [id], map: "ws_file_team_fk")
+  chatGroup ChatGroup? @relation(fields: [scopeId], references: [id], map: "ws_file_chatgroup_fk")
+
+  @@index([scope, scopeId])
+}
+
+model ApiKey {
+  id        String    @id @default(uuid())
+  keyHash   String    @unique
+  label     String
+  level     String // tenant, user
+  tenantId  String?
+  userId    String?
+  createdAt DateTime  @default(now())
+  expiresAt DateTime?
+
+  tenant Tenant? @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

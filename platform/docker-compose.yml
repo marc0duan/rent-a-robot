@@ -1,0 +1,59 @@
+services:
+  platform:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://perseus:perseus@db:5432/perseus
+      - REDIS_URL=redis://redis:6379
+    env_file:
+      - .env
+    volumes:
+      - ./workspace:/workspace
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - perseus-network
+
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: perseus
+      POSTGRES_PASSWORD: perseus
+      POSTGRES_DB: perseus
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U perseus -d perseus"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - perseus-network
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - perseus-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  perseus-network:
+    driver: bridge
