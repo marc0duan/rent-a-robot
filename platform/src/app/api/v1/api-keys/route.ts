@@ -4,12 +4,15 @@ import { requireTenantAuth } from "@/lib/auth";
 import { handleError, ApiError } from "@/lib/errors";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import { applyRateLimit } from "@/lib/rate-limit";
+import { sanitizeString } from "@/lib/sanitize";
 
-// GET /api/v1/api-keys - List API keys for the tenant
 export async function GET(request: NextRequest) {
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     if (auth.role !== "admin" && auth.role !== "owner") {
       throw new ApiError(403, "forbidden", "Only admins and owners can manage API keys.");
@@ -35,11 +38,12 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/v1/api-keys - Create a new API key
 export async function POST(request: NextRequest) {
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     if (auth.role !== "admin" && auth.role !== "owner") {
       throw new ApiError(403, "forbidden", "Only admins and owners can manage API keys.");
@@ -51,6 +55,8 @@ export async function POST(request: NextRequest) {
     if (!label || typeof label !== "string") {
       throw new ApiError(400, "validation_error", "Label is required.");
     }
+
+    const sanitizedLabel = sanitizeString(label);
 
     if (level !== "tenant" && level !== "user") {
       throw new ApiError(400, "validation_error", 'Level must be "tenant" or "user".');
@@ -79,7 +85,7 @@ export async function POST(request: NextRequest) {
     const apiKey = await prisma.apiKey.create({
       data: {
         keyHash,
-        label,
+        label: sanitizedLabel,
         level,
         tenantId: auth.tenantId,
         userId: level === "user" ? auth.userId : null,

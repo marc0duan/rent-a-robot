@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 import { api } from "@/lib/api/client"
 import { ApiClientError } from "@/lib/api/client"
+import { useAuth } from "@/hooks/use-auth"
 import { toast } from "sonner"
 import {
   Key,
@@ -55,6 +56,9 @@ interface ApiKeyInfo {
 }
 
 export default function ApiKeysPage() {
+  const { tenant } = useAuth()
+  const isAdminOrOwner = tenant?.role === "owner" || tenant?.role === "admin"
+
   const [keys, setKeys] = useState<ApiKeyInfo[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [createOpen, setCreateOpen] = useState(false)
@@ -288,6 +292,7 @@ export default function ApiKeysPage() {
                 <Select
                   value={newScope}
                   onValueChange={(v) => setNewScope(v as "tenant" | "user")}
+                  disabled={!isAdminOrOwner}
                 >
                   <SelectTrigger className="bg-background/50">
                     <SelectValue />
@@ -296,9 +301,11 @@ export default function ApiKeysPage() {
                     <SelectItem value="user">
                       User — Access your personal resources
                     </SelectItem>
-                    <SelectItem value="tenant">
-                      Tenant — Access organization-wide resources
-                    </SelectItem>
+                    {isAdminOrOwner && (
+                      <SelectItem value="tenant">
+                        Tenant — Access organization-wide resources
+                      </SelectItem>
+                    )}
                   </SelectContent>
                 </Select>
               </div>

@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireTenantAuth } from "@/lib/auth";
 import { handleError, ApiError } from "@/lib/errors";
+import { applyRateLimit } from "@/lib/rate-limit";
+import { sanitizeString } from "@/lib/sanitize";
 
-// GET /api/v1/teams/[id] - Get team details
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -12,6 +13,8 @@ export async function GET(
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
 
+    await applyRateLimit(request, "user", auth.userId);
+
     const { id } = await params;
 
     const team = await prisma.team.findFirst({
@@ -19,7 +22,7 @@ export async function GET(
       include: {
         members: true,
         groups: { select: { id: true, name: true } },
-        _count: { select: { members: true, groups: true, files: true } },
+        _count: { select: { members: true, groups: true } },
       },
     });
 
@@ -33,7 +36,6 @@ export async function GET(
   }
 }
 
-// PUT /api/v1/teams/[id] - Update team
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -42,13 +44,17 @@ export async function PUT(
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
 
+    await applyRateLimit(request, "user", auth.userId);
+
     const { id } = await params;
     const body = await request.json();
     const { name } = body;
 
+    const sanitizedName = name ? sanitizeString(name) : undefined;
+
     const team = await prisma.team.updateMany({
       where: { id, tenantId: auth.tenantId },
-      data: { ...(name && { name }) },
+      data: { ...(sanitizedName && { name: sanitizedName }) },
     });
 
     if (team.count === 0) {
@@ -62,7 +68,6 @@ export async function PUT(
   }
 }
 
-// DELETE /api/v1/teams/[id] - Disband team
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -70,6 +75,8 @@ export async function DELETE(
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const { id } = await params;
 

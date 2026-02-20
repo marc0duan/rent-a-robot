@@ -93,32 +93,32 @@ Perseus is a multi-tenant web platform for managing AI robot agents (nanobots). 
 
 ### Database
 - [x] ~~Run `prisma migrate dev`~~ — Migration `20260219165806_init` applied, all 11 tables created
-- [ ] Seed data for development
+- [x] ~~Seed data for development~~ — `prisma/seed.ts` creates 2 users (Alice/Bob), 1 tenant (Acme Corp), 1 robot (Atlas), 1 team (Engineering), 1 chatgroup (General), 3 messages
 
 ### Real-Time Features
-- [ ] WebSocket/SSE for live message delivery
-- [ ] Redis Pub/Sub for cross-instance message broadcasting
+- [x] ~~WebSocket/SSE for live message delivery~~ — `src/app/api/v1/chatgroups/[id]/stream/route.ts` (ReadableStream SSE with keepalive, token via header or query param)
+- [x] ~~Redis Pub/Sub for cross-instance message broadcasting~~ — `src/lib/pubsub.ts` (PubSubHub with separate publisher/subscriber instances, per-channel callbacks)
 
 ### File Handling
-- [ ] Actual multipart file upload (currently metadata-only stub)
-- [ ] File download/streaming endpoint
-- [ ] `/workspace` volume directory creation
-- [ ] File size limits and validation
+- [x] ~~Actual multipart file upload (currently metadata-only stub)~~ — `POST /api/v1/chatgroups/{id}/files` accepts `multipart/form-data` with file validation
+- [x] ~~File download/streaming endpoint~~ — `GET /api/v1/files/{id}?download=true` streams file with Content-Disposition, supports token query param auth
+- [x] ~~`/workspace` volume directory creation~~ — `src/lib/storage.ts` with `ensureDir()`, auto-creates nested directories
+- [x] ~~File size limits and validation~~ — 50MB max, MIME type allowlist in `src/lib/storage.ts`
 
 ### External Integrations
-- [ ] Aliyun SMS integration for phone verification (stub exists)
-- [ ] LLM provider config storage per tenant (for robot onboarding)
+- [x] ~~Aliyun SMS integration for phone verification~~ — `src/lib/sms.ts` (Aliyun SDK client), `POST /api/v1/auth/send-phone-code` (generates 6-digit code, Redis 5min TTL, rate limited 5/hr per phone)
+- [x] ~~LLM provider config storage per tenant~~ — `TenantLlmConfig` Prisma model, `src/lib/crypto.ts` (AES-256-GCM encryption), `GET/PUT/DELETE /api/v1/tenants/{id}/llm-config`, decrypted config returned in `GET /api/v1/onboard` response
 
 ### Security & Operations
-- [ ] Rate limiting middleware (1000/hr users, 5000/hr robots)
-- [ ] CORS configuration
-- [ ] Request logging / audit trail
-- [ ] Input sanitization middleware
+- [x] ~~Rate limiting middleware (1000/hr users, 5000/hr robots)~~ — Redis sliding window via sorted sets, integrated into all 23 route handlers (`src/lib/rate-limit.ts`)
+- [x] ~~CORS configuration~~ — `src/middleware.ts` handles OPTIONS preflight and CORS headers for `/api/` routes
+- [x] ~~Request logging / audit trail~~ — Structured JSON logging in `src/middleware.ts` for all API requests (method, path, duration, IP, user-agent)
+- [x] ~~Input sanitization middleware~~ — `src/lib/sanitize.ts` strips HTML tags; integrated into all POST/PUT handlers accepting text input
 
 ### MCP Server
-- [ ] Standalone MCP server process for nanobot integration (doc/09)
-- [ ] Tool definitions for robot commands
-- [ ] Bidirectional communication bridge
+- [x] ~~Standalone MCP server process for nanobot integration~~ — `mcp-server/` package (`perseus-mcp-server`), stdio transport, `@modelcontextprotocol/sdk`, requires `PLATFORM_URL` + `ROBOT_TOKEN`
+- [x] ~~Tool definitions for robot commands~~ — 6 tools: `send_message`, `get_messages`, `list_chatgroups`, `upload_file`, `download_file`, `list_files` with Zod schemas
+- [x] ~~Bidirectional communication bridge~~ — `src/bridge.ts` SSE listener per chatgroup, forwards events as MCP log notifications, exponential backoff reconnect, enabled via `ENABLE_SSE=1`
 
 ### Frontend UI
 - [x] Login / signup pages
@@ -136,7 +136,7 @@ Perseus is a multi-tenant web platform for managing AI robot agents (nanobots). 
 - [x] shadcn/ui component library (23 components installed)
 - [x] Typed API client (`src/lib/api/client.ts`)
 - [x] Auth context with JWT management (`src/hooks/use-auth.tsx`)
-- [ ] File upload/download in chat (metadata-only stub exists)
+- [x] ~~File upload/download in chat (metadata-only stub exists)~~ — Paperclip upload button, collapsible shared files panel, download links, SSE live message delivery
 
 ---
 
@@ -148,14 +148,18 @@ Perseus is a multi-tenant web platform for managing AI robot agents (nanobots). 
 - **Error handling**: Consistent `ApiError` → `handleError()` → JSON error response
 - **File scoping**: Hierarchical inheritance (tenant → team → chatgroup)
 - **Prisma 7**: Uses `prisma.config.ts` with `defineConfig()`, PrismaPg adapter, generated client at `./generated/prisma`
+- **LLM Config Encryption**: AES-256-GCM via `src/lib/crypto.ts`, versioned ciphertext format `v1:<iv>:<tag>:<encrypted>`, key from `LLM_CONFIG_ENC_KEY` env var
+- **MCP Server**: Standalone Node.js process (`mcp-server/`), stateless, translates MCP tool calls to platform REST API calls via `PlatformClient`, authenticates with robot JWT token
+- **SMS Integration**: Aliyun SMS via `@alicloud/dysmsapi20170525` SDK, verification codes stored in Redis with `phone_verify:${phone}` key pattern (300s TTL)
 
 ---
 
 ## Verification Results (2026-02-20)
 
 ### Build
-- `tsc --noEmit` — **0 errors**
-- `next build` — **34 routes compiled** (24 API + 10 frontend pages), 0 type errors
+- `tsc --noEmit` — **0 errors** (platform)
+- `tsc --noEmit` — **0 errors** (mcp-server)
+- `next build` — **37 routes compiled** (27 API + 10 frontend pages), 0 type errors
 - `docker compose build` — **all steps passed** (node:22-alpine, Prisma 7 generate, standalone output)
 
 ### Runtime

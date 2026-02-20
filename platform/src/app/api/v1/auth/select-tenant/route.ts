@@ -2,11 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAuth, signTenantToken } from "@/lib/auth";
 import { handleError, ApiError } from "@/lib/errors";
+import { applyRateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   try {
     const auth = await requireAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const body = await request.json();
     const { tenantId } = body;

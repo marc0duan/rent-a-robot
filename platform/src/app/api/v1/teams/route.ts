@@ -2,12 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireTenantAuth } from "@/lib/auth";
 import { handleError, ApiError } from "@/lib/errors";
+import { applyRateLimit } from "@/lib/rate-limit";
+import { sanitizeString } from "@/lib/sanitize";
 
-// GET /api/v1/teams - List teams within the active tenant
 export async function GET(request: NextRequest) {
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const teams = await prisma.team.findMany({
       where: { tenantId: auth.tenantId },
@@ -22,11 +25,12 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/v1/teams - Create a new team
 export async function POST(request: NextRequest) {
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const body = await request.json();
     const { name } = body;
@@ -35,10 +39,11 @@ export async function POST(request: NextRequest) {
       throw new ApiError(400, "validation_error", "Team name is required.");
     }
 
-    // Create team and add the creator as a member
+    const sanitizedName = sanitizeString(name);
+
     const team = await prisma.team.create({
       data: {
-        name,
+        name: sanitizedName,
         tenantId: auth.tenantId,
         members: {
           create: {

@@ -22,11 +22,12 @@ model Tenant {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users   TenantUser[]
-  teams   Team[]
-  robots  Robot[]
-  apiKeys ApiKey[]
-  files   WorkspaceFile[]
+  users     TenantUser[]
+  teams     Team[]
+  robots    Robot[]
+  apiKeys   ApiKey[]
+  llmConfig TenantLlmConfig?
+  invitations TenantInvitation[]
 }
 
 model User {
@@ -35,6 +36,10 @@ model User {
   phone        String?  @unique
   name         String
   passwordHash String
+  avatar       String?
+  gender       String?  // male, female, other
+  jobTitle     String?
+  workLocation String?
   createdAt    DateTime @default(now())
 
   tenants  TenantUser[]
@@ -53,6 +58,22 @@ model TenantUser {
   @@id([userId, tenantId])
 }
 
+model TenantInvitation {
+  id        String   @id @default(uuid())
+  tenantId  String
+  email     String
+  role      String   // admin, user
+  token     String   @unique
+  invitedBy String   // userId of inviter
+  expiresAt DateTime
+  acceptedAt DateTime?
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, email])
+}
+
 // ============================================================
 // Organizations & Teams
 // ============================================================
@@ -66,7 +87,6 @@ model Team {
   tenant  Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   members TeamMember[]
   groups  ChatGroup[]
-  files   WorkspaceFile[]
 }
 
 model TeamMember {
@@ -113,7 +133,6 @@ model ChatGroup {
   team    Team              @relation(fields: [teamId], references: [id], onDelete: Cascade)
   members ChatGroupMember[]
   messages Message[]
-  files   WorkspaceFile[]
 }
 
 model ChatGroupMember {
@@ -158,9 +177,7 @@ model WorkspaceFile {
   scopeId      String
   createdAt    DateTime @default(now())
 
-  tenant    Tenant?    @relation(fields: [scopeId], references: [id], map: "ws_file_tenant_fk")
-  team      Team?      @relation(fields: [scopeId], references: [id], map: "ws_file_team_fk")
-  chatGroup ChatGroup? @relation(fields: [scopeId], references: [id], map: "ws_file_chatgroup_fk")
+  // scopeId is polymorphic (tenant, team, or chatgroup) — no FK relation
 
   @@index([scope, scopeId])
 }
@@ -177,4 +194,21 @@ model ApiKey {
 
   tenant Tenant? @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ============================================================
+// LLM Provider Configuration
+// ============================================================
+
+model TenantLlmConfig {
+  id        String   @id @default(uuid())
+  tenantId  String   @unique
+  provider  String   // openai, anthropic, deepseek, openrouter, dashscope, moonshot, zhipu, minimax, custom
+  apiKeyEnc String   @db.Text // AES-256-GCM encrypted API key
+  baseUrl   String?  // Custom API base URL (for custom/self-hosted providers)
+  model     String?  // Default model name
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 }

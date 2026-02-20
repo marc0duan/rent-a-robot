@@ -2,8 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireTenantAuth } from "@/lib/auth";
 import { handleError, ApiError } from "@/lib/errors";
+import {
+  getStoragePath,
+  saveFile,
+  MAX_FILE_SIZE,
+  ALLOWED_MIME_TYPES,
+} from "@/lib/storage";
+import { applyRateLimit } from "@/lib/rate-limit";
 
-// GET /api/v1/chatgroups/[id]/files - List files with inheritance
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -12,9 +18,10 @@ export async function GET(
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
 
+    await applyRateLimit(request, "user", auth.userId);
+
     const { id } = await params;
 
-    // Verify chatgroup belongs to tenant and get teamId
     const group = await prisma.chatGroup.findFirst({
       where: { id, team: { tenantId: auth.tenantId } },
       select: { id: true, teamId: true },
@@ -24,16 +31,20 @@ export async function GET(
       throw new ApiError(404, "not_found", "ChatGroup not found.");
     }
 
-    // Verify membership
     const membership = await prisma.chatGroupMember.findUnique({
-      where: { chatGroupId_memberId: { chatGroupId: id, memberId: auth.userId } },
+      where: {
+        chatGroupId_memberId: { chatGroupId: id, memberId: auth.userId },
+      },
     });
 
     if (!membership) {
-      throw new ApiError(403, "forbidden", "You are not a member of this chatgroup.");
+      throw new ApiError(
+        403,
+        "forbidden",
+        "You are not a member of this chatgroup."
+      );
     }
 
-    // Fetch files with inheritance: chatgroup + team + tenant level
     const files = await prisma.workspaceFile.findMany({
       where: {
         OR: [
@@ -45,7 +56,6 @@ export async function GET(
       orderBy: { createdAt: "desc" },
     });
 
-    // Convert BigInt size to number for JSON serialization
     const serialized = files.map((f) => ({
       ...f,
       size: Number(f.size),
@@ -57,7 +67,6 @@ export async function GET(
   }
 }
 
-// POST /api/v1/chatgroups/[id]/files - Upload file metadata (stub)
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -66,9 +75,10 @@ export async function POST(
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
 
+    await applyRateLimit(request, "user", auth.userId);
+
     const { id } = await params;
 
-    // Verify chatgroup belongs to tenant
     const group = await prisma.chatGroup.findFirst({
       where: { id, team: { tenantId: auth.tenantId } },
       select: { id: true, teamId: true },
@@ -78,37 +88,65 @@ export async function POST(
       throw new ApiError(404, "not_found", "ChatGroup not found.");
     }
 
-    // Verify membership
     const membership = await prisma.chatGroupMember.findUnique({
-      where: { chatGroupId_memberId: { chatGroupId: id, memberId: auth.userId } },
+      where: {
+        chatGroupId_memberId: { chatGroupId: id, memberId: auth.userId },
+      },
     });
 
     if (!membership) {
-      throw new ApiError(403, "forbidden", "You are not a member of this chatgroup.");
+      throw new ApiError(
+        403,
+        "forbidden",
+        "You are not a member of this chatgroup."
+      );
     }
 
-    const body = await request.json();
-    const { filename, mimeType, size } = body;
+    const formData = await request.formData();
+    const fileField = formData.get("file");
 
-    if (!filename || typeof filename !== "string") {
-      throw new ApiError(400, "validation_error", "Filename is required.");
-    }
-    if (!mimeType || typeof mimeType !== "string") {
-      throw new ApiError(400, "validation_error", "MIME type is required.");
-    }
-    if (size === undefined || typeof size !== "number" || size < 0) {
-      throw new ApiError(400, "validation_error", "File size is required and must be non-negative.");
+    if (!fileField || !(fileField instanceof File)) {
+      throw new ApiError(
+        400,
+        "validation_error",
+        "A file field is required in multipart form data."
+      );
     }
 
-    // Generate storage path (actual file upload is not yet implemented)
-    const path = `/workspace/${auth.tenantId}/${group.teamId}/${id}/${filename}`;
+    if (fileField.size > MAX_FILE_SIZE) {
+      throw new ApiError(
+        413,
+        "file_too_large",
+        `File exceeds maximum size of ${MAX_FILE_SIZE / (1024 * 1024)}MB.`
+      );
+    }
+
+    const mimeType = fileField.type || "application/octet-stream";
+    if (!ALLOWED_MIME_TYPES.includes(mimeType)) {
+      throw new ApiError(
+        415,
+        "unsupported_media_type",
+        `MIME type "${mimeType}" is not allowed.`
+      );
+    }
+
+    const filename = fileField.name || "unnamed";
+    const storagePath = getStoragePath(
+      auth.tenantId,
+      group.teamId,
+      id,
+      filename
+    );
+
+    const arrayBuffer = await fileField.arrayBuffer();
+    await saveFile(storagePath, Buffer.from(arrayBuffer));
 
     const file = await prisma.workspaceFile.create({
       data: {
-        path,
+        path: storagePath,
         filename,
         mimeType,
-        size: BigInt(size),
+        size: BigInt(fileField.size),
         uploadedById: auth.userId,
         scope: "chatgroup",
         scopeId: id,
@@ -116,12 +154,7 @@ export async function POST(
     });
 
     return NextResponse.json(
-      {
-        file: {
-          ...file,
-          size: Number(file.size),
-        },
-      },
+      { file: { ...file, size: Number(file.size) } },
       { status: 201 }
     );
   } catch (err) {

@@ -37,7 +37,7 @@ interface AuthState {
 
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<void>;
-  signup: (data: { email: string; password: string; name: string; phone?: string }) => Promise<void>;
+  signup: (data: { email: string; password: string; name: string; phone?: string; invitationToken?: string }) => Promise<{ tenantToken?: string; invitationAccepted?: boolean }>;
   selectTenant: (tenantId: string) => Promise<void>;
   createTenant: (data: { name: string; slug: string }) => Promise<void>;
   logout: () => void;
@@ -106,9 +106,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signup = useCallback(
-    async (data: { email: string; password: string; name: string; phone?: string }) => {
+    async (data: { email: string; password: string; name: string; phone?: string; invitationToken?: string }) => {
       const res = await api.auth.signup(data);
       const user = { id: res.user.id, email: res.user.email, name: res.user.name };
+
+      // If invitation was accepted and we have a tenant token, store it
+      if (res.invitationAccepted && res.tenantToken) {
+        localStorage.setItem("token", res.tenantToken);
+        localStorage.setItem("user", JSON.stringify(user));
+        // Populate tenants with the joined organization
+        const tenants = res.tenant
+          ? [{ tenantId: res.tenant.id, role: "user", tenant: res.tenant }]
+          : [];
+        localStorage.setItem("tenants", JSON.stringify(tenants));
+        localStorage.setItem("tenant", JSON.stringify({
+          id: "",
+          name: "",
+          slug: "",
+          role: "",
+        }));
+        setState({
+          user,
+          tenant: null,
+          token: res.tenantToken,
+          tenants,
+          isLoading: false,
+        });
+        return { tenantToken: res.tenantToken, invitationAccepted: true };
+      }
+
       localStorage.setItem("token", res.token);
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("tenants", JSON.stringify([]));
@@ -119,6 +145,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         tenants: [],
         isLoading: false,
       });
+      return { invitationAccepted: false };
     },
     []
   );

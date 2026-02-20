@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireTenantAuth } from "@/lib/auth";
 import { handleError, ApiError } from "@/lib/errors";
+import { applyRateLimit } from "@/lib/rate-limit";
 
-// GET /api/v1/tenants/[id]/users - List users in a tenant
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -11,6 +11,8 @@ export async function GET(
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const { id } = await params;
 

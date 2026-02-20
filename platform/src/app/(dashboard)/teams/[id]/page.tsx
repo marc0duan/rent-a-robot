@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback, useRef } from "react"
 import { api } from "@/lib/api/client"
 import { ApiClientError } from "@/lib/api/client"
 import { toast } from "sonner"
@@ -22,7 +22,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Separator } from "@/components/ui/separator"
 import {
   Dialog,
   DialogContent,
@@ -38,6 +37,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import {
+  Command,
+  CommandInput,
+  CommandList,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+} from "@/components/ui/command"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import Link from "next/link"
 
 interface TeamDetail {
@@ -70,9 +79,6 @@ export default function TeamDetailPage({
   const [isLoading, setIsLoading] = useState(true)
   const [addMemberOpen, setAddMemberOpen] = useState(false)
   const [memberType, setMemberType] = useState<"human" | "robot">("human")
-  const [availableUsers, setAvailableUsers] = useState<
-    Array<{ id: string; email: string; name: string }>
-  >([])
   const [availableRobots, setAvailableRobots] = useState<
     Array<{ id: string; name: string; status: string }>
   >([])
@@ -81,6 +87,15 @@ export default function TeamDetailPage({
   const [editOpen, setEditOpen] = useState(false)
   const [editName, setEditName] = useState("")
   const [isSaving, setIsSaving] = useState(false)
+  const [userSearchQuery, setUserSearchQuery] = useState("")
+  const [userSearchResults, setUserSearchResults] = useState<
+    Array<{ id: string; name: string; email: string; avatar: string | null }>
+  >([])
+  const [userSearchOpen, setUserSearchOpen] = useState(false)
+  const [selectedUser, setSelectedUser] = useState<{
+    id: string; name: string; email: string; avatar: string | null
+  } | null>(null)
+  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const load = useCallback(async () => {
     try {
@@ -97,8 +112,32 @@ export default function TeamDetailPage({
     load()
   }, [load])
 
+  // Debounced user search
+  useEffect(() => {
+    if (memberType !== "human" || userSearchQuery.trim().length === 0) {
+      setUserSearchResults([])
+      return
+    }
+    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current)
+    searchTimeoutRef.current = setTimeout(async () => {
+      try {
+        const res = await api.users.search(userSearchQuery.trim())
+        setUserSearchResults(res.users)
+      } catch {
+        // ignore search errors
+      }
+    }, 300)
+    return () => {
+      if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current)
+    }
+  }, [userSearchQuery, memberType])
+
   const openAddMember = async () => {
     setAddMemberOpen(true)
+    setSelectedMemberId("")
+    setSelectedUser(null)
+    setUserSearchQuery("")
+    setUserSearchResults([])
     try {
       const [robotsRes] = await Promise.all([api.robots.list()])
       setAvailableRobots(robotsRes.robots)
@@ -374,12 +413,73 @@ export default function TeamDetailPage({
                   </SelectContent>
                 </Select>
               ) : (
-                <Input
-                  placeholder="Enter user ID"
-                  value={selectedMemberId}
-                  onChange={(e) => setSelectedMemberId(e.target.value)}
-                  className="bg-background/50"
-                />
+                <Popover open={userSearchOpen} onOpenChange={setUserSearchOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={userSearchOpen}
+                      className="w-full justify-start bg-background/50 font-normal"
+                    >
+                      {selectedUser ? (
+                        <div className="flex items-center gap-2">
+                          <Avatar size="sm">
+                            {selectedUser.avatar && (
+                              <AvatarImage src={selectedUser.avatar} alt={selectedUser.name} />
+                            )}
+                            <AvatarFallback>
+                              {selectedUser.name.charAt(0).toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                          <span>{selectedUser.name}</span>
+                          <span className="text-muted-foreground">({selectedUser.email})</span>
+                        </div>
+                      ) : (
+                        <span className="text-muted-foreground">Search users...</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
+                    <Command shouldFilter={false}>
+                      <CommandInput
+                        placeholder="Type a name or email..."
+                        value={userSearchQuery}
+                        onValueChange={setUserSearchQuery}
+                      />
+                      <CommandList>
+                        <CommandEmpty>
+                          {userSearchQuery.trim().length === 0
+                            ? "Start typing to search..."
+                            : "No users found."}
+                        </CommandEmpty>
+                        <CommandGroup>
+                          {userSearchResults.map((u) => (
+                            <CommandItem
+                              key={u.id}
+                              value={u.id}
+                              onSelect={() => {
+                                setSelectedUser(u)
+                                setSelectedMemberId(u.id)
+                                setUserSearchOpen(false)
+                              }}
+                            >
+                              <Avatar size="sm">
+                                {u.avatar && <AvatarImage src={u.avatar} alt={u.name} />}
+                                <AvatarFallback>
+                                  {u.name.charAt(0).toUpperCase()}
+                                </AvatarFallback>
+                              </Avatar>
+                              <div className="ml-2">
+                                <div className="text-sm font-medium">{u.name}</div>
+                                <div className="text-xs text-muted-foreground">{u.email}</div>
+                              </div>
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               )}
             </div>
           </div>

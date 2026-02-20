@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "PROGRESS.md",
+                "file": "doc/12-Email-Invitation-System.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "PROGRESS"
+              "title": "12-Email-Invitation-System"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "PROGRESS.md",
+                "file": "doc/12-Email-Invitation-System.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for PROGRESS"
+              "title": "Backlinks for 12-Email-Invitation-System"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "PROGRESS.md",
+                "file": "doc/12-Email-Invitation-System.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from PROGRESS"
+              "title": "Outgoing links from 12-Email-Invitation-System"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "PROGRESS.md",
+                "file": "doc/12-Email-Invitation-System.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of PROGRESS"
+              "title": "Outline of 12-Email-Invitation-System"
             }
           }
         ]
@@ -185,42 +185,42 @@
   },
   "active": "589679839cb29d4c",
   "lastOpenFiles": [
-    "doc/00-Perseus-Overview.md",
-    "platform/src/app/(dashboard)/api-keys/page.tsx",
-    "platform/src/app/(dashboard)/chat/page.tsx",
-    "platform/src/app/(dashboard)/robots/page.tsx",
-    "platform/src/app/(dashboard)/teams/[id]/page.tsx",
-    "platform/src/app/(dashboard)/teams/page.tsx",
-    "platform/src/app/(dashboard)/tenants/page.tsx",
-    "platform/src/app/(dashboard)/dashboard/page.tsx",
-    "platform/src/app/(dashboard)/layout.tsx",
-    "src/app/(dashboard)/robots/page.tsx",
-    "doc/11-User-Journeys.md",
+    "platform/src/app/api/v1/chatgroups/[id]/members/[memberId]/route.ts",
+    "platform/src/app/api/v1/chatgroups/[id]/members/[memberId]",
+    "platform/src/app/api/v1/chatgroups/[id]/members/route.ts",
+    "platform/src/app/api/v1/chatgroups/[id]/members",
+    "platform/src/components/about-modal.tsx",
+    "platform/src/components/profile-modal.tsx",
+    "platform/src/components/user-avatar.tsx",
+    "platform/src/app/api/v1/users/me/route.ts",
+    "platform/src/app/api/v1/users/search/route.ts",
+    "platform/src/app/api/v1/users/search",
+    "platform/src/app/api/v1/users/me",
+    "platform/node_modules/@types/nodemailer/README.md",
+    "platform/node_modules/nodemailer/README.md",
+    "platform/node_modules/nodemailer/CODE_OF_CONDUCT.md",
+    "platform/node_modules/nodemailer/CHANGELOG.md",
+    "CLAUDE.md",
+    "doc/12-Email-Invitation-System.md",
     "PROGRESS.md",
-    "src/app/(dashboard)/api-keys/page.tsx",
-    "doc/05-Chat-System.md",
-    "platform/node_modules/sonner/README.md",
-    "platform/node_modules/sonner/LICENSE.md",
-    "platform/node_modules/cmdk/LICENSE.md",
-    "platform/node_modules/next-themes/README.md",
-    "platform/node_modules/cmdk/README.md",
-    "platform/node_modules/next-themes/license.md",
-    "platform/node_modules/execa/readme.md",
-    "platform/node_modules/zod-to-json-schema/contributing.md",
-    "platform/node_modules/zod-to-json-schema/README.md",
-    "platform/node_modules/zod-to-json-schema/changelog.md",
-    "platform/node_modules/jose/README.md",
-    "platform/node_modules/jose/LICENSE.md",
-    "platform/node_modules/postcss-selector-parser/README.md",
-    "platform/node_modules/postcss-selector-parser/CHANGELOG.md",
-    "platform/node_modules/postcss-selector-parser/API.md",
-    "platform/node_modules/fs-extra/README.md",
-    "platform/node_modules/cosmiconfig/README.md",
-    "platform/node_modules/recast/README.md",
-    "platform/node_modules/node-fetch/README.md",
-    "platform/node_modules/ts-morph/readme.md",
-    "platform/node_modules/node-fetch/LICENSE.md",
-    "platform/node_modules/eciesjs/README.md",
+    "mcp-server/node_modules/@modelcontextprotocol/sdk/README.md",
+    "mcp-server/node_modules/hono/README.md",
+    "mcp-server/node_modules/ajv/README.md",
+    "mcp-server/node_modules/typescript/SECURITY.md",
+    "mcp-server/node_modules/typescript/README.md",
+    "mcp-server/node_modules/zod/README.md",
+    "mcp-server/node_modules/zod-to-json-schema/README.md",
+    "mcp-server/node_modules/zod-to-json-schema/contributing.md",
+    "mcp-server/node_modules/zod-to-json-schema/changelog.md",
+    "mcp-server/node_modules/jose/README.md",
+    "mcp-server/node_modules/jose/LICENSE.md",
+    "mcp-server/node_modules/iconv-lite/README.md",
+    "mcp-server/node_modules/ip-address/README.md",
+    "mcp-server/node_modules/object-inspect/CHANGELOG.md",
+    "mcp-server/node_modules/fast-uri/README.md",
+    "mcp-server/node_modules/qs/README.md",
+    "mcp-server/node_modules/qs/LICENSE.md",
+    "mcp-server/node_modules/@hono/node-server/README.md",
     "platform/node_modules/retry/equation.gif",
     "doc/Perseus-Design-Blueprint.canvas",
     "robot/case/search.gif",

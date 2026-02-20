@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireTenantAuth } from "@/lib/auth";
 import { handleError, ApiError } from "@/lib/errors";
+import { applyRateLimit } from "@/lib/rate-limit";
 
-// DELETE /api/v1/teams/[id]/members/[memberId] - Remove member from team
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string; memberId: string }> }
@@ -11,6 +11,8 @@ export async function DELETE(
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const { id, memberId } = await params;
 

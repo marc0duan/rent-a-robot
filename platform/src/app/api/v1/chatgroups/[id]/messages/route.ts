@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireTenantAuth } from "@/lib/auth";
 import { handleError, ApiError } from "@/lib/errors";
+import { publishMessage } from "@/lib/pubsub";
+import { applyRateLimit } from "@/lib/rate-limit";
+import { sanitizeString } from "@/lib/sanitize";
 
-// GET /api/v1/chatgroups/[id]/messages - Retrieve message history
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -11,6 +13,8 @@ export async function GET(
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const { id } = await params;
 
@@ -81,7 +85,6 @@ export async function GET(
   }
 }
 
-// POST /api/v1/chatgroups/[id]/messages - Send a new message
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -89,6 +92,8 @@ export async function POST(
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const { id } = await params;
 
@@ -117,11 +122,12 @@ export async function POST(
       throw new ApiError(400, "validation_error", "Message content is required.");
     }
 
-    // Parse @mentions from content
+    const sanitizedContent = sanitizeString(content);
+
     const mentionPattern = /@(\w+(?:\s\w+)?)/g;
     const mentionNames: string[] = [];
     let match;
-    while ((match = mentionPattern.exec(content)) !== null) {
+    while ((match = mentionPattern.exec(sanitizedContent)) !== null) {
       mentionNames.push(match[1]);
     }
 
@@ -160,10 +166,23 @@ export async function POST(
         chatGroupId: id,
         senderId: auth.userId,
         senderType: "human",
-        content: content.trim(),
+        content: sanitizedContent,
         mentions: mentions ?? undefined,
       },
     });
+
+    const sender = await prisma.user.findUnique({
+      where: { id: auth.userId },
+      select: { name: true },
+    });
+
+    publishMessage(id, {
+      type: "new_message",
+      message: {
+        ...message,
+        sender: { name: sender?.name ?? "Unknown", type: "human" },
+      },
+    }).catch(() => {});
 
     return NextResponse.json({ message }, { status: 201 });
   } catch (err) {

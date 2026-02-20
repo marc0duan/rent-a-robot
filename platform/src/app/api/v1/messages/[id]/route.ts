@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireTenantAuth } from "@/lib/auth";
 import { handleError, ApiError } from "@/lib/errors";
+import { applyRateLimit } from "@/lib/rate-limit";
+import { sanitizeString } from "@/lib/sanitize";
 
-// PUT /api/v1/messages/[id] - Edit a message
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -11,6 +12,8 @@ export async function PUT(
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const { id } = await params;
 
@@ -42,11 +45,12 @@ export async function PUT(
       throw new ApiError(400, "validation_error", "Message content is required.");
     }
 
-    // Re-parse @mentions
+    const sanitizedContent = sanitizeString(content);
+
     const mentionPattern = /@(\w+(?:\s\w+)?)/g;
     const mentionNames: string[] = [];
     let match;
-    while ((match = mentionPattern.exec(content)) !== null) {
+    while ((match = mentionPattern.exec(sanitizedContent)) !== null) {
       mentionNames.push(match[1]);
     }
 
@@ -83,7 +87,7 @@ export async function PUT(
     const updated = await prisma.message.update({
       where: { id },
       data: {
-        content: content.trim(),
+        content: sanitizedContent,
         mentions: mentions ?? undefined,
       },
     });
@@ -94,7 +98,6 @@ export async function PUT(
   }
 }
 
-// DELETE /api/v1/messages/[id] - Remove a message
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -102,6 +105,8 @@ export async function DELETE(
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const { id } = await params;
 

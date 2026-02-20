@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireTenantAuth, requireRole } from "@/lib/auth";
 import { handleError, ApiError } from "@/lib/errors";
+import { applyRateLimit } from "@/lib/rate-limit";
+import { sanitizeString } from "@/lib/sanitize";
 
-// GET /api/v1/tenants/[id] - Get tenant details
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -11,6 +12,8 @@ export async function GET(
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const { id } = await params;
 
@@ -38,7 +41,6 @@ export async function GET(
   }
 }
 
-// PUT /api/v1/tenants/[id] - Update tenant
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -46,6 +48,8 @@ export async function PUT(
   try {
     const auth = await requireRole(request, ["owner", "admin"]);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const { id } = await params;
 
@@ -56,9 +60,11 @@ export async function PUT(
     const body = await request.json();
     const { name } = body;
 
+    const sanitizedName = name ? sanitizeString(name) : undefined;
+
     const tenant = await prisma.tenant.update({
       where: { id },
-      data: { ...(name && { name }) },
+      data: { ...(sanitizedName && { name: sanitizedName }) },
     });
 
     return NextResponse.json({ tenant });
@@ -67,7 +73,6 @@ export async function PUT(
   }
 }
 
-// DELETE /api/v1/tenants/[id] - Delete tenant
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -75,6 +80,8 @@ export async function DELETE(
   try {
     const auth = await requireRole(request, ["owner"]);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const { id } = await params;
 

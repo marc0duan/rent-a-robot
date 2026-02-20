@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireTenantAuth } from "@/lib/auth";
 import { handleError, ApiError } from "@/lib/errors";
+import { applyRateLimit } from "@/lib/rate-limit";
 
-// DELETE /api/v1/api-keys/[id] - Revoke an API key
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -11,6 +11,8 @@ export async function DELETE(
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     if (auth.role !== "admin" && auth.role !== "owner") {
       throw new ApiError(403, "forbidden", "Only admins and owners can manage API keys.");

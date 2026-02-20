@@ -18,15 +18,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
-
-const navItems = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/teams", label: "Teams", icon: Users },
-  { href: "/robots", label: "Robots", icon: Bot },
-  { href: "/chat", label: "Chat", icon: MessageSquare },
-  { href: "/api-keys", label: "API Keys", icon: Key },
-  { href: "/tenants", label: "Tenant", icon: Building2 },
-]
+import { UserAvatar } from "@/components/user-avatar"
 
 export default function DashboardLayout({
   children,
@@ -36,6 +28,25 @@ export default function DashboardLayout({
   const { user, tenant, isLoading, logout } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
+
+  // Determine if user is admin or owner
+  const isAdminOrOwner = tenant?.role === "owner" || tenant?.role === "admin"
+
+  // Build nav items based on role
+  const navItems = [
+    ...(isAdminOrOwner
+      ? [{ href: "/dashboard", label: "Dashboard", icon: LayoutDashboard }]
+      : []),
+    { href: "/teams", label: "Teams", icon: Users },
+    ...(isAdminOrOwner
+      ? [{ href: "/robots", label: "Robots", icon: Bot }]
+      : []),
+    { href: "/chat", label: "Chat", icon: MessageSquare },
+    { href: "/api-keys", label: "API Keys", icon: Key },
+    ...(tenant?.role === "owner"
+      ? [{ href: "/tenants", label: "Tenant", icon: Building2 }]
+      : []),
+  ]
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -108,9 +119,7 @@ export default function DashboardLayout({
         {/* User */}
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2 overflow-hidden">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-800 text-xs font-medium">
-              {user.name.charAt(0).toUpperCase()}
-            </div>
+            <UserAvatar name={user.name} />
             <div className="overflow-hidden">
               <div className="truncate text-sm font-medium">{user.name}</div>
               <div className="truncate text-xs text-muted-foreground">{user.email}</div>

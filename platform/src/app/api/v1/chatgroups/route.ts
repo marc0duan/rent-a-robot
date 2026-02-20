@@ -2,12 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireTenantAuth } from "@/lib/auth";
 import { handleError, ApiError } from "@/lib/errors";
+import { applyRateLimit } from "@/lib/rate-limit";
+import { sanitizeString } from "@/lib/sanitize";
 
-// GET /api/v1/chatgroups - List chat groups
 export async function GET(request: NextRequest) {
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     // Find chatgroups the user is a member of, within the tenant
     const groups = await prisma.chatGroup.findMany({
@@ -27,11 +30,12 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/v1/chatgroups - Create a new chat group
 export async function POST(request: NextRequest) {
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const body = await request.json();
     const { name, teamId, memberIds } = body;
@@ -39,6 +43,8 @@ export async function POST(request: NextRequest) {
     if (!name || !teamId) {
       throw new ApiError(400, "validation_error", "Name and teamId are required.");
     }
+
+    const sanitizedName = sanitizeString(name);
 
     // Verify team belongs to tenant
     const team = await prisma.team.findFirst({
@@ -74,7 +80,7 @@ export async function POST(request: NextRequest) {
 
     const group = await prisma.chatGroup.create({
       data: {
-        name,
+        name: sanitizedName,
         teamId,
         createdById: auth.userId,
         members: {

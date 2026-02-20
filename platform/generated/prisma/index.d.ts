@@ -29,6 +29,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type TenantUser = $Result.DefaultSelection<Prisma.$TenantUserPayload>
 /**
+ * Model TenantInvitation
+ * 
+ */
+export type TenantInvitation = $Result.DefaultSelection<Prisma.$TenantInvitationPayload>
+/**
  * Model Team
  * 
  */
@@ -68,6 +73,11 @@ export type WorkspaceFile = $Result.DefaultSelection<Prisma.$WorkspaceFilePayloa
  * 
  */
 export type ApiKey = $Result.DefaultSelection<Prisma.$ApiKeyPayload>
+/**
+ * Model TenantLlmConfig
+ * 
+ */
+export type TenantLlmConfig = $Result.DefaultSelection<Prisma.$TenantLlmConfigPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -217,6 +227,16 @@ export class PrismaClient<
   get tenantUser(): Prisma.TenantUserDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.tenantInvitation`: Exposes CRUD operations for the **TenantInvitation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TenantInvitations
+    * const tenantInvitations = await prisma.tenantInvitation.findMany()
+    * ```
+    */
+  get tenantInvitation(): Prisma.TenantInvitationDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.team`: Exposes CRUD operations for the **Team** model.
     * Example usage:
     * ```ts
@@ -295,6 +315,16 @@ export class PrismaClient<
     * ```
     */
   get apiKey(): Prisma.ApiKeyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tenantLlmConfig`: Exposes CRUD operations for the **TenantLlmConfig** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TenantLlmConfigs
+    * const tenantLlmConfigs = await prisma.tenantLlmConfig.findMany()
+    * ```
+    */
+  get tenantLlmConfig(): Prisma.TenantLlmConfigDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -732,6 +762,7 @@ export namespace Prisma {
     Tenant: 'Tenant',
     User: 'User',
     TenantUser: 'TenantUser',
+    TenantInvitation: 'TenantInvitation',
     Team: 'Team',
     TeamMember: 'TeamMember',
     Robot: 'Robot',
@@ -739,7 +770,8 @@ export namespace Prisma {
     ChatGroupMember: 'ChatGroupMember',
     Message: 'Message',
     WorkspaceFile: 'WorkspaceFile',
-    ApiKey: 'ApiKey'
+    ApiKey: 'ApiKey',
+    TenantLlmConfig: 'TenantLlmConfig'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -755,7 +787,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "user" | "tenantUser" | "team" | "teamMember" | "robot" | "chatGroup" | "chatGroupMember" | "message" | "workspaceFile" | "apiKey"
+      modelProps: "tenant" | "user" | "tenantUser" | "tenantInvitation" | "team" | "teamMember" | "robot" | "chatGroup" | "chatGroupMember" | "message" | "workspaceFile" | "apiKey" | "tenantLlmConfig"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -978,6 +1010,80 @@ export namespace Prisma {
           count: {
             args: Prisma.TenantUserCountArgs<ExtArgs>
             result: $Utils.Optional<TenantUserCountAggregateOutputType> | number
+          }
+        }
+      }
+      TenantInvitation: {
+        payload: Prisma.$TenantInvitationPayload<ExtArgs>
+        fields: Prisma.TenantInvitationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TenantInvitationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantInvitationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TenantInvitationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantInvitationPayload>
+          }
+          findFirst: {
+            args: Prisma.TenantInvitationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantInvitationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TenantInvitationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantInvitationPayload>
+          }
+          findMany: {
+            args: Prisma.TenantInvitationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantInvitationPayload>[]
+          }
+          create: {
+            args: Prisma.TenantInvitationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantInvitationPayload>
+          }
+          createMany: {
+            args: Prisma.TenantInvitationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TenantInvitationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantInvitationPayload>[]
+          }
+          delete: {
+            args: Prisma.TenantInvitationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantInvitationPayload>
+          }
+          update: {
+            args: Prisma.TenantInvitationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantInvitationPayload>
+          }
+          deleteMany: {
+            args: Prisma.TenantInvitationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TenantInvitationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TenantInvitationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantInvitationPayload>[]
+          }
+          upsert: {
+            args: Prisma.TenantInvitationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantInvitationPayload>
+          }
+          aggregate: {
+            args: Prisma.TenantInvitationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTenantInvitation>
+          }
+          groupBy: {
+            args: Prisma.TenantInvitationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TenantInvitationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TenantInvitationCountArgs<ExtArgs>
+            result: $Utils.Optional<TenantInvitationCountAggregateOutputType> | number
           }
         }
       }
@@ -1573,6 +1679,80 @@ export namespace Prisma {
           }
         }
       }
+      TenantLlmConfig: {
+        payload: Prisma.$TenantLlmConfigPayload<ExtArgs>
+        fields: Prisma.TenantLlmConfigFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TenantLlmConfigFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantLlmConfigPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TenantLlmConfigFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantLlmConfigPayload>
+          }
+          findFirst: {
+            args: Prisma.TenantLlmConfigFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantLlmConfigPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TenantLlmConfigFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantLlmConfigPayload>
+          }
+          findMany: {
+            args: Prisma.TenantLlmConfigFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantLlmConfigPayload>[]
+          }
+          create: {
+            args: Prisma.TenantLlmConfigCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantLlmConfigPayload>
+          }
+          createMany: {
+            args: Prisma.TenantLlmConfigCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TenantLlmConfigCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantLlmConfigPayload>[]
+          }
+          delete: {
+            args: Prisma.TenantLlmConfigDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantLlmConfigPayload>
+          }
+          update: {
+            args: Prisma.TenantLlmConfigUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantLlmConfigPayload>
+          }
+          deleteMany: {
+            args: Prisma.TenantLlmConfigDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TenantLlmConfigUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TenantLlmConfigUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantLlmConfigPayload>[]
+          }
+          upsert: {
+            args: Prisma.TenantLlmConfigUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TenantLlmConfigPayload>
+          }
+          aggregate: {
+            args: Prisma.TenantLlmConfigAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTenantLlmConfig>
+          }
+          groupBy: {
+            args: Prisma.TenantLlmConfigGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TenantLlmConfigGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TenantLlmConfigCountArgs<ExtArgs>
+            result: $Utils.Optional<TenantLlmConfigCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1684,6 +1864,7 @@ export namespace Prisma {
     tenant?: TenantOmit
     user?: UserOmit
     tenantUser?: TenantUserOmit
+    tenantInvitation?: TenantInvitationOmit
     team?: TeamOmit
     teamMember?: TeamMemberOmit
     robot?: RobotOmit
@@ -1692,6 +1873,7 @@ export namespace Prisma {
     message?: MessageOmit
     workspaceFile?: WorkspaceFileOmit
     apiKey?: ApiKeyOmit
+    tenantLlmConfig?: TenantLlmConfigOmit
   }
 
   /* Types for Logging */
@@ -1776,7 +1958,7 @@ export namespace Prisma {
     teams: number
     robots: number
     apiKeys: number
-    files: number
+    invitations: number
   }
 
   export type TenantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1784,7 +1966,7 @@ export namespace Prisma {
     teams?: boolean | TenantCountOutputTypeCountTeamsArgs
     robots?: boolean | TenantCountOutputTypeCountRobotsArgs
     apiKeys?: boolean | TenantCountOutputTypeCountApiKeysArgs
-    files?: boolean | TenantCountOutputTypeCountFilesArgs
+    invitations?: boolean | TenantCountOutputTypeCountInvitationsArgs
   }
 
   // Custom InputTypes
@@ -1829,8 +2011,8 @@ export namespace Prisma {
   /**
    * TenantCountOutputType without action
    */
-  export type TenantCountOutputTypeCountFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: WorkspaceFileWhereInput
+  export type TenantCountOutputTypeCountInvitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TenantInvitationWhereInput
   }
 
 
@@ -1881,13 +2063,11 @@ export namespace Prisma {
   export type TeamCountOutputType = {
     members: number
     groups: number
-    files: number
   }
 
   export type TeamCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | TeamCountOutputTypeCountMembersArgs
     groups?: boolean | TeamCountOutputTypeCountGroupsArgs
-    files?: boolean | TeamCountOutputTypeCountFilesArgs
   }
 
   // Custom InputTypes
@@ -1915,13 +2095,6 @@ export namespace Prisma {
     where?: ChatGroupWhereInput
   }
 
-  /**
-   * TeamCountOutputType without action
-   */
-  export type TeamCountOutputTypeCountFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: WorkspaceFileWhereInput
-  }
-
 
   /**
    * Count Type ChatGroupCountOutputType
@@ -1930,13 +2103,11 @@ export namespace Prisma {
   export type ChatGroupCountOutputType = {
     members: number
     messages: number
-    files: number
   }
 
   export type ChatGroupCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | ChatGroupCountOutputTypeCountMembersArgs
     messages?: boolean | ChatGroupCountOutputTypeCountMessagesArgs
-    files?: boolean | ChatGroupCountOutputTypeCountFilesArgs
   }
 
   // Custom InputTypes
@@ -1962,13 +2133,6 @@ export namespace Prisma {
    */
   export type ChatGroupCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MessageWhereInput
-  }
-
-  /**
-   * ChatGroupCountOutputType without action
-   */
-  export type ChatGroupCountOutputTypeCountFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: WorkspaceFileWhereInput
   }
 
 
@@ -2152,7 +2316,8 @@ export namespace Prisma {
     teams?: boolean | Tenant$teamsArgs<ExtArgs>
     robots?: boolean | Tenant$robotsArgs<ExtArgs>
     apiKeys?: boolean | Tenant$apiKeysArgs<ExtArgs>
-    files?: boolean | Tenant$filesArgs<ExtArgs>
+    llmConfig?: boolean | Tenant$llmConfigArgs<ExtArgs>
+    invitations?: boolean | Tenant$invitationsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenant"]>
 
@@ -2189,7 +2354,8 @@ export namespace Prisma {
     teams?: boolean | Tenant$teamsArgs<ExtArgs>
     robots?: boolean | Tenant$robotsArgs<ExtArgs>
     apiKeys?: boolean | Tenant$apiKeysArgs<ExtArgs>
-    files?: boolean | Tenant$filesArgs<ExtArgs>
+    llmConfig?: boolean | Tenant$llmConfigArgs<ExtArgs>
+    invitations?: boolean | Tenant$invitationsArgs<ExtArgs>
     _count?: boolean | TenantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TenantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2202,7 +2368,8 @@ export namespace Prisma {
       teams: Prisma.$TeamPayload<ExtArgs>[]
       robots: Prisma.$RobotPayload<ExtArgs>[]
       apiKeys: Prisma.$ApiKeyPayload<ExtArgs>[]
-      files: Prisma.$WorkspaceFilePayload<ExtArgs>[]
+      llmConfig: Prisma.$TenantLlmConfigPayload<ExtArgs> | null
+      invitations: Prisma.$TenantInvitationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2609,7 +2776,8 @@ export namespace Prisma {
     teams<T extends Tenant$teamsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$teamsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     robots<T extends Tenant$robotsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$robotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RobotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     apiKeys<T extends Tenant$apiKeysArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$apiKeysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    files<T extends Tenant$filesArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$filesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkspaceFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    llmConfig<T extends Tenant$llmConfigArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$llmConfigArgs<ExtArgs>>): Prisma__TenantLlmConfigClient<$Result.GetResult<Prisma.$TenantLlmConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    invitations<T extends Tenant$invitationsArgs<ExtArgs> = {}>(args?: Subset<T, Tenant$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3129,27 +3297,46 @@ export namespace Prisma {
   }
 
   /**
-   * Tenant.files
+   * Tenant.llmConfig
    */
-  export type Tenant$filesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Tenant$llmConfigArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the WorkspaceFile
+     * Select specific fields to fetch from the TenantLlmConfig
      */
-    select?: WorkspaceFileSelect<ExtArgs> | null
+    select?: TenantLlmConfigSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the WorkspaceFile
+     * Omit specific fields from the TenantLlmConfig
      */
-    omit?: WorkspaceFileOmit<ExtArgs> | null
+    omit?: TenantLlmConfigOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: WorkspaceFileInclude<ExtArgs> | null
-    where?: WorkspaceFileWhereInput
-    orderBy?: WorkspaceFileOrderByWithRelationInput | WorkspaceFileOrderByWithRelationInput[]
-    cursor?: WorkspaceFileWhereUniqueInput
+    include?: TenantLlmConfigInclude<ExtArgs> | null
+    where?: TenantLlmConfigWhereInput
+  }
+
+  /**
+   * Tenant.invitations
+   */
+  export type Tenant$invitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantInvitation
+     */
+    select?: TenantInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantInvitation
+     */
+    omit?: TenantInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantInvitationInclude<ExtArgs> | null
+    where?: TenantInvitationWhereInput
+    orderBy?: TenantInvitationOrderByWithRelationInput | TenantInvitationOrderByWithRelationInput[]
+    cursor?: TenantInvitationWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: WorkspaceFileScalarFieldEnum | WorkspaceFileScalarFieldEnum[]
+    distinct?: TenantInvitationScalarFieldEnum | TenantInvitationScalarFieldEnum[]
   }
 
   /**
@@ -3187,6 +3374,10 @@ export namespace Prisma {
     phone: string | null
     name: string | null
     passwordHash: string | null
+    avatar: string | null
+    gender: string | null
+    jobTitle: string | null
+    workLocation: string | null
     createdAt: Date | null
   }
 
@@ -3196,6 +3387,10 @@ export namespace Prisma {
     phone: string | null
     name: string | null
     passwordHash: string | null
+    avatar: string | null
+    gender: string | null
+    jobTitle: string | null
+    workLocation: string | null
     createdAt: Date | null
   }
 
@@ -3205,6 +3400,10 @@ export namespace Prisma {
     phone: number
     name: number
     passwordHash: number
+    avatar: number
+    gender: number
+    jobTitle: number
+    workLocation: number
     createdAt: number
     _all: number
   }
@@ -3216,6 +3415,10 @@ export namespace Prisma {
     phone?: true
     name?: true
     passwordHash?: true
+    avatar?: true
+    gender?: true
+    jobTitle?: true
+    workLocation?: true
     createdAt?: true
   }
 
@@ -3225,6 +3428,10 @@ export namespace Prisma {
     phone?: true
     name?: true
     passwordHash?: true
+    avatar?: true
+    gender?: true
+    jobTitle?: true
+    workLocation?: true
     createdAt?: true
   }
 
@@ -3234,6 +3441,10 @@ export namespace Prisma {
     phone?: true
     name?: true
     passwordHash?: true
+    avatar?: true
+    gender?: true
+    jobTitle?: true
+    workLocation?: true
     createdAt?: true
     _all?: true
   }
@@ -3316,6 +3527,10 @@ export namespace Prisma {
     phone: string | null
     name: string
     passwordHash: string
+    avatar: string | null
+    gender: string | null
+    jobTitle: string | null
+    workLocation: string | null
     createdAt: Date
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
@@ -3342,6 +3557,10 @@ export namespace Prisma {
     phone?: boolean
     name?: boolean
     passwordHash?: boolean
+    avatar?: boolean
+    gender?: boolean
+    jobTitle?: boolean
+    workLocation?: boolean
     createdAt?: boolean
     tenants?: boolean | User$tenantsArgs<ExtArgs>
     apiKeys?: boolean | User$apiKeysArgs<ExtArgs>
@@ -3354,6 +3573,10 @@ export namespace Prisma {
     phone?: boolean
     name?: boolean
     passwordHash?: boolean
+    avatar?: boolean
+    gender?: boolean
+    jobTitle?: boolean
+    workLocation?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -3363,6 +3586,10 @@ export namespace Prisma {
     phone?: boolean
     name?: boolean
     passwordHash?: boolean
+    avatar?: boolean
+    gender?: boolean
+    jobTitle?: boolean
+    workLocation?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -3372,10 +3599,14 @@ export namespace Prisma {
     phone?: boolean
     name?: boolean
     passwordHash?: boolean
+    avatar?: boolean
+    gender?: boolean
+    jobTitle?: boolean
+    workLocation?: boolean
     createdAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "phone" | "name" | "passwordHash" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "phone" | "name" | "passwordHash" | "avatar" | "gender" | "jobTitle" | "workLocation" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenants?: boolean | User$tenantsArgs<ExtArgs>
     apiKeys?: boolean | User$apiKeysArgs<ExtArgs>
@@ -3396,6 +3627,10 @@ export namespace Prisma {
       phone: string | null
       name: string
       passwordHash: string
+      avatar: string | null
+      gender: string | null
+      jobTitle: string | null
+      workLocation: string | null
       createdAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -3827,6 +4062,10 @@ export namespace Prisma {
     readonly phone: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly passwordHash: FieldRef<"User", 'String'>
+    readonly avatar: FieldRef<"User", 'String'>
+    readonly gender: FieldRef<"User", 'String'>
+    readonly jobTitle: FieldRef<"User", 'String'>
+    readonly workLocation: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
   }
     
@@ -5336,6 +5575,1116 @@ export namespace Prisma {
 
 
   /**
+   * Model TenantInvitation
+   */
+
+  export type AggregateTenantInvitation = {
+    _count: TenantInvitationCountAggregateOutputType | null
+    _min: TenantInvitationMinAggregateOutputType | null
+    _max: TenantInvitationMaxAggregateOutputType | null
+  }
+
+  export type TenantInvitationMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    email: string | null
+    role: string | null
+    token: string | null
+    invitedBy: string | null
+    expiresAt: Date | null
+    acceptedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type TenantInvitationMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    email: string | null
+    role: string | null
+    token: string | null
+    invitedBy: string | null
+    expiresAt: Date | null
+    acceptedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type TenantInvitationCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    email: number
+    role: number
+    token: number
+    invitedBy: number
+    expiresAt: number
+    acceptedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TenantInvitationMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    email?: true
+    role?: true
+    token?: true
+    invitedBy?: true
+    expiresAt?: true
+    acceptedAt?: true
+    createdAt?: true
+  }
+
+  export type TenantInvitationMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    email?: true
+    role?: true
+    token?: true
+    invitedBy?: true
+    expiresAt?: true
+    acceptedAt?: true
+    createdAt?: true
+  }
+
+  export type TenantInvitationCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    email?: true
+    role?: true
+    token?: true
+    invitedBy?: true
+    expiresAt?: true
+    acceptedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TenantInvitationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TenantInvitation to aggregate.
+     */
+    where?: TenantInvitationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TenantInvitations to fetch.
+     */
+    orderBy?: TenantInvitationOrderByWithRelationInput | TenantInvitationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TenantInvitationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TenantInvitations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TenantInvitations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TenantInvitations
+    **/
+    _count?: true | TenantInvitationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TenantInvitationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TenantInvitationMaxAggregateInputType
+  }
+
+  export type GetTenantInvitationAggregateType<T extends TenantInvitationAggregateArgs> = {
+        [P in keyof T & keyof AggregateTenantInvitation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTenantInvitation[P]>
+      : GetScalarType<T[P], AggregateTenantInvitation[P]>
+  }
+
+
+
+
+  export type TenantInvitationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TenantInvitationWhereInput
+    orderBy?: TenantInvitationOrderByWithAggregationInput | TenantInvitationOrderByWithAggregationInput[]
+    by: TenantInvitationScalarFieldEnum[] | TenantInvitationScalarFieldEnum
+    having?: TenantInvitationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TenantInvitationCountAggregateInputType | true
+    _min?: TenantInvitationMinAggregateInputType
+    _max?: TenantInvitationMaxAggregateInputType
+  }
+
+  export type TenantInvitationGroupByOutputType = {
+    id: string
+    tenantId: string
+    email: string
+    role: string
+    token: string
+    invitedBy: string
+    expiresAt: Date
+    acceptedAt: Date | null
+    createdAt: Date
+    _count: TenantInvitationCountAggregateOutputType | null
+    _min: TenantInvitationMinAggregateOutputType | null
+    _max: TenantInvitationMaxAggregateOutputType | null
+  }
+
+  type GetTenantInvitationGroupByPayload<T extends TenantInvitationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TenantInvitationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TenantInvitationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TenantInvitationGroupByOutputType[P]>
+            : GetScalarType<T[P], TenantInvitationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TenantInvitationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    email?: boolean
+    role?: boolean
+    token?: boolean
+    invitedBy?: boolean
+    expiresAt?: boolean
+    acceptedAt?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tenantInvitation"]>
+
+  export type TenantInvitationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    email?: boolean
+    role?: boolean
+    token?: boolean
+    invitedBy?: boolean
+    expiresAt?: boolean
+    acceptedAt?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tenantInvitation"]>
+
+  export type TenantInvitationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    email?: boolean
+    role?: boolean
+    token?: boolean
+    invitedBy?: boolean
+    expiresAt?: boolean
+    acceptedAt?: boolean
+    createdAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tenantInvitation"]>
+
+  export type TenantInvitationSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    email?: boolean
+    role?: boolean
+    token?: boolean
+    invitedBy?: boolean
+    expiresAt?: boolean
+    acceptedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type TenantInvitationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "email" | "role" | "token" | "invitedBy" | "expiresAt" | "acceptedAt" | "createdAt", ExtArgs["result"]["tenantInvitation"]>
+  export type TenantInvitationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type TenantInvitationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type TenantInvitationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $TenantInvitationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TenantInvitation"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      email: string
+      role: string
+      token: string
+      invitedBy: string
+      expiresAt: Date
+      acceptedAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["tenantInvitation"]>
+    composites: {}
+  }
+
+  type TenantInvitationGetPayload<S extends boolean | null | undefined | TenantInvitationDefaultArgs> = $Result.GetResult<Prisma.$TenantInvitationPayload, S>
+
+  type TenantInvitationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TenantInvitationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TenantInvitationCountAggregateInputType | true
+    }
+
+  export interface TenantInvitationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TenantInvitation'], meta: { name: 'TenantInvitation' } }
+    /**
+     * Find zero or one TenantInvitation that matches the filter.
+     * @param {TenantInvitationFindUniqueArgs} args - Arguments to find a TenantInvitation
+     * @example
+     * // Get one TenantInvitation
+     * const tenantInvitation = await prisma.tenantInvitation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TenantInvitationFindUniqueArgs>(args: SelectSubset<T, TenantInvitationFindUniqueArgs<ExtArgs>>): Prisma__TenantInvitationClient<$Result.GetResult<Prisma.$TenantInvitationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TenantInvitation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TenantInvitationFindUniqueOrThrowArgs} args - Arguments to find a TenantInvitation
+     * @example
+     * // Get one TenantInvitation
+     * const tenantInvitation = await prisma.tenantInvitation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TenantInvitationFindUniqueOrThrowArgs>(args: SelectSubset<T, TenantInvitationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TenantInvitationClient<$Result.GetResult<Prisma.$TenantInvitationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TenantInvitation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantInvitationFindFirstArgs} args - Arguments to find a TenantInvitation
+     * @example
+     * // Get one TenantInvitation
+     * const tenantInvitation = await prisma.tenantInvitation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TenantInvitationFindFirstArgs>(args?: SelectSubset<T, TenantInvitationFindFirstArgs<ExtArgs>>): Prisma__TenantInvitationClient<$Result.GetResult<Prisma.$TenantInvitationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TenantInvitation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantInvitationFindFirstOrThrowArgs} args - Arguments to find a TenantInvitation
+     * @example
+     * // Get one TenantInvitation
+     * const tenantInvitation = await prisma.tenantInvitation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TenantInvitationFindFirstOrThrowArgs>(args?: SelectSubset<T, TenantInvitationFindFirstOrThrowArgs<ExtArgs>>): Prisma__TenantInvitationClient<$Result.GetResult<Prisma.$TenantInvitationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TenantInvitations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantInvitationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TenantInvitations
+     * const tenantInvitations = await prisma.tenantInvitation.findMany()
+     * 
+     * // Get first 10 TenantInvitations
+     * const tenantInvitations = await prisma.tenantInvitation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tenantInvitationWithIdOnly = await prisma.tenantInvitation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TenantInvitationFindManyArgs>(args?: SelectSubset<T, TenantInvitationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TenantInvitation.
+     * @param {TenantInvitationCreateArgs} args - Arguments to create a TenantInvitation.
+     * @example
+     * // Create one TenantInvitation
+     * const TenantInvitation = await prisma.tenantInvitation.create({
+     *   data: {
+     *     // ... data to create a TenantInvitation
+     *   }
+     * })
+     * 
+     */
+    create<T extends TenantInvitationCreateArgs>(args: SelectSubset<T, TenantInvitationCreateArgs<ExtArgs>>): Prisma__TenantInvitationClient<$Result.GetResult<Prisma.$TenantInvitationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TenantInvitations.
+     * @param {TenantInvitationCreateManyArgs} args - Arguments to create many TenantInvitations.
+     * @example
+     * // Create many TenantInvitations
+     * const tenantInvitation = await prisma.tenantInvitation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TenantInvitationCreateManyArgs>(args?: SelectSubset<T, TenantInvitationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TenantInvitations and returns the data saved in the database.
+     * @param {TenantInvitationCreateManyAndReturnArgs} args - Arguments to create many TenantInvitations.
+     * @example
+     * // Create many TenantInvitations
+     * const tenantInvitation = await prisma.tenantInvitation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TenantInvitations and only return the `id`
+     * const tenantInvitationWithIdOnly = await prisma.tenantInvitation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TenantInvitationCreateManyAndReturnArgs>(args?: SelectSubset<T, TenantInvitationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantInvitationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TenantInvitation.
+     * @param {TenantInvitationDeleteArgs} args - Arguments to delete one TenantInvitation.
+     * @example
+     * // Delete one TenantInvitation
+     * const TenantInvitation = await prisma.tenantInvitation.delete({
+     *   where: {
+     *     // ... filter to delete one TenantInvitation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TenantInvitationDeleteArgs>(args: SelectSubset<T, TenantInvitationDeleteArgs<ExtArgs>>): Prisma__TenantInvitationClient<$Result.GetResult<Prisma.$TenantInvitationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TenantInvitation.
+     * @param {TenantInvitationUpdateArgs} args - Arguments to update one TenantInvitation.
+     * @example
+     * // Update one TenantInvitation
+     * const tenantInvitation = await prisma.tenantInvitation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TenantInvitationUpdateArgs>(args: SelectSubset<T, TenantInvitationUpdateArgs<ExtArgs>>): Prisma__TenantInvitationClient<$Result.GetResult<Prisma.$TenantInvitationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TenantInvitations.
+     * @param {TenantInvitationDeleteManyArgs} args - Arguments to filter TenantInvitations to delete.
+     * @example
+     * // Delete a few TenantInvitations
+     * const { count } = await prisma.tenantInvitation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TenantInvitationDeleteManyArgs>(args?: SelectSubset<T, TenantInvitationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TenantInvitations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantInvitationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TenantInvitations
+     * const tenantInvitation = await prisma.tenantInvitation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TenantInvitationUpdateManyArgs>(args: SelectSubset<T, TenantInvitationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TenantInvitations and returns the data updated in the database.
+     * @param {TenantInvitationUpdateManyAndReturnArgs} args - Arguments to update many TenantInvitations.
+     * @example
+     * // Update many TenantInvitations
+     * const tenantInvitation = await prisma.tenantInvitation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TenantInvitations and only return the `id`
+     * const tenantInvitationWithIdOnly = await prisma.tenantInvitation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TenantInvitationUpdateManyAndReturnArgs>(args: SelectSubset<T, TenantInvitationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantInvitationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TenantInvitation.
+     * @param {TenantInvitationUpsertArgs} args - Arguments to update or create a TenantInvitation.
+     * @example
+     * // Update or create a TenantInvitation
+     * const tenantInvitation = await prisma.tenantInvitation.upsert({
+     *   create: {
+     *     // ... data to create a TenantInvitation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TenantInvitation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TenantInvitationUpsertArgs>(args: SelectSubset<T, TenantInvitationUpsertArgs<ExtArgs>>): Prisma__TenantInvitationClient<$Result.GetResult<Prisma.$TenantInvitationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TenantInvitations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantInvitationCountArgs} args - Arguments to filter TenantInvitations to count.
+     * @example
+     * // Count the number of TenantInvitations
+     * const count = await prisma.tenantInvitation.count({
+     *   where: {
+     *     // ... the filter for the TenantInvitations we want to count
+     *   }
+     * })
+    **/
+    count<T extends TenantInvitationCountArgs>(
+      args?: Subset<T, TenantInvitationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TenantInvitationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TenantInvitation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantInvitationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TenantInvitationAggregateArgs>(args: Subset<T, TenantInvitationAggregateArgs>): Prisma.PrismaPromise<GetTenantInvitationAggregateType<T>>
+
+    /**
+     * Group by TenantInvitation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantInvitationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TenantInvitationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TenantInvitationGroupByArgs['orderBy'] }
+        : { orderBy?: TenantInvitationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TenantInvitationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTenantInvitationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TenantInvitation model
+   */
+  readonly fields: TenantInvitationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TenantInvitation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TenantInvitationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TenantInvitation model
+   */
+  interface TenantInvitationFieldRefs {
+    readonly id: FieldRef<"TenantInvitation", 'String'>
+    readonly tenantId: FieldRef<"TenantInvitation", 'String'>
+    readonly email: FieldRef<"TenantInvitation", 'String'>
+    readonly role: FieldRef<"TenantInvitation", 'String'>
+    readonly token: FieldRef<"TenantInvitation", 'String'>
+    readonly invitedBy: FieldRef<"TenantInvitation", 'String'>
+    readonly expiresAt: FieldRef<"TenantInvitation", 'DateTime'>
+    readonly acceptedAt: FieldRef<"TenantInvitation", 'DateTime'>
+    readonly createdAt: FieldRef<"TenantInvitation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TenantInvitation findUnique
+   */
+  export type TenantInvitationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantInvitation
+     */
+    select?: TenantInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantInvitation
+     */
+    omit?: TenantInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantInvitationInclude<ExtArgs> | null
+    /**
+     * Filter, which TenantInvitation to fetch.
+     */
+    where: TenantInvitationWhereUniqueInput
+  }
+
+  /**
+   * TenantInvitation findUniqueOrThrow
+   */
+  export type TenantInvitationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantInvitation
+     */
+    select?: TenantInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantInvitation
+     */
+    omit?: TenantInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantInvitationInclude<ExtArgs> | null
+    /**
+     * Filter, which TenantInvitation to fetch.
+     */
+    where: TenantInvitationWhereUniqueInput
+  }
+
+  /**
+   * TenantInvitation findFirst
+   */
+  export type TenantInvitationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantInvitation
+     */
+    select?: TenantInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantInvitation
+     */
+    omit?: TenantInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantInvitationInclude<ExtArgs> | null
+    /**
+     * Filter, which TenantInvitation to fetch.
+     */
+    where?: TenantInvitationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TenantInvitations to fetch.
+     */
+    orderBy?: TenantInvitationOrderByWithRelationInput | TenantInvitationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TenantInvitations.
+     */
+    cursor?: TenantInvitationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TenantInvitations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TenantInvitations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TenantInvitations.
+     */
+    distinct?: TenantInvitationScalarFieldEnum | TenantInvitationScalarFieldEnum[]
+  }
+
+  /**
+   * TenantInvitation findFirstOrThrow
+   */
+  export type TenantInvitationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantInvitation
+     */
+    select?: TenantInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantInvitation
+     */
+    omit?: TenantInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantInvitationInclude<ExtArgs> | null
+    /**
+     * Filter, which TenantInvitation to fetch.
+     */
+    where?: TenantInvitationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TenantInvitations to fetch.
+     */
+    orderBy?: TenantInvitationOrderByWithRelationInput | TenantInvitationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TenantInvitations.
+     */
+    cursor?: TenantInvitationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TenantInvitations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TenantInvitations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TenantInvitations.
+     */
+    distinct?: TenantInvitationScalarFieldEnum | TenantInvitationScalarFieldEnum[]
+  }
+
+  /**
+   * TenantInvitation findMany
+   */
+  export type TenantInvitationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantInvitation
+     */
+    select?: TenantInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantInvitation
+     */
+    omit?: TenantInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantInvitationInclude<ExtArgs> | null
+    /**
+     * Filter, which TenantInvitations to fetch.
+     */
+    where?: TenantInvitationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TenantInvitations to fetch.
+     */
+    orderBy?: TenantInvitationOrderByWithRelationInput | TenantInvitationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TenantInvitations.
+     */
+    cursor?: TenantInvitationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TenantInvitations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TenantInvitations.
+     */
+    skip?: number
+    distinct?: TenantInvitationScalarFieldEnum | TenantInvitationScalarFieldEnum[]
+  }
+
+  /**
+   * TenantInvitation create
+   */
+  export type TenantInvitationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantInvitation
+     */
+    select?: TenantInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantInvitation
+     */
+    omit?: TenantInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantInvitationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TenantInvitation.
+     */
+    data: XOR<TenantInvitationCreateInput, TenantInvitationUncheckedCreateInput>
+  }
+
+  /**
+   * TenantInvitation createMany
+   */
+  export type TenantInvitationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TenantInvitations.
+     */
+    data: TenantInvitationCreateManyInput | TenantInvitationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TenantInvitation createManyAndReturn
+   */
+  export type TenantInvitationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantInvitation
+     */
+    select?: TenantInvitationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantInvitation
+     */
+    omit?: TenantInvitationOmit<ExtArgs> | null
+    /**
+     * The data used to create many TenantInvitations.
+     */
+    data: TenantInvitationCreateManyInput | TenantInvitationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantInvitationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TenantInvitation update
+   */
+  export type TenantInvitationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantInvitation
+     */
+    select?: TenantInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantInvitation
+     */
+    omit?: TenantInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantInvitationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TenantInvitation.
+     */
+    data: XOR<TenantInvitationUpdateInput, TenantInvitationUncheckedUpdateInput>
+    /**
+     * Choose, which TenantInvitation to update.
+     */
+    where: TenantInvitationWhereUniqueInput
+  }
+
+  /**
+   * TenantInvitation updateMany
+   */
+  export type TenantInvitationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TenantInvitations.
+     */
+    data: XOR<TenantInvitationUpdateManyMutationInput, TenantInvitationUncheckedUpdateManyInput>
+    /**
+     * Filter which TenantInvitations to update
+     */
+    where?: TenantInvitationWhereInput
+    /**
+     * Limit how many TenantInvitations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TenantInvitation updateManyAndReturn
+   */
+  export type TenantInvitationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantInvitation
+     */
+    select?: TenantInvitationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantInvitation
+     */
+    omit?: TenantInvitationOmit<ExtArgs> | null
+    /**
+     * The data used to update TenantInvitations.
+     */
+    data: XOR<TenantInvitationUpdateManyMutationInput, TenantInvitationUncheckedUpdateManyInput>
+    /**
+     * Filter which TenantInvitations to update
+     */
+    where?: TenantInvitationWhereInput
+    /**
+     * Limit how many TenantInvitations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantInvitationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TenantInvitation upsert
+   */
+  export type TenantInvitationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantInvitation
+     */
+    select?: TenantInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantInvitation
+     */
+    omit?: TenantInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantInvitationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TenantInvitation to update in case it exists.
+     */
+    where: TenantInvitationWhereUniqueInput
+    /**
+     * In case the TenantInvitation found by the `where` argument doesn't exist, create a new TenantInvitation with this data.
+     */
+    create: XOR<TenantInvitationCreateInput, TenantInvitationUncheckedCreateInput>
+    /**
+     * In case the TenantInvitation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TenantInvitationUpdateInput, TenantInvitationUncheckedUpdateInput>
+  }
+
+  /**
+   * TenantInvitation delete
+   */
+  export type TenantInvitationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantInvitation
+     */
+    select?: TenantInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantInvitation
+     */
+    omit?: TenantInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantInvitationInclude<ExtArgs> | null
+    /**
+     * Filter which TenantInvitation to delete.
+     */
+    where: TenantInvitationWhereUniqueInput
+  }
+
+  /**
+   * TenantInvitation deleteMany
+   */
+  export type TenantInvitationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TenantInvitations to delete
+     */
+    where?: TenantInvitationWhereInput
+    /**
+     * Limit how many TenantInvitations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TenantInvitation without action
+   */
+  export type TenantInvitationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantInvitation
+     */
+    select?: TenantInvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantInvitation
+     */
+    omit?: TenantInvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantInvitationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Team
    */
 
@@ -5494,7 +6843,6 @@ export namespace Prisma {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     members?: boolean | Team$membersArgs<ExtArgs>
     groups?: boolean | Team$groupsArgs<ExtArgs>
-    files?: boolean | Team$filesArgs<ExtArgs>
     _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["team"]>
 
@@ -5526,7 +6874,6 @@ export namespace Prisma {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
     members?: boolean | Team$membersArgs<ExtArgs>
     groups?: boolean | Team$groupsArgs<ExtArgs>
-    files?: boolean | Team$filesArgs<ExtArgs>
     _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TeamIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5542,7 +6889,6 @@ export namespace Prisma {
       tenant: Prisma.$TenantPayload<ExtArgs>
       members: Prisma.$TeamMemberPayload<ExtArgs>[]
       groups: Prisma.$ChatGroupPayload<ExtArgs>[]
-      files: Prisma.$WorkspaceFilePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5946,7 +7292,6 @@ export namespace Prisma {
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     members<T extends Team$membersArgs<ExtArgs> = {}>(args?: Subset<T, Team$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     groups<T extends Team$groupsArgs<ExtArgs> = {}>(args?: Subset<T, Team$groupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatGroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    files<T extends Team$filesArgs<ExtArgs> = {}>(args?: Subset<T, Team$filesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkspaceFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6421,30 +7766,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ChatGroupScalarFieldEnum | ChatGroupScalarFieldEnum[]
-  }
-
-  /**
-   * Team.files
-   */
-  export type Team$filesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkspaceFile
-     */
-    select?: WorkspaceFileSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkspaceFile
-     */
-    omit?: WorkspaceFileOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkspaceFileInclude<ExtArgs> | null
-    where?: WorkspaceFileWhereInput
-    orderBy?: WorkspaceFileOrderByWithRelationInput | WorkspaceFileOrderByWithRelationInput[]
-    cursor?: WorkspaceFileWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: WorkspaceFileScalarFieldEnum | WorkspaceFileScalarFieldEnum[]
   }
 
   /**
@@ -8801,7 +10122,6 @@ export namespace Prisma {
     team?: boolean | TeamDefaultArgs<ExtArgs>
     members?: boolean | ChatGroup$membersArgs<ExtArgs>
     messages?: boolean | ChatGroup$messagesArgs<ExtArgs>
-    files?: boolean | ChatGroup$filesArgs<ExtArgs>
     _count?: boolean | ChatGroupCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatGroup"]>
 
@@ -8836,7 +10156,6 @@ export namespace Prisma {
     team?: boolean | TeamDefaultArgs<ExtArgs>
     members?: boolean | ChatGroup$membersArgs<ExtArgs>
     messages?: boolean | ChatGroup$messagesArgs<ExtArgs>
-    files?: boolean | ChatGroup$filesArgs<ExtArgs>
     _count?: boolean | ChatGroupCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ChatGroupIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8852,7 +10171,6 @@ export namespace Prisma {
       team: Prisma.$TeamPayload<ExtArgs>
       members: Prisma.$ChatGroupMemberPayload<ExtArgs>[]
       messages: Prisma.$MessagePayload<ExtArgs>[]
-      files: Prisma.$WorkspaceFilePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9257,7 +10575,6 @@ export namespace Prisma {
     team<T extends TeamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeamDefaultArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     members<T extends ChatGroup$membersArgs<ExtArgs> = {}>(args?: Subset<T, ChatGroup$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatGroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     messages<T extends ChatGroup$messagesArgs<ExtArgs> = {}>(args?: Subset<T, ChatGroup$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    files<T extends ChatGroup$filesArgs<ExtArgs> = {}>(args?: Subset<T, ChatGroup$filesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkspaceFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9733,30 +11050,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
-  }
-
-  /**
-   * ChatGroup.files
-   */
-  export type ChatGroup$filesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkspaceFile
-     */
-    select?: WorkspaceFileSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkspaceFile
-     */
-    omit?: WorkspaceFileOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkspaceFileInclude<ExtArgs> | null
-    where?: WorkspaceFileWhereInput
-    orderBy?: WorkspaceFileOrderByWithRelationInput | WorkspaceFileOrderByWithRelationInput[]
-    cursor?: WorkspaceFileWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: WorkspaceFileScalarFieldEnum | WorkspaceFileScalarFieldEnum[]
   }
 
   /**
@@ -12146,9 +13439,6 @@ export namespace Prisma {
     scope?: boolean
     scopeId?: boolean
     createdAt?: boolean
-    tenant?: boolean | WorkspaceFile$tenantArgs<ExtArgs>
-    team?: boolean | WorkspaceFile$teamArgs<ExtArgs>
-    chatGroup?: boolean | WorkspaceFile$chatGroupArgs<ExtArgs>
   }, ExtArgs["result"]["workspaceFile"]>
 
   export type WorkspaceFileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12161,9 +13451,6 @@ export namespace Prisma {
     scope?: boolean
     scopeId?: boolean
     createdAt?: boolean
-    tenant?: boolean | WorkspaceFile$tenantArgs<ExtArgs>
-    team?: boolean | WorkspaceFile$teamArgs<ExtArgs>
-    chatGroup?: boolean | WorkspaceFile$chatGroupArgs<ExtArgs>
   }, ExtArgs["result"]["workspaceFile"]>
 
   export type WorkspaceFileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12176,9 +13463,6 @@ export namespace Prisma {
     scope?: boolean
     scopeId?: boolean
     createdAt?: boolean
-    tenant?: boolean | WorkspaceFile$tenantArgs<ExtArgs>
-    team?: boolean | WorkspaceFile$teamArgs<ExtArgs>
-    chatGroup?: boolean | WorkspaceFile$chatGroupArgs<ExtArgs>
   }, ExtArgs["result"]["workspaceFile"]>
 
   export type WorkspaceFileSelectScalar = {
@@ -12194,29 +13478,10 @@ export namespace Prisma {
   }
 
   export type WorkspaceFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "path" | "filename" | "mimeType" | "size" | "uploadedById" | "scope" | "scopeId" | "createdAt", ExtArgs["result"]["workspaceFile"]>
-  export type WorkspaceFileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tenant?: boolean | WorkspaceFile$tenantArgs<ExtArgs>
-    team?: boolean | WorkspaceFile$teamArgs<ExtArgs>
-    chatGroup?: boolean | WorkspaceFile$chatGroupArgs<ExtArgs>
-  }
-  export type WorkspaceFileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tenant?: boolean | WorkspaceFile$tenantArgs<ExtArgs>
-    team?: boolean | WorkspaceFile$teamArgs<ExtArgs>
-    chatGroup?: boolean | WorkspaceFile$chatGroupArgs<ExtArgs>
-  }
-  export type WorkspaceFileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tenant?: boolean | WorkspaceFile$tenantArgs<ExtArgs>
-    team?: boolean | WorkspaceFile$teamArgs<ExtArgs>
-    chatGroup?: boolean | WorkspaceFile$chatGroupArgs<ExtArgs>
-  }
 
   export type $WorkspaceFilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "WorkspaceFile"
-    objects: {
-      tenant: Prisma.$TenantPayload<ExtArgs> | null
-      team: Prisma.$TeamPayload<ExtArgs> | null
-      chatGroup: Prisma.$ChatGroupPayload<ExtArgs> | null
-    }
+    objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
       path: string
@@ -12621,9 +13886,6 @@ export namespace Prisma {
    */
   export interface Prisma__WorkspaceFileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    tenant<T extends WorkspaceFile$tenantArgs<ExtArgs> = {}>(args?: Subset<T, WorkspaceFile$tenantArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    team<T extends WorkspaceFile$teamArgs<ExtArgs> = {}>(args?: Subset<T, WorkspaceFile$teamArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    chatGroup<T extends WorkspaceFile$chatGroupArgs<ExtArgs> = {}>(args?: Subset<T, WorkspaceFile$chatGroupArgs<ExtArgs>>): Prisma__ChatGroupClient<$Result.GetResult<Prisma.$ChatGroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12679,10 +13941,6 @@ export namespace Prisma {
      */
     omit?: WorkspaceFileOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkspaceFileInclude<ExtArgs> | null
-    /**
      * Filter, which WorkspaceFile to fetch.
      */
     where: WorkspaceFileWhereUniqueInput
@@ -12701,10 +13959,6 @@ export namespace Prisma {
      */
     omit?: WorkspaceFileOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkspaceFileInclude<ExtArgs> | null
-    /**
      * Filter, which WorkspaceFile to fetch.
      */
     where: WorkspaceFileWhereUniqueInput
@@ -12722,10 +13976,6 @@ export namespace Prisma {
      * Omit specific fields from the WorkspaceFile
      */
     omit?: WorkspaceFileOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkspaceFileInclude<ExtArgs> | null
     /**
      * Filter, which WorkspaceFile to fetch.
      */
@@ -12775,10 +14025,6 @@ export namespace Prisma {
      */
     omit?: WorkspaceFileOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkspaceFileInclude<ExtArgs> | null
-    /**
      * Filter, which WorkspaceFile to fetch.
      */
     where?: WorkspaceFileWhereInput
@@ -12827,10 +14073,6 @@ export namespace Prisma {
      */
     omit?: WorkspaceFileOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkspaceFileInclude<ExtArgs> | null
-    /**
      * Filter, which WorkspaceFiles to fetch.
      */
     where?: WorkspaceFileWhereInput
@@ -12874,10 +14116,6 @@ export namespace Prisma {
      */
     omit?: WorkspaceFileOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkspaceFileInclude<ExtArgs> | null
-    /**
      * The data needed to create a WorkspaceFile.
      */
     data: XOR<WorkspaceFileCreateInput, WorkspaceFileUncheckedCreateInput>
@@ -12911,10 +14149,6 @@ export namespace Prisma {
      */
     data: WorkspaceFileCreateManyInput | WorkspaceFileCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkspaceFileIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -12929,10 +14163,6 @@ export namespace Prisma {
      * Omit specific fields from the WorkspaceFile
      */
     omit?: WorkspaceFileOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkspaceFileInclude<ExtArgs> | null
     /**
      * The data needed to update a WorkspaceFile.
      */
@@ -12985,10 +14215,6 @@ export namespace Prisma {
      * Limit how many WorkspaceFiles to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkspaceFileIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -13003,10 +14229,6 @@ export namespace Prisma {
      * Omit specific fields from the WorkspaceFile
      */
     omit?: WorkspaceFileOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkspaceFileInclude<ExtArgs> | null
     /**
      * The filter to search for the WorkspaceFile to update in case it exists.
      */
@@ -13034,10 +14256,6 @@ export namespace Prisma {
      */
     omit?: WorkspaceFileOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkspaceFileInclude<ExtArgs> | null
-    /**
      * Filter which WorkspaceFile to delete.
      */
     where: WorkspaceFileWhereUniqueInput
@@ -13058,63 +14276,6 @@ export namespace Prisma {
   }
 
   /**
-   * WorkspaceFile.tenant
-   */
-  export type WorkspaceFile$tenantArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Tenant
-     */
-    select?: TenantSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Tenant
-     */
-    omit?: TenantOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TenantInclude<ExtArgs> | null
-    where?: TenantWhereInput
-  }
-
-  /**
-   * WorkspaceFile.team
-   */
-  export type WorkspaceFile$teamArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Team
-     */
-    select?: TeamSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Team
-     */
-    omit?: TeamOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TeamInclude<ExtArgs> | null
-    where?: TeamWhereInput
-  }
-
-  /**
-   * WorkspaceFile.chatGroup
-   */
-  export type WorkspaceFile$chatGroupArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ChatGroup
-     */
-    select?: ChatGroupSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ChatGroup
-     */
-    omit?: ChatGroupOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ChatGroupInclude<ExtArgs> | null
-    where?: ChatGroupWhereInput
-  }
-
-  /**
    * WorkspaceFile without action
    */
   export type WorkspaceFileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13126,10 +14287,6 @@ export namespace Prisma {
      * Omit specific fields from the WorkspaceFile
      */
     omit?: WorkspaceFileOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkspaceFileInclude<ExtArgs> | null
   }
 
 
@@ -14277,6 +15434,1103 @@ export namespace Prisma {
 
 
   /**
+   * Model TenantLlmConfig
+   */
+
+  export type AggregateTenantLlmConfig = {
+    _count: TenantLlmConfigCountAggregateOutputType | null
+    _min: TenantLlmConfigMinAggregateOutputType | null
+    _max: TenantLlmConfigMaxAggregateOutputType | null
+  }
+
+  export type TenantLlmConfigMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    provider: string | null
+    apiKeyEnc: string | null
+    baseUrl: string | null
+    model: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TenantLlmConfigMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    provider: string | null
+    apiKeyEnc: string | null
+    baseUrl: string | null
+    model: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TenantLlmConfigCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    provider: number
+    apiKeyEnc: number
+    baseUrl: number
+    model: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TenantLlmConfigMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    provider?: true
+    apiKeyEnc?: true
+    baseUrl?: true
+    model?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TenantLlmConfigMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    provider?: true
+    apiKeyEnc?: true
+    baseUrl?: true
+    model?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TenantLlmConfigCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    provider?: true
+    apiKeyEnc?: true
+    baseUrl?: true
+    model?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TenantLlmConfigAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TenantLlmConfig to aggregate.
+     */
+    where?: TenantLlmConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TenantLlmConfigs to fetch.
+     */
+    orderBy?: TenantLlmConfigOrderByWithRelationInput | TenantLlmConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TenantLlmConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TenantLlmConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TenantLlmConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TenantLlmConfigs
+    **/
+    _count?: true | TenantLlmConfigCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TenantLlmConfigMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TenantLlmConfigMaxAggregateInputType
+  }
+
+  export type GetTenantLlmConfigAggregateType<T extends TenantLlmConfigAggregateArgs> = {
+        [P in keyof T & keyof AggregateTenantLlmConfig]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTenantLlmConfig[P]>
+      : GetScalarType<T[P], AggregateTenantLlmConfig[P]>
+  }
+
+
+
+
+  export type TenantLlmConfigGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TenantLlmConfigWhereInput
+    orderBy?: TenantLlmConfigOrderByWithAggregationInput | TenantLlmConfigOrderByWithAggregationInput[]
+    by: TenantLlmConfigScalarFieldEnum[] | TenantLlmConfigScalarFieldEnum
+    having?: TenantLlmConfigScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TenantLlmConfigCountAggregateInputType | true
+    _min?: TenantLlmConfigMinAggregateInputType
+    _max?: TenantLlmConfigMaxAggregateInputType
+  }
+
+  export type TenantLlmConfigGroupByOutputType = {
+    id: string
+    tenantId: string
+    provider: string
+    apiKeyEnc: string
+    baseUrl: string | null
+    model: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: TenantLlmConfigCountAggregateOutputType | null
+    _min: TenantLlmConfigMinAggregateOutputType | null
+    _max: TenantLlmConfigMaxAggregateOutputType | null
+  }
+
+  type GetTenantLlmConfigGroupByPayload<T extends TenantLlmConfigGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TenantLlmConfigGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TenantLlmConfigGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TenantLlmConfigGroupByOutputType[P]>
+            : GetScalarType<T[P], TenantLlmConfigGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TenantLlmConfigSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    provider?: boolean
+    apiKeyEnc?: boolean
+    baseUrl?: boolean
+    model?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tenantLlmConfig"]>
+
+  export type TenantLlmConfigSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    provider?: boolean
+    apiKeyEnc?: boolean
+    baseUrl?: boolean
+    model?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tenantLlmConfig"]>
+
+  export type TenantLlmConfigSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    provider?: boolean
+    apiKeyEnc?: boolean
+    baseUrl?: boolean
+    model?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tenantLlmConfig"]>
+
+  export type TenantLlmConfigSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    provider?: boolean
+    apiKeyEnc?: boolean
+    baseUrl?: boolean
+    model?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TenantLlmConfigOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "provider" | "apiKeyEnc" | "baseUrl" | "model" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantLlmConfig"]>
+  export type TenantLlmConfigInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type TenantLlmConfigIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+  export type TenantLlmConfigIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tenant?: boolean | TenantDefaultArgs<ExtArgs>
+  }
+
+  export type $TenantLlmConfigPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TenantLlmConfig"
+    objects: {
+      tenant: Prisma.$TenantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      provider: string
+      apiKeyEnc: string
+      baseUrl: string | null
+      model: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["tenantLlmConfig"]>
+    composites: {}
+  }
+
+  type TenantLlmConfigGetPayload<S extends boolean | null | undefined | TenantLlmConfigDefaultArgs> = $Result.GetResult<Prisma.$TenantLlmConfigPayload, S>
+
+  type TenantLlmConfigCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TenantLlmConfigFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TenantLlmConfigCountAggregateInputType | true
+    }
+
+  export interface TenantLlmConfigDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TenantLlmConfig'], meta: { name: 'TenantLlmConfig' } }
+    /**
+     * Find zero or one TenantLlmConfig that matches the filter.
+     * @param {TenantLlmConfigFindUniqueArgs} args - Arguments to find a TenantLlmConfig
+     * @example
+     * // Get one TenantLlmConfig
+     * const tenantLlmConfig = await prisma.tenantLlmConfig.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TenantLlmConfigFindUniqueArgs>(args: SelectSubset<T, TenantLlmConfigFindUniqueArgs<ExtArgs>>): Prisma__TenantLlmConfigClient<$Result.GetResult<Prisma.$TenantLlmConfigPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TenantLlmConfig that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TenantLlmConfigFindUniqueOrThrowArgs} args - Arguments to find a TenantLlmConfig
+     * @example
+     * // Get one TenantLlmConfig
+     * const tenantLlmConfig = await prisma.tenantLlmConfig.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TenantLlmConfigFindUniqueOrThrowArgs>(args: SelectSubset<T, TenantLlmConfigFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TenantLlmConfigClient<$Result.GetResult<Prisma.$TenantLlmConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TenantLlmConfig that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantLlmConfigFindFirstArgs} args - Arguments to find a TenantLlmConfig
+     * @example
+     * // Get one TenantLlmConfig
+     * const tenantLlmConfig = await prisma.tenantLlmConfig.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TenantLlmConfigFindFirstArgs>(args?: SelectSubset<T, TenantLlmConfigFindFirstArgs<ExtArgs>>): Prisma__TenantLlmConfigClient<$Result.GetResult<Prisma.$TenantLlmConfigPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TenantLlmConfig that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantLlmConfigFindFirstOrThrowArgs} args - Arguments to find a TenantLlmConfig
+     * @example
+     * // Get one TenantLlmConfig
+     * const tenantLlmConfig = await prisma.tenantLlmConfig.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TenantLlmConfigFindFirstOrThrowArgs>(args?: SelectSubset<T, TenantLlmConfigFindFirstOrThrowArgs<ExtArgs>>): Prisma__TenantLlmConfigClient<$Result.GetResult<Prisma.$TenantLlmConfigPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TenantLlmConfigs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantLlmConfigFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TenantLlmConfigs
+     * const tenantLlmConfigs = await prisma.tenantLlmConfig.findMany()
+     * 
+     * // Get first 10 TenantLlmConfigs
+     * const tenantLlmConfigs = await prisma.tenantLlmConfig.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tenantLlmConfigWithIdOnly = await prisma.tenantLlmConfig.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TenantLlmConfigFindManyArgs>(args?: SelectSubset<T, TenantLlmConfigFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantLlmConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TenantLlmConfig.
+     * @param {TenantLlmConfigCreateArgs} args - Arguments to create a TenantLlmConfig.
+     * @example
+     * // Create one TenantLlmConfig
+     * const TenantLlmConfig = await prisma.tenantLlmConfig.create({
+     *   data: {
+     *     // ... data to create a TenantLlmConfig
+     *   }
+     * })
+     * 
+     */
+    create<T extends TenantLlmConfigCreateArgs>(args: SelectSubset<T, TenantLlmConfigCreateArgs<ExtArgs>>): Prisma__TenantLlmConfigClient<$Result.GetResult<Prisma.$TenantLlmConfigPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TenantLlmConfigs.
+     * @param {TenantLlmConfigCreateManyArgs} args - Arguments to create many TenantLlmConfigs.
+     * @example
+     * // Create many TenantLlmConfigs
+     * const tenantLlmConfig = await prisma.tenantLlmConfig.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TenantLlmConfigCreateManyArgs>(args?: SelectSubset<T, TenantLlmConfigCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TenantLlmConfigs and returns the data saved in the database.
+     * @param {TenantLlmConfigCreateManyAndReturnArgs} args - Arguments to create many TenantLlmConfigs.
+     * @example
+     * // Create many TenantLlmConfigs
+     * const tenantLlmConfig = await prisma.tenantLlmConfig.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TenantLlmConfigs and only return the `id`
+     * const tenantLlmConfigWithIdOnly = await prisma.tenantLlmConfig.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TenantLlmConfigCreateManyAndReturnArgs>(args?: SelectSubset<T, TenantLlmConfigCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantLlmConfigPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TenantLlmConfig.
+     * @param {TenantLlmConfigDeleteArgs} args - Arguments to delete one TenantLlmConfig.
+     * @example
+     * // Delete one TenantLlmConfig
+     * const TenantLlmConfig = await prisma.tenantLlmConfig.delete({
+     *   where: {
+     *     // ... filter to delete one TenantLlmConfig
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TenantLlmConfigDeleteArgs>(args: SelectSubset<T, TenantLlmConfigDeleteArgs<ExtArgs>>): Prisma__TenantLlmConfigClient<$Result.GetResult<Prisma.$TenantLlmConfigPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TenantLlmConfig.
+     * @param {TenantLlmConfigUpdateArgs} args - Arguments to update one TenantLlmConfig.
+     * @example
+     * // Update one TenantLlmConfig
+     * const tenantLlmConfig = await prisma.tenantLlmConfig.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TenantLlmConfigUpdateArgs>(args: SelectSubset<T, TenantLlmConfigUpdateArgs<ExtArgs>>): Prisma__TenantLlmConfigClient<$Result.GetResult<Prisma.$TenantLlmConfigPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TenantLlmConfigs.
+     * @param {TenantLlmConfigDeleteManyArgs} args - Arguments to filter TenantLlmConfigs to delete.
+     * @example
+     * // Delete a few TenantLlmConfigs
+     * const { count } = await prisma.tenantLlmConfig.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TenantLlmConfigDeleteManyArgs>(args?: SelectSubset<T, TenantLlmConfigDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TenantLlmConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantLlmConfigUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TenantLlmConfigs
+     * const tenantLlmConfig = await prisma.tenantLlmConfig.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TenantLlmConfigUpdateManyArgs>(args: SelectSubset<T, TenantLlmConfigUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TenantLlmConfigs and returns the data updated in the database.
+     * @param {TenantLlmConfigUpdateManyAndReturnArgs} args - Arguments to update many TenantLlmConfigs.
+     * @example
+     * // Update many TenantLlmConfigs
+     * const tenantLlmConfig = await prisma.tenantLlmConfig.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TenantLlmConfigs and only return the `id`
+     * const tenantLlmConfigWithIdOnly = await prisma.tenantLlmConfig.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TenantLlmConfigUpdateManyAndReturnArgs>(args: SelectSubset<T, TenantLlmConfigUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TenantLlmConfigPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TenantLlmConfig.
+     * @param {TenantLlmConfigUpsertArgs} args - Arguments to update or create a TenantLlmConfig.
+     * @example
+     * // Update or create a TenantLlmConfig
+     * const tenantLlmConfig = await prisma.tenantLlmConfig.upsert({
+     *   create: {
+     *     // ... data to create a TenantLlmConfig
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TenantLlmConfig we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TenantLlmConfigUpsertArgs>(args: SelectSubset<T, TenantLlmConfigUpsertArgs<ExtArgs>>): Prisma__TenantLlmConfigClient<$Result.GetResult<Prisma.$TenantLlmConfigPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TenantLlmConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantLlmConfigCountArgs} args - Arguments to filter TenantLlmConfigs to count.
+     * @example
+     * // Count the number of TenantLlmConfigs
+     * const count = await prisma.tenantLlmConfig.count({
+     *   where: {
+     *     // ... the filter for the TenantLlmConfigs we want to count
+     *   }
+     * })
+    **/
+    count<T extends TenantLlmConfigCountArgs>(
+      args?: Subset<T, TenantLlmConfigCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TenantLlmConfigCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TenantLlmConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantLlmConfigAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TenantLlmConfigAggregateArgs>(args: Subset<T, TenantLlmConfigAggregateArgs>): Prisma.PrismaPromise<GetTenantLlmConfigAggregateType<T>>
+
+    /**
+     * Group by TenantLlmConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TenantLlmConfigGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TenantLlmConfigGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TenantLlmConfigGroupByArgs['orderBy'] }
+        : { orderBy?: TenantLlmConfigGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TenantLlmConfigGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTenantLlmConfigGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TenantLlmConfig model
+   */
+  readonly fields: TenantLlmConfigFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TenantLlmConfig.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TenantLlmConfigClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TenantLlmConfig model
+   */
+  interface TenantLlmConfigFieldRefs {
+    readonly id: FieldRef<"TenantLlmConfig", 'String'>
+    readonly tenantId: FieldRef<"TenantLlmConfig", 'String'>
+    readonly provider: FieldRef<"TenantLlmConfig", 'String'>
+    readonly apiKeyEnc: FieldRef<"TenantLlmConfig", 'String'>
+    readonly baseUrl: FieldRef<"TenantLlmConfig", 'String'>
+    readonly model: FieldRef<"TenantLlmConfig", 'String'>
+    readonly createdAt: FieldRef<"TenantLlmConfig", 'DateTime'>
+    readonly updatedAt: FieldRef<"TenantLlmConfig", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TenantLlmConfig findUnique
+   */
+  export type TenantLlmConfigFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantLlmConfig
+     */
+    select?: TenantLlmConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantLlmConfig
+     */
+    omit?: TenantLlmConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantLlmConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which TenantLlmConfig to fetch.
+     */
+    where: TenantLlmConfigWhereUniqueInput
+  }
+
+  /**
+   * TenantLlmConfig findUniqueOrThrow
+   */
+  export type TenantLlmConfigFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantLlmConfig
+     */
+    select?: TenantLlmConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantLlmConfig
+     */
+    omit?: TenantLlmConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantLlmConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which TenantLlmConfig to fetch.
+     */
+    where: TenantLlmConfigWhereUniqueInput
+  }
+
+  /**
+   * TenantLlmConfig findFirst
+   */
+  export type TenantLlmConfigFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantLlmConfig
+     */
+    select?: TenantLlmConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantLlmConfig
+     */
+    omit?: TenantLlmConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantLlmConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which TenantLlmConfig to fetch.
+     */
+    where?: TenantLlmConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TenantLlmConfigs to fetch.
+     */
+    orderBy?: TenantLlmConfigOrderByWithRelationInput | TenantLlmConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TenantLlmConfigs.
+     */
+    cursor?: TenantLlmConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TenantLlmConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TenantLlmConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TenantLlmConfigs.
+     */
+    distinct?: TenantLlmConfigScalarFieldEnum | TenantLlmConfigScalarFieldEnum[]
+  }
+
+  /**
+   * TenantLlmConfig findFirstOrThrow
+   */
+  export type TenantLlmConfigFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantLlmConfig
+     */
+    select?: TenantLlmConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantLlmConfig
+     */
+    omit?: TenantLlmConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantLlmConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which TenantLlmConfig to fetch.
+     */
+    where?: TenantLlmConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TenantLlmConfigs to fetch.
+     */
+    orderBy?: TenantLlmConfigOrderByWithRelationInput | TenantLlmConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TenantLlmConfigs.
+     */
+    cursor?: TenantLlmConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TenantLlmConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TenantLlmConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TenantLlmConfigs.
+     */
+    distinct?: TenantLlmConfigScalarFieldEnum | TenantLlmConfigScalarFieldEnum[]
+  }
+
+  /**
+   * TenantLlmConfig findMany
+   */
+  export type TenantLlmConfigFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantLlmConfig
+     */
+    select?: TenantLlmConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantLlmConfig
+     */
+    omit?: TenantLlmConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantLlmConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which TenantLlmConfigs to fetch.
+     */
+    where?: TenantLlmConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TenantLlmConfigs to fetch.
+     */
+    orderBy?: TenantLlmConfigOrderByWithRelationInput | TenantLlmConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TenantLlmConfigs.
+     */
+    cursor?: TenantLlmConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TenantLlmConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TenantLlmConfigs.
+     */
+    skip?: number
+    distinct?: TenantLlmConfigScalarFieldEnum | TenantLlmConfigScalarFieldEnum[]
+  }
+
+  /**
+   * TenantLlmConfig create
+   */
+  export type TenantLlmConfigCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantLlmConfig
+     */
+    select?: TenantLlmConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantLlmConfig
+     */
+    omit?: TenantLlmConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantLlmConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TenantLlmConfig.
+     */
+    data: XOR<TenantLlmConfigCreateInput, TenantLlmConfigUncheckedCreateInput>
+  }
+
+  /**
+   * TenantLlmConfig createMany
+   */
+  export type TenantLlmConfigCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TenantLlmConfigs.
+     */
+    data: TenantLlmConfigCreateManyInput | TenantLlmConfigCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TenantLlmConfig createManyAndReturn
+   */
+  export type TenantLlmConfigCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantLlmConfig
+     */
+    select?: TenantLlmConfigSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantLlmConfig
+     */
+    omit?: TenantLlmConfigOmit<ExtArgs> | null
+    /**
+     * The data used to create many TenantLlmConfigs.
+     */
+    data: TenantLlmConfigCreateManyInput | TenantLlmConfigCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantLlmConfigIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TenantLlmConfig update
+   */
+  export type TenantLlmConfigUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantLlmConfig
+     */
+    select?: TenantLlmConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantLlmConfig
+     */
+    omit?: TenantLlmConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantLlmConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TenantLlmConfig.
+     */
+    data: XOR<TenantLlmConfigUpdateInput, TenantLlmConfigUncheckedUpdateInput>
+    /**
+     * Choose, which TenantLlmConfig to update.
+     */
+    where: TenantLlmConfigWhereUniqueInput
+  }
+
+  /**
+   * TenantLlmConfig updateMany
+   */
+  export type TenantLlmConfigUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TenantLlmConfigs.
+     */
+    data: XOR<TenantLlmConfigUpdateManyMutationInput, TenantLlmConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which TenantLlmConfigs to update
+     */
+    where?: TenantLlmConfigWhereInput
+    /**
+     * Limit how many TenantLlmConfigs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TenantLlmConfig updateManyAndReturn
+   */
+  export type TenantLlmConfigUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantLlmConfig
+     */
+    select?: TenantLlmConfigSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantLlmConfig
+     */
+    omit?: TenantLlmConfigOmit<ExtArgs> | null
+    /**
+     * The data used to update TenantLlmConfigs.
+     */
+    data: XOR<TenantLlmConfigUpdateManyMutationInput, TenantLlmConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which TenantLlmConfigs to update
+     */
+    where?: TenantLlmConfigWhereInput
+    /**
+     * Limit how many TenantLlmConfigs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantLlmConfigIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TenantLlmConfig upsert
+   */
+  export type TenantLlmConfigUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantLlmConfig
+     */
+    select?: TenantLlmConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantLlmConfig
+     */
+    omit?: TenantLlmConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantLlmConfigInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TenantLlmConfig to update in case it exists.
+     */
+    where: TenantLlmConfigWhereUniqueInput
+    /**
+     * In case the TenantLlmConfig found by the `where` argument doesn't exist, create a new TenantLlmConfig with this data.
+     */
+    create: XOR<TenantLlmConfigCreateInput, TenantLlmConfigUncheckedCreateInput>
+    /**
+     * In case the TenantLlmConfig was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TenantLlmConfigUpdateInput, TenantLlmConfigUncheckedUpdateInput>
+  }
+
+  /**
+   * TenantLlmConfig delete
+   */
+  export type TenantLlmConfigDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantLlmConfig
+     */
+    select?: TenantLlmConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantLlmConfig
+     */
+    omit?: TenantLlmConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantLlmConfigInclude<ExtArgs> | null
+    /**
+     * Filter which TenantLlmConfig to delete.
+     */
+    where: TenantLlmConfigWhereUniqueInput
+  }
+
+  /**
+   * TenantLlmConfig deleteMany
+   */
+  export type TenantLlmConfigDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TenantLlmConfigs to delete
+     */
+    where?: TenantLlmConfigWhereInput
+    /**
+     * Limit how many TenantLlmConfigs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TenantLlmConfig without action
+   */
+  export type TenantLlmConfigDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TenantLlmConfig
+     */
+    select?: TenantLlmConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TenantLlmConfig
+     */
+    omit?: TenantLlmConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TenantLlmConfigInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -14308,6 +16562,10 @@ export namespace Prisma {
     phone: 'phone',
     name: 'name',
     passwordHash: 'passwordHash',
+    avatar: 'avatar',
+    gender: 'gender',
+    jobTitle: 'jobTitle',
+    workLocation: 'workLocation',
     createdAt: 'createdAt'
   };
 
@@ -14322,6 +16580,21 @@ export namespace Prisma {
   };
 
   export type TenantUserScalarFieldEnum = (typeof TenantUserScalarFieldEnum)[keyof typeof TenantUserScalarFieldEnum]
+
+
+  export const TenantInvitationScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    email: 'email',
+    role: 'role',
+    token: 'token',
+    invitedBy: 'invitedBy',
+    expiresAt: 'expiresAt',
+    acceptedAt: 'acceptedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type TenantInvitationScalarFieldEnum = (typeof TenantInvitationScalarFieldEnum)[keyof typeof TenantInvitationScalarFieldEnum]
 
 
   export const TeamScalarFieldEnum: {
@@ -14422,6 +16695,20 @@ export namespace Prisma {
   };
 
   export type ApiKeyScalarFieldEnum = (typeof ApiKeyScalarFieldEnum)[keyof typeof ApiKeyScalarFieldEnum]
+
+
+  export const TenantLlmConfigScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    provider: 'provider',
+    apiKeyEnc: 'apiKeyEnc',
+    baseUrl: 'baseUrl',
+    model: 'model',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TenantLlmConfigScalarFieldEnum = (typeof TenantLlmConfigScalarFieldEnum)[keyof typeof TenantLlmConfigScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -14571,7 +16858,8 @@ export namespace Prisma {
     teams?: TeamListRelationFilter
     robots?: RobotListRelationFilter
     apiKeys?: ApiKeyListRelationFilter
-    files?: WorkspaceFileListRelationFilter
+    llmConfig?: XOR<TenantLlmConfigNullableScalarRelationFilter, TenantLlmConfigWhereInput> | null
+    invitations?: TenantInvitationListRelationFilter
   }
 
   export type TenantOrderByWithRelationInput = {
@@ -14585,7 +16873,8 @@ export namespace Prisma {
     teams?: TeamOrderByRelationAggregateInput
     robots?: RobotOrderByRelationAggregateInput
     apiKeys?: ApiKeyOrderByRelationAggregateInput
-    files?: WorkspaceFileOrderByRelationAggregateInput
+    llmConfig?: TenantLlmConfigOrderByWithRelationInput
+    invitations?: TenantInvitationOrderByRelationAggregateInput
   }
 
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -14602,7 +16891,8 @@ export namespace Prisma {
     teams?: TeamListRelationFilter
     robots?: RobotListRelationFilter
     apiKeys?: ApiKeyListRelationFilter
-    files?: WorkspaceFileListRelationFilter
+    llmConfig?: XOR<TenantLlmConfigNullableScalarRelationFilter, TenantLlmConfigWhereInput> | null
+    invitations?: TenantInvitationListRelationFilter
   }, "id" | "slug">
 
   export type TenantOrderByWithAggregationInput = {
@@ -14638,6 +16928,10 @@ export namespace Prisma {
     phone?: StringNullableFilter<"User"> | string | null
     name?: StringFilter<"User"> | string
     passwordHash?: StringFilter<"User"> | string
+    avatar?: StringNullableFilter<"User"> | string | null
+    gender?: StringNullableFilter<"User"> | string | null
+    jobTitle?: StringNullableFilter<"User"> | string | null
+    workLocation?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     tenants?: TenantUserListRelationFilter
     apiKeys?: ApiKeyListRelationFilter
@@ -14649,6 +16943,10 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     name?: SortOrder
     passwordHash?: SortOrder
+    avatar?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    jobTitle?: SortOrderInput | SortOrder
+    workLocation?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     tenants?: TenantUserOrderByRelationAggregateInput
     apiKeys?: ApiKeyOrderByRelationAggregateInput
@@ -14663,6 +16961,10 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
     passwordHash?: StringFilter<"User"> | string
+    avatar?: StringNullableFilter<"User"> | string | null
+    gender?: StringNullableFilter<"User"> | string | null
+    jobTitle?: StringNullableFilter<"User"> | string | null
+    workLocation?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     tenants?: TenantUserListRelationFilter
     apiKeys?: ApiKeyListRelationFilter
@@ -14674,6 +16976,10 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     name?: SortOrder
     passwordHash?: SortOrder
+    avatar?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    jobTitle?: SortOrderInput | SortOrder
+    workLocation?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -14689,6 +16995,10 @@ export namespace Prisma {
     phone?: StringNullableWithAggregatesFilter<"User"> | string | null
     name?: StringWithAggregatesFilter<"User"> | string
     passwordHash?: StringWithAggregatesFilter<"User"> | string
+    avatar?: StringNullableWithAggregatesFilter<"User"> | string | null
+    gender?: StringNullableWithAggregatesFilter<"User"> | string | null
+    jobTitle?: StringNullableWithAggregatesFilter<"User"> | string | null
+    workLocation?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
@@ -14746,6 +17056,81 @@ export namespace Prisma {
     joinedAt?: DateTimeWithAggregatesFilter<"TenantUser"> | Date | string
   }
 
+  export type TenantInvitationWhereInput = {
+    AND?: TenantInvitationWhereInput | TenantInvitationWhereInput[]
+    OR?: TenantInvitationWhereInput[]
+    NOT?: TenantInvitationWhereInput | TenantInvitationWhereInput[]
+    id?: StringFilter<"TenantInvitation"> | string
+    tenantId?: StringFilter<"TenantInvitation"> | string
+    email?: StringFilter<"TenantInvitation"> | string
+    role?: StringFilter<"TenantInvitation"> | string
+    token?: StringFilter<"TenantInvitation"> | string
+    invitedBy?: StringFilter<"TenantInvitation"> | string
+    expiresAt?: DateTimeFilter<"TenantInvitation"> | Date | string
+    acceptedAt?: DateTimeNullableFilter<"TenantInvitation"> | Date | string | null
+    createdAt?: DateTimeFilter<"TenantInvitation"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type TenantInvitationOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    email?: SortOrder
+    role?: SortOrder
+    token?: SortOrder
+    invitedBy?: SortOrder
+    expiresAt?: SortOrder
+    acceptedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type TenantInvitationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    token?: string
+    AND?: TenantInvitationWhereInput | TenantInvitationWhereInput[]
+    OR?: TenantInvitationWhereInput[]
+    NOT?: TenantInvitationWhereInput | TenantInvitationWhereInput[]
+    tenantId?: StringFilter<"TenantInvitation"> | string
+    email?: StringFilter<"TenantInvitation"> | string
+    role?: StringFilter<"TenantInvitation"> | string
+    invitedBy?: StringFilter<"TenantInvitation"> | string
+    expiresAt?: DateTimeFilter<"TenantInvitation"> | Date | string
+    acceptedAt?: DateTimeNullableFilter<"TenantInvitation"> | Date | string | null
+    createdAt?: DateTimeFilter<"TenantInvitation"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "token">
+
+  export type TenantInvitationOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    email?: SortOrder
+    role?: SortOrder
+    token?: SortOrder
+    invitedBy?: SortOrder
+    expiresAt?: SortOrder
+    acceptedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: TenantInvitationCountOrderByAggregateInput
+    _max?: TenantInvitationMaxOrderByAggregateInput
+    _min?: TenantInvitationMinOrderByAggregateInput
+  }
+
+  export type TenantInvitationScalarWhereWithAggregatesInput = {
+    AND?: TenantInvitationScalarWhereWithAggregatesInput | TenantInvitationScalarWhereWithAggregatesInput[]
+    OR?: TenantInvitationScalarWhereWithAggregatesInput[]
+    NOT?: TenantInvitationScalarWhereWithAggregatesInput | TenantInvitationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TenantInvitation"> | string
+    tenantId?: StringWithAggregatesFilter<"TenantInvitation"> | string
+    email?: StringWithAggregatesFilter<"TenantInvitation"> | string
+    role?: StringWithAggregatesFilter<"TenantInvitation"> | string
+    token?: StringWithAggregatesFilter<"TenantInvitation"> | string
+    invitedBy?: StringWithAggregatesFilter<"TenantInvitation"> | string
+    expiresAt?: DateTimeWithAggregatesFilter<"TenantInvitation"> | Date | string
+    acceptedAt?: DateTimeNullableWithAggregatesFilter<"TenantInvitation"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"TenantInvitation"> | Date | string
+  }
+
   export type TeamWhereInput = {
     AND?: TeamWhereInput | TeamWhereInput[]
     OR?: TeamWhereInput[]
@@ -14757,7 +17142,6 @@ export namespace Prisma {
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     members?: TeamMemberListRelationFilter
     groups?: ChatGroupListRelationFilter
-    files?: WorkspaceFileListRelationFilter
   }
 
   export type TeamOrderByWithRelationInput = {
@@ -14768,7 +17152,6 @@ export namespace Prisma {
     tenant?: TenantOrderByWithRelationInput
     members?: TeamMemberOrderByRelationAggregateInput
     groups?: ChatGroupOrderByRelationAggregateInput
-    files?: WorkspaceFileOrderByRelationAggregateInput
   }
 
   export type TeamWhereUniqueInput = Prisma.AtLeast<{
@@ -14782,7 +17165,6 @@ export namespace Prisma {
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
     members?: TeamMemberListRelationFilter
     groups?: ChatGroupListRelationFilter
-    files?: WorkspaceFileListRelationFilter
   }, "id">
 
   export type TeamOrderByWithAggregationInput = {
@@ -14948,7 +17330,6 @@ export namespace Prisma {
     team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
     members?: ChatGroupMemberListRelationFilter
     messages?: MessageListRelationFilter
-    files?: WorkspaceFileListRelationFilter
   }
 
   export type ChatGroupOrderByWithRelationInput = {
@@ -14960,7 +17341,6 @@ export namespace Prisma {
     team?: TeamOrderByWithRelationInput
     members?: ChatGroupMemberOrderByRelationAggregateInput
     messages?: MessageOrderByRelationAggregateInput
-    files?: WorkspaceFileOrderByRelationAggregateInput
   }
 
   export type ChatGroupWhereUniqueInput = Prisma.AtLeast<{
@@ -14975,7 +17355,6 @@ export namespace Prisma {
     team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
     members?: ChatGroupMemberListRelationFilter
     messages?: MessageListRelationFilter
-    files?: WorkspaceFileListRelationFilter
   }, "id">
 
   export type ChatGroupOrderByWithAggregationInput = {
@@ -15134,9 +17513,6 @@ export namespace Prisma {
     scope?: StringFilter<"WorkspaceFile"> | string
     scopeId?: StringFilter<"WorkspaceFile"> | string
     createdAt?: DateTimeFilter<"WorkspaceFile"> | Date | string
-    tenant?: XOR<TenantNullableScalarRelationFilter, TenantWhereInput> | null
-    team?: XOR<TeamNullableScalarRelationFilter, TeamWhereInput> | null
-    chatGroup?: XOR<ChatGroupNullableScalarRelationFilter, ChatGroupWhereInput> | null
   }
 
   export type WorkspaceFileOrderByWithRelationInput = {
@@ -15149,9 +17525,6 @@ export namespace Prisma {
     scope?: SortOrder
     scopeId?: SortOrder
     createdAt?: SortOrder
-    tenant?: TenantOrderByWithRelationInput
-    team?: TeamOrderByWithRelationInput
-    chatGroup?: ChatGroupOrderByWithRelationInput
   }
 
   export type WorkspaceFileWhereUniqueInput = Prisma.AtLeast<{
@@ -15167,9 +17540,6 @@ export namespace Prisma {
     scope?: StringFilter<"WorkspaceFile"> | string
     scopeId?: StringFilter<"WorkspaceFile"> | string
     createdAt?: DateTimeFilter<"WorkspaceFile"> | Date | string
-    tenant?: XOR<TenantNullableScalarRelationFilter, TenantWhereInput> | null
-    team?: XOR<TeamNullableScalarRelationFilter, TeamWhereInput> | null
-    chatGroup?: XOR<ChatGroupNullableScalarRelationFilter, ChatGroupWhereInput> | null
   }, "id">
 
   export type WorkspaceFileOrderByWithAggregationInput = {
@@ -15277,6 +17647,76 @@ export namespace Prisma {
     expiresAt?: DateTimeNullableWithAggregatesFilter<"ApiKey"> | Date | string | null
   }
 
+  export type TenantLlmConfigWhereInput = {
+    AND?: TenantLlmConfigWhereInput | TenantLlmConfigWhereInput[]
+    OR?: TenantLlmConfigWhereInput[]
+    NOT?: TenantLlmConfigWhereInput | TenantLlmConfigWhereInput[]
+    id?: StringFilter<"TenantLlmConfig"> | string
+    tenantId?: StringFilter<"TenantLlmConfig"> | string
+    provider?: StringFilter<"TenantLlmConfig"> | string
+    apiKeyEnc?: StringFilter<"TenantLlmConfig"> | string
+    baseUrl?: StringNullableFilter<"TenantLlmConfig"> | string | null
+    model?: StringNullableFilter<"TenantLlmConfig"> | string | null
+    createdAt?: DateTimeFilter<"TenantLlmConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"TenantLlmConfig"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }
+
+  export type TenantLlmConfigOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    provider?: SortOrder
+    apiKeyEnc?: SortOrder
+    baseUrl?: SortOrderInput | SortOrder
+    model?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tenant?: TenantOrderByWithRelationInput
+  }
+
+  export type TenantLlmConfigWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tenantId?: string
+    AND?: TenantLlmConfigWhereInput | TenantLlmConfigWhereInput[]
+    OR?: TenantLlmConfigWhereInput[]
+    NOT?: TenantLlmConfigWhereInput | TenantLlmConfigWhereInput[]
+    provider?: StringFilter<"TenantLlmConfig"> | string
+    apiKeyEnc?: StringFilter<"TenantLlmConfig"> | string
+    baseUrl?: StringNullableFilter<"TenantLlmConfig"> | string | null
+    model?: StringNullableFilter<"TenantLlmConfig"> | string | null
+    createdAt?: DateTimeFilter<"TenantLlmConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"TenantLlmConfig"> | Date | string
+    tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+  }, "id" | "tenantId">
+
+  export type TenantLlmConfigOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    provider?: SortOrder
+    apiKeyEnc?: SortOrder
+    baseUrl?: SortOrderInput | SortOrder
+    model?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TenantLlmConfigCountOrderByAggregateInput
+    _max?: TenantLlmConfigMaxOrderByAggregateInput
+    _min?: TenantLlmConfigMinOrderByAggregateInput
+  }
+
+  export type TenantLlmConfigScalarWhereWithAggregatesInput = {
+    AND?: TenantLlmConfigScalarWhereWithAggregatesInput | TenantLlmConfigScalarWhereWithAggregatesInput[]
+    OR?: TenantLlmConfigScalarWhereWithAggregatesInput[]
+    NOT?: TenantLlmConfigScalarWhereWithAggregatesInput | TenantLlmConfigScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TenantLlmConfig"> | string
+    tenantId?: StringWithAggregatesFilter<"TenantLlmConfig"> | string
+    provider?: StringWithAggregatesFilter<"TenantLlmConfig"> | string
+    apiKeyEnc?: StringWithAggregatesFilter<"TenantLlmConfig"> | string
+    baseUrl?: StringNullableWithAggregatesFilter<"TenantLlmConfig"> | string | null
+    model?: StringNullableWithAggregatesFilter<"TenantLlmConfig"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"TenantLlmConfig"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TenantLlmConfig"> | Date | string
+  }
+
   export type TenantCreateInput = {
     id?: string
     name: string
@@ -15288,7 +17728,8 @@ export namespace Prisma {
     teams?: TeamCreateNestedManyWithoutTenantInput
     robots?: RobotCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
-    files?: WorkspaceFileCreateNestedManyWithoutTenantInput
+    llmConfig?: TenantLlmConfigCreateNestedOneWithoutTenantInput
+    invitations?: TenantInvitationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateInput = {
@@ -15302,7 +17743,8 @@ export namespace Prisma {
     teams?: TeamUncheckedCreateNestedManyWithoutTenantInput
     robots?: RobotUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
-    files?: WorkspaceFileUncheckedCreateNestedManyWithoutTenantInput
+    llmConfig?: TenantLlmConfigUncheckedCreateNestedOneWithoutTenantInput
+    invitations?: TenantInvitationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUpdateInput = {
@@ -15316,7 +17758,8 @@ export namespace Prisma {
     teams?: TeamUpdateManyWithoutTenantNestedInput
     robots?: RobotUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
-    files?: WorkspaceFileUpdateManyWithoutTenantNestedInput
+    llmConfig?: TenantLlmConfigUpdateOneWithoutTenantNestedInput
+    invitations?: TenantInvitationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateInput = {
@@ -15330,7 +17773,8 @@ export namespace Prisma {
     teams?: TeamUncheckedUpdateManyWithoutTenantNestedInput
     robots?: RobotUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
-    files?: WorkspaceFileUncheckedUpdateManyWithoutTenantNestedInput
+    llmConfig?: TenantLlmConfigUncheckedUpdateOneWithoutTenantNestedInput
+    invitations?: TenantInvitationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantCreateManyInput = {
@@ -15366,6 +17810,10 @@ export namespace Prisma {
     phone?: string | null
     name: string
     passwordHash: string
+    avatar?: string | null
+    gender?: string | null
+    jobTitle?: string | null
+    workLocation?: string | null
     createdAt?: Date | string
     tenants?: TenantUserCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
@@ -15377,6 +17825,10 @@ export namespace Prisma {
     phone?: string | null
     name: string
     passwordHash: string
+    avatar?: string | null
+    gender?: string | null
+    jobTitle?: string | null
+    workLocation?: string | null
     createdAt?: Date | string
     tenants?: TenantUserUncheckedCreateNestedManyWithoutUserInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
@@ -15388,6 +17840,10 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    jobTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenants?: TenantUserUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
@@ -15399,6 +17855,10 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    jobTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenants?: TenantUserUncheckedUpdateManyWithoutUserNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
@@ -15410,6 +17870,10 @@ export namespace Prisma {
     phone?: string | null
     name: string
     passwordHash: string
+    avatar?: string | null
+    gender?: string | null
+    jobTitle?: string | null
+    workLocation?: string | null
     createdAt?: Date | string
   }
 
@@ -15419,6 +17883,10 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    jobTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -15428,6 +17896,10 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    jobTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -15478,6 +17950,89 @@ export namespace Prisma {
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TenantInvitationCreateInput = {
+    id?: string
+    email: string
+    role: string
+    token: string
+    invitedBy: string
+    expiresAt: Date | string
+    acceptedAt?: Date | string | null
+    createdAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutInvitationsInput
+  }
+
+  export type TenantInvitationUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    email: string
+    role: string
+    token: string
+    invitedBy: string
+    expiresAt: Date | string
+    acceptedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type TenantInvitationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    invitedBy?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutInvitationsNestedInput
+  }
+
+  export type TenantInvitationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    invitedBy?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantInvitationCreateManyInput = {
+    id?: string
+    tenantId: string
+    email: string
+    role: string
+    token: string
+    invitedBy: string
+    expiresAt: Date | string
+    acceptedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type TenantInvitationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    invitedBy?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantInvitationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    invitedBy?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TeamCreateInput = {
     id?: string
     name: string
@@ -15485,7 +18040,6 @@ export namespace Prisma {
     tenant: TenantCreateNestedOneWithoutTeamsInput
     members?: TeamMemberCreateNestedManyWithoutTeamInput
     groups?: ChatGroupCreateNestedManyWithoutTeamInput
-    files?: WorkspaceFileCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateInput = {
@@ -15495,7 +18049,6 @@ export namespace Prisma {
     createdAt?: Date | string
     members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
     groups?: ChatGroupUncheckedCreateNestedManyWithoutTeamInput
-    files?: WorkspaceFileUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUpdateInput = {
@@ -15505,7 +18058,6 @@ export namespace Prisma {
     tenant?: TenantUpdateOneRequiredWithoutTeamsNestedInput
     members?: TeamMemberUpdateManyWithoutTeamNestedInput
     groups?: ChatGroupUpdateManyWithoutTeamNestedInput
-    files?: WorkspaceFileUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateInput = {
@@ -15515,7 +18067,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
     groups?: ChatGroupUncheckedUpdateManyWithoutTeamNestedInput
-    files?: WorkspaceFileUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateManyInput = {
@@ -15684,7 +18235,6 @@ export namespace Prisma {
     team: TeamCreateNestedOneWithoutGroupsInput
     members?: ChatGroupMemberCreateNestedManyWithoutGroupInput
     messages?: MessageCreateNestedManyWithoutGroupInput
-    files?: WorkspaceFileCreateNestedManyWithoutChatGroupInput
   }
 
   export type ChatGroupUncheckedCreateInput = {
@@ -15695,7 +18245,6 @@ export namespace Prisma {
     createdAt?: Date | string
     members?: ChatGroupMemberUncheckedCreateNestedManyWithoutGroupInput
     messages?: MessageUncheckedCreateNestedManyWithoutGroupInput
-    files?: WorkspaceFileUncheckedCreateNestedManyWithoutChatGroupInput
   }
 
   export type ChatGroupUpdateInput = {
@@ -15706,7 +18255,6 @@ export namespace Prisma {
     team?: TeamUpdateOneRequiredWithoutGroupsNestedInput
     members?: ChatGroupMemberUpdateManyWithoutGroupNestedInput
     messages?: MessageUpdateManyWithoutGroupNestedInput
-    files?: WorkspaceFileUpdateManyWithoutChatGroupNestedInput
   }
 
   export type ChatGroupUncheckedUpdateInput = {
@@ -15717,7 +18265,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ChatGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
     messages?: MessageUncheckedUpdateManyWithoutGroupNestedInput
-    files?: WorkspaceFileUncheckedUpdateManyWithoutChatGroupNestedInput
   }
 
   export type ChatGroupCreateManyInput = {
@@ -15875,10 +18422,8 @@ export namespace Prisma {
     size: bigint | number
     uploadedById: string
     scope: string
+    scopeId: string
     createdAt?: Date | string
-    tenant?: TenantCreateNestedOneWithoutFilesInput
-    team?: TeamCreateNestedOneWithoutFilesInput
-    chatGroup?: ChatGroupCreateNestedOneWithoutFilesInput
   }
 
   export type WorkspaceFileUncheckedCreateInput = {
@@ -15901,10 +18446,8 @@ export namespace Prisma {
     size?: BigIntFieldUpdateOperationsInput | bigint | number
     uploadedById?: StringFieldUpdateOperationsInput | string
     scope?: StringFieldUpdateOperationsInput | string
+    scopeId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tenant?: TenantUpdateOneWithoutFilesNestedInput
-    team?: TeamUpdateOneWithoutFilesNestedInput
-    chatGroup?: ChatGroupUpdateOneWithoutFilesNestedInput
   }
 
   export type WorkspaceFileUncheckedUpdateInput = {
@@ -15939,6 +18482,7 @@ export namespace Prisma {
     size?: BigIntFieldUpdateOperationsInput | bigint | number
     uploadedById?: StringFieldUpdateOperationsInput | string
     scope?: StringFieldUpdateOperationsInput | string
+    scopeId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -16029,6 +18573,82 @@ export namespace Prisma {
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type TenantLlmConfigCreateInput = {
+    id?: string
+    provider: string
+    apiKeyEnc: string
+    baseUrl?: string | null
+    model?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutLlmConfigInput
+  }
+
+  export type TenantLlmConfigUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    provider: string
+    apiKeyEnc: string
+    baseUrl?: string | null
+    model?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TenantLlmConfigUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    apiKeyEnc?: StringFieldUpdateOperationsInput | string
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutLlmConfigNestedInput
+  }
+
+  export type TenantLlmConfigUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    apiKeyEnc?: StringFieldUpdateOperationsInput | string
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantLlmConfigCreateManyInput = {
+    id?: string
+    tenantId: string
+    provider: string
+    apiKeyEnc: string
+    baseUrl?: string | null
+    model?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TenantLlmConfigUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    apiKeyEnc?: StringFieldUpdateOperationsInput | string
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantLlmConfigUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    apiKeyEnc?: StringFieldUpdateOperationsInput | string
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -16079,10 +18699,15 @@ export namespace Prisma {
     none?: ApiKeyWhereInput
   }
 
-  export type WorkspaceFileListRelationFilter = {
-    every?: WorkspaceFileWhereInput
-    some?: WorkspaceFileWhereInput
-    none?: WorkspaceFileWhereInput
+  export type TenantLlmConfigNullableScalarRelationFilter = {
+    is?: TenantLlmConfigWhereInput | null
+    isNot?: TenantLlmConfigWhereInput | null
+  }
+
+  export type TenantInvitationListRelationFilter = {
+    every?: TenantInvitationWhereInput
+    some?: TenantInvitationWhereInput
+    none?: TenantInvitationWhereInput
   }
 
   export type TenantUserOrderByRelationAggregateInput = {
@@ -16101,7 +18726,7 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type WorkspaceFileOrderByRelationAggregateInput = {
+  export type TenantInvitationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16190,6 +18815,10 @@ export namespace Prisma {
     phone?: SortOrder
     name?: SortOrder
     passwordHash?: SortOrder
+    avatar?: SortOrder
+    gender?: SortOrder
+    jobTitle?: SortOrder
+    workLocation?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -16199,6 +18828,10 @@ export namespace Prisma {
     phone?: SortOrder
     name?: SortOrder
     passwordHash?: SortOrder
+    avatar?: SortOrder
+    gender?: SortOrder
+    jobTitle?: SortOrder
+    workLocation?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -16208,6 +18841,10 @@ export namespace Prisma {
     phone?: SortOrder
     name?: SortOrder
     passwordHash?: SortOrder
+    avatar?: SortOrder
+    gender?: SortOrder
+    jobTitle?: SortOrder
+    workLocation?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -16263,6 +18900,67 @@ export namespace Prisma {
     tenantId?: SortOrder
     role?: SortOrder
     joinedAt?: SortOrder
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type TenantInvitationCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    email?: SortOrder
+    role?: SortOrder
+    token?: SortOrder
+    invitedBy?: SortOrder
+    expiresAt?: SortOrder
+    acceptedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TenantInvitationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    email?: SortOrder
+    role?: SortOrder
+    token?: SortOrder
+    invitedBy?: SortOrder
+    expiresAt?: SortOrder
+    acceptedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TenantInvitationMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    email?: SortOrder
+    role?: SortOrder
+    token?: SortOrder
+    invitedBy?: SortOrder
+    expiresAt?: SortOrder
+    acceptedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type TeamMemberListRelationFilter = {
@@ -16337,17 +19035,6 @@ export namespace Prisma {
     joinedAt?: SortOrder
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type RobotCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -16385,20 +19072,6 @@ export namespace Prisma {
     tokenExpiresAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type ChatGroupMemberListRelationFilter = {
@@ -16567,21 +19240,6 @@ export namespace Prisma {
     not?: NestedBigIntFilter<$PrismaModel> | bigint | number
   }
 
-  export type TenantNullableScalarRelationFilter = {
-    is?: TenantWhereInput | null
-    isNot?: TenantWhereInput | null
-  }
-
-  export type TeamNullableScalarRelationFilter = {
-    is?: TeamWhereInput | null
-    isNot?: TeamWhereInput | null
-  }
-
-  export type ChatGroupNullableScalarRelationFilter = {
-    is?: ChatGroupWhereInput | null
-    isNot?: ChatGroupWhereInput | null
-  }
-
   export type WorkspaceFileCountOrderByAggregateInput = {
     id?: SortOrder
     path?: SortOrder
@@ -16642,6 +19300,11 @@ export namespace Prisma {
     _max?: NestedBigIntFilter<$PrismaModel>
   }
 
+  export type TenantNullableScalarRelationFilter = {
+    is?: TenantWhereInput | null
+    isNot?: TenantWhereInput | null
+  }
+
   export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
@@ -16680,6 +19343,39 @@ export namespace Prisma {
     expiresAt?: SortOrder
   }
 
+  export type TenantLlmConfigCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    provider?: SortOrder
+    apiKeyEnc?: SortOrder
+    baseUrl?: SortOrder
+    model?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TenantLlmConfigMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    provider?: SortOrder
+    apiKeyEnc?: SortOrder
+    baseUrl?: SortOrder
+    model?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TenantLlmConfigMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    provider?: SortOrder
+    apiKeyEnc?: SortOrder
+    baseUrl?: SortOrder
+    model?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type TenantUserCreateNestedManyWithoutTenantInput = {
     create?: XOR<TenantUserCreateWithoutTenantInput, TenantUserUncheckedCreateWithoutTenantInput> | TenantUserCreateWithoutTenantInput[] | TenantUserUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: TenantUserCreateOrConnectWithoutTenantInput | TenantUserCreateOrConnectWithoutTenantInput[]
@@ -16708,11 +19404,17 @@ export namespace Prisma {
     connect?: ApiKeyWhereUniqueInput | ApiKeyWhereUniqueInput[]
   }
 
-  export type WorkspaceFileCreateNestedManyWithoutTenantInput = {
-    create?: XOR<WorkspaceFileCreateWithoutTenantInput, WorkspaceFileUncheckedCreateWithoutTenantInput> | WorkspaceFileCreateWithoutTenantInput[] | WorkspaceFileUncheckedCreateWithoutTenantInput[]
-    connectOrCreate?: WorkspaceFileCreateOrConnectWithoutTenantInput | WorkspaceFileCreateOrConnectWithoutTenantInput[]
-    createMany?: WorkspaceFileCreateManyTenantInputEnvelope
-    connect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
+  export type TenantLlmConfigCreateNestedOneWithoutTenantInput = {
+    create?: XOR<TenantLlmConfigCreateWithoutTenantInput, TenantLlmConfigUncheckedCreateWithoutTenantInput>
+    connectOrCreate?: TenantLlmConfigCreateOrConnectWithoutTenantInput
+    connect?: TenantLlmConfigWhereUniqueInput
+  }
+
+  export type TenantInvitationCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TenantInvitationCreateWithoutTenantInput, TenantInvitationUncheckedCreateWithoutTenantInput> | TenantInvitationCreateWithoutTenantInput[] | TenantInvitationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TenantInvitationCreateOrConnectWithoutTenantInput | TenantInvitationCreateOrConnectWithoutTenantInput[]
+    createMany?: TenantInvitationCreateManyTenantInputEnvelope
+    connect?: TenantInvitationWhereUniqueInput | TenantInvitationWhereUniqueInput[]
   }
 
   export type TenantUserUncheckedCreateNestedManyWithoutTenantInput = {
@@ -16743,11 +19445,17 @@ export namespace Prisma {
     connect?: ApiKeyWhereUniqueInput | ApiKeyWhereUniqueInput[]
   }
 
-  export type WorkspaceFileUncheckedCreateNestedManyWithoutTenantInput = {
-    create?: XOR<WorkspaceFileCreateWithoutTenantInput, WorkspaceFileUncheckedCreateWithoutTenantInput> | WorkspaceFileCreateWithoutTenantInput[] | WorkspaceFileUncheckedCreateWithoutTenantInput[]
-    connectOrCreate?: WorkspaceFileCreateOrConnectWithoutTenantInput | WorkspaceFileCreateOrConnectWithoutTenantInput[]
-    createMany?: WorkspaceFileCreateManyTenantInputEnvelope
-    connect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
+  export type TenantLlmConfigUncheckedCreateNestedOneWithoutTenantInput = {
+    create?: XOR<TenantLlmConfigCreateWithoutTenantInput, TenantLlmConfigUncheckedCreateWithoutTenantInput>
+    connectOrCreate?: TenantLlmConfigCreateOrConnectWithoutTenantInput
+    connect?: TenantLlmConfigWhereUniqueInput
+  }
+
+  export type TenantInvitationUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<TenantInvitationCreateWithoutTenantInput, TenantInvitationUncheckedCreateWithoutTenantInput> | TenantInvitationCreateWithoutTenantInput[] | TenantInvitationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TenantInvitationCreateOrConnectWithoutTenantInput | TenantInvitationCreateOrConnectWithoutTenantInput[]
+    createMany?: TenantInvitationCreateManyTenantInputEnvelope
+    connect?: TenantInvitationWhereUniqueInput | TenantInvitationWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -16814,18 +19522,28 @@ export namespace Prisma {
     deleteMany?: ApiKeyScalarWhereInput | ApiKeyScalarWhereInput[]
   }
 
-  export type WorkspaceFileUpdateManyWithoutTenantNestedInput = {
-    create?: XOR<WorkspaceFileCreateWithoutTenantInput, WorkspaceFileUncheckedCreateWithoutTenantInput> | WorkspaceFileCreateWithoutTenantInput[] | WorkspaceFileUncheckedCreateWithoutTenantInput[]
-    connectOrCreate?: WorkspaceFileCreateOrConnectWithoutTenantInput | WorkspaceFileCreateOrConnectWithoutTenantInput[]
-    upsert?: WorkspaceFileUpsertWithWhereUniqueWithoutTenantInput | WorkspaceFileUpsertWithWhereUniqueWithoutTenantInput[]
-    createMany?: WorkspaceFileCreateManyTenantInputEnvelope
-    set?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    disconnect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    delete?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    connect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    update?: WorkspaceFileUpdateWithWhereUniqueWithoutTenantInput | WorkspaceFileUpdateWithWhereUniqueWithoutTenantInput[]
-    updateMany?: WorkspaceFileUpdateManyWithWhereWithoutTenantInput | WorkspaceFileUpdateManyWithWhereWithoutTenantInput[]
-    deleteMany?: WorkspaceFileScalarWhereInput | WorkspaceFileScalarWhereInput[]
+  export type TenantLlmConfigUpdateOneWithoutTenantNestedInput = {
+    create?: XOR<TenantLlmConfigCreateWithoutTenantInput, TenantLlmConfigUncheckedCreateWithoutTenantInput>
+    connectOrCreate?: TenantLlmConfigCreateOrConnectWithoutTenantInput
+    upsert?: TenantLlmConfigUpsertWithoutTenantInput
+    disconnect?: TenantLlmConfigWhereInput | boolean
+    delete?: TenantLlmConfigWhereInput | boolean
+    connect?: TenantLlmConfigWhereUniqueInput
+    update?: XOR<XOR<TenantLlmConfigUpdateToOneWithWhereWithoutTenantInput, TenantLlmConfigUpdateWithoutTenantInput>, TenantLlmConfigUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type TenantInvitationUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TenantInvitationCreateWithoutTenantInput, TenantInvitationUncheckedCreateWithoutTenantInput> | TenantInvitationCreateWithoutTenantInput[] | TenantInvitationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TenantInvitationCreateOrConnectWithoutTenantInput | TenantInvitationCreateOrConnectWithoutTenantInput[]
+    upsert?: TenantInvitationUpsertWithWhereUniqueWithoutTenantInput | TenantInvitationUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TenantInvitationCreateManyTenantInputEnvelope
+    set?: TenantInvitationWhereUniqueInput | TenantInvitationWhereUniqueInput[]
+    disconnect?: TenantInvitationWhereUniqueInput | TenantInvitationWhereUniqueInput[]
+    delete?: TenantInvitationWhereUniqueInput | TenantInvitationWhereUniqueInput[]
+    connect?: TenantInvitationWhereUniqueInput | TenantInvitationWhereUniqueInput[]
+    update?: TenantInvitationUpdateWithWhereUniqueWithoutTenantInput | TenantInvitationUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TenantInvitationUpdateManyWithWhereWithoutTenantInput | TenantInvitationUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TenantInvitationScalarWhereInput | TenantInvitationScalarWhereInput[]
   }
 
   export type TenantUserUncheckedUpdateManyWithoutTenantNestedInput = {
@@ -16884,18 +19602,28 @@ export namespace Prisma {
     deleteMany?: ApiKeyScalarWhereInput | ApiKeyScalarWhereInput[]
   }
 
-  export type WorkspaceFileUncheckedUpdateManyWithoutTenantNestedInput = {
-    create?: XOR<WorkspaceFileCreateWithoutTenantInput, WorkspaceFileUncheckedCreateWithoutTenantInput> | WorkspaceFileCreateWithoutTenantInput[] | WorkspaceFileUncheckedCreateWithoutTenantInput[]
-    connectOrCreate?: WorkspaceFileCreateOrConnectWithoutTenantInput | WorkspaceFileCreateOrConnectWithoutTenantInput[]
-    upsert?: WorkspaceFileUpsertWithWhereUniqueWithoutTenantInput | WorkspaceFileUpsertWithWhereUniqueWithoutTenantInput[]
-    createMany?: WorkspaceFileCreateManyTenantInputEnvelope
-    set?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    disconnect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    delete?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    connect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    update?: WorkspaceFileUpdateWithWhereUniqueWithoutTenantInput | WorkspaceFileUpdateWithWhereUniqueWithoutTenantInput[]
-    updateMany?: WorkspaceFileUpdateManyWithWhereWithoutTenantInput | WorkspaceFileUpdateManyWithWhereWithoutTenantInput[]
-    deleteMany?: WorkspaceFileScalarWhereInput | WorkspaceFileScalarWhereInput[]
+  export type TenantLlmConfigUncheckedUpdateOneWithoutTenantNestedInput = {
+    create?: XOR<TenantLlmConfigCreateWithoutTenantInput, TenantLlmConfigUncheckedCreateWithoutTenantInput>
+    connectOrCreate?: TenantLlmConfigCreateOrConnectWithoutTenantInput
+    upsert?: TenantLlmConfigUpsertWithoutTenantInput
+    disconnect?: TenantLlmConfigWhereInput | boolean
+    delete?: TenantLlmConfigWhereInput | boolean
+    connect?: TenantLlmConfigWhereUniqueInput
+    update?: XOR<XOR<TenantLlmConfigUpdateToOneWithWhereWithoutTenantInput, TenantLlmConfigUpdateWithoutTenantInput>, TenantLlmConfigUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type TenantInvitationUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<TenantInvitationCreateWithoutTenantInput, TenantInvitationUncheckedCreateWithoutTenantInput> | TenantInvitationCreateWithoutTenantInput[] | TenantInvitationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: TenantInvitationCreateOrConnectWithoutTenantInput | TenantInvitationCreateOrConnectWithoutTenantInput[]
+    upsert?: TenantInvitationUpsertWithWhereUniqueWithoutTenantInput | TenantInvitationUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: TenantInvitationCreateManyTenantInputEnvelope
+    set?: TenantInvitationWhereUniqueInput | TenantInvitationWhereUniqueInput[]
+    disconnect?: TenantInvitationWhereUniqueInput | TenantInvitationWhereUniqueInput[]
+    delete?: TenantInvitationWhereUniqueInput | TenantInvitationWhereUniqueInput[]
+    connect?: TenantInvitationWhereUniqueInput | TenantInvitationWhereUniqueInput[]
+    update?: TenantInvitationUpdateWithWhereUniqueWithoutTenantInput | TenantInvitationUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: TenantInvitationUpdateManyWithWhereWithoutTenantInput | TenantInvitationUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: TenantInvitationScalarWhereInput | TenantInvitationScalarWhereInput[]
   }
 
   export type TenantUserCreateNestedManyWithoutUserInput = {
@@ -17014,6 +19742,24 @@ export namespace Prisma {
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutUsersInput, TenantUpdateWithoutUsersInput>, TenantUncheckedUpdateWithoutUsersInput>
   }
 
+  export type TenantCreateNestedOneWithoutInvitationsInput = {
+    create?: XOR<TenantCreateWithoutInvitationsInput, TenantUncheckedCreateWithoutInvitationsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutInvitationsInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type TenantUpdateOneRequiredWithoutInvitationsNestedInput = {
+    create?: XOR<TenantCreateWithoutInvitationsInput, TenantUncheckedCreateWithoutInvitationsInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutInvitationsInput
+    upsert?: TenantUpsertWithoutInvitationsInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutInvitationsInput, TenantUpdateWithoutInvitationsInput>, TenantUncheckedUpdateWithoutInvitationsInput>
+  }
+
   export type TenantCreateNestedOneWithoutTeamsInput = {
     create?: XOR<TenantCreateWithoutTeamsInput, TenantUncheckedCreateWithoutTeamsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutTeamsInput
@@ -17034,13 +19780,6 @@ export namespace Prisma {
     connect?: ChatGroupWhereUniqueInput | ChatGroupWhereUniqueInput[]
   }
 
-  export type WorkspaceFileCreateNestedManyWithoutTeamInput = {
-    create?: XOR<WorkspaceFileCreateWithoutTeamInput, WorkspaceFileUncheckedCreateWithoutTeamInput> | WorkspaceFileCreateWithoutTeamInput[] | WorkspaceFileUncheckedCreateWithoutTeamInput[]
-    connectOrCreate?: WorkspaceFileCreateOrConnectWithoutTeamInput | WorkspaceFileCreateOrConnectWithoutTeamInput[]
-    createMany?: WorkspaceFileCreateManyTeamInputEnvelope
-    connect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-  }
-
   export type TeamMemberUncheckedCreateNestedManyWithoutTeamInput = {
     create?: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput> | TeamMemberCreateWithoutTeamInput[] | TeamMemberUncheckedCreateWithoutTeamInput[]
     connectOrCreate?: TeamMemberCreateOrConnectWithoutTeamInput | TeamMemberCreateOrConnectWithoutTeamInput[]
@@ -17053,13 +19792,6 @@ export namespace Prisma {
     connectOrCreate?: ChatGroupCreateOrConnectWithoutTeamInput | ChatGroupCreateOrConnectWithoutTeamInput[]
     createMany?: ChatGroupCreateManyTeamInputEnvelope
     connect?: ChatGroupWhereUniqueInput | ChatGroupWhereUniqueInput[]
-  }
-
-  export type WorkspaceFileUncheckedCreateNestedManyWithoutTeamInput = {
-    create?: XOR<WorkspaceFileCreateWithoutTeamInput, WorkspaceFileUncheckedCreateWithoutTeamInput> | WorkspaceFileCreateWithoutTeamInput[] | WorkspaceFileUncheckedCreateWithoutTeamInput[]
-    connectOrCreate?: WorkspaceFileCreateOrConnectWithoutTeamInput | WorkspaceFileCreateOrConnectWithoutTeamInput[]
-    createMany?: WorkspaceFileCreateManyTeamInputEnvelope
-    connect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
   }
 
   export type TenantUpdateOneRequiredWithoutTeamsNestedInput = {
@@ -17098,20 +19830,6 @@ export namespace Prisma {
     deleteMany?: ChatGroupScalarWhereInput | ChatGroupScalarWhereInput[]
   }
 
-  export type WorkspaceFileUpdateManyWithoutTeamNestedInput = {
-    create?: XOR<WorkspaceFileCreateWithoutTeamInput, WorkspaceFileUncheckedCreateWithoutTeamInput> | WorkspaceFileCreateWithoutTeamInput[] | WorkspaceFileUncheckedCreateWithoutTeamInput[]
-    connectOrCreate?: WorkspaceFileCreateOrConnectWithoutTeamInput | WorkspaceFileCreateOrConnectWithoutTeamInput[]
-    upsert?: WorkspaceFileUpsertWithWhereUniqueWithoutTeamInput | WorkspaceFileUpsertWithWhereUniqueWithoutTeamInput[]
-    createMany?: WorkspaceFileCreateManyTeamInputEnvelope
-    set?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    disconnect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    delete?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    connect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    update?: WorkspaceFileUpdateWithWhereUniqueWithoutTeamInput | WorkspaceFileUpdateWithWhereUniqueWithoutTeamInput[]
-    updateMany?: WorkspaceFileUpdateManyWithWhereWithoutTeamInput | WorkspaceFileUpdateManyWithWhereWithoutTeamInput[]
-    deleteMany?: WorkspaceFileScalarWhereInput | WorkspaceFileScalarWhereInput[]
-  }
-
   export type TeamMemberUncheckedUpdateManyWithoutTeamNestedInput = {
     create?: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput> | TeamMemberCreateWithoutTeamInput[] | TeamMemberUncheckedCreateWithoutTeamInput[]
     connectOrCreate?: TeamMemberCreateOrConnectWithoutTeamInput | TeamMemberCreateOrConnectWithoutTeamInput[]
@@ -17140,20 +19858,6 @@ export namespace Prisma {
     deleteMany?: ChatGroupScalarWhereInput | ChatGroupScalarWhereInput[]
   }
 
-  export type WorkspaceFileUncheckedUpdateManyWithoutTeamNestedInput = {
-    create?: XOR<WorkspaceFileCreateWithoutTeamInput, WorkspaceFileUncheckedCreateWithoutTeamInput> | WorkspaceFileCreateWithoutTeamInput[] | WorkspaceFileUncheckedCreateWithoutTeamInput[]
-    connectOrCreate?: WorkspaceFileCreateOrConnectWithoutTeamInput | WorkspaceFileCreateOrConnectWithoutTeamInput[]
-    upsert?: WorkspaceFileUpsertWithWhereUniqueWithoutTeamInput | WorkspaceFileUpsertWithWhereUniqueWithoutTeamInput[]
-    createMany?: WorkspaceFileCreateManyTeamInputEnvelope
-    set?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    disconnect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    delete?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    connect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    update?: WorkspaceFileUpdateWithWhereUniqueWithoutTeamInput | WorkspaceFileUpdateWithWhereUniqueWithoutTeamInput[]
-    updateMany?: WorkspaceFileUpdateManyWithWhereWithoutTeamInput | WorkspaceFileUpdateManyWithWhereWithoutTeamInput[]
-    deleteMany?: WorkspaceFileScalarWhereInput | WorkspaceFileScalarWhereInput[]
-  }
-
   export type TeamCreateNestedOneWithoutMembersInput = {
     create?: XOR<TeamCreateWithoutMembersInput, TeamUncheckedCreateWithoutMembersInput>
     connectOrCreate?: TeamCreateOrConnectWithoutMembersInput
@@ -17172,10 +19876,6 @@ export namespace Prisma {
     create?: XOR<TenantCreateWithoutRobotsInput, TenantUncheckedCreateWithoutRobotsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutRobotsInput
     connect?: TenantWhereUniqueInput
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type TenantUpdateOneRequiredWithoutRobotsNestedInput = {
@@ -17206,13 +19906,6 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
-  export type WorkspaceFileCreateNestedManyWithoutChatGroupInput = {
-    create?: XOR<WorkspaceFileCreateWithoutChatGroupInput, WorkspaceFileUncheckedCreateWithoutChatGroupInput> | WorkspaceFileCreateWithoutChatGroupInput[] | WorkspaceFileUncheckedCreateWithoutChatGroupInput[]
-    connectOrCreate?: WorkspaceFileCreateOrConnectWithoutChatGroupInput | WorkspaceFileCreateOrConnectWithoutChatGroupInput[]
-    createMany?: WorkspaceFileCreateManyChatGroupInputEnvelope
-    connect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-  }
-
   export type ChatGroupMemberUncheckedCreateNestedManyWithoutGroupInput = {
     create?: XOR<ChatGroupMemberCreateWithoutGroupInput, ChatGroupMemberUncheckedCreateWithoutGroupInput> | ChatGroupMemberCreateWithoutGroupInput[] | ChatGroupMemberUncheckedCreateWithoutGroupInput[]
     connectOrCreate?: ChatGroupMemberCreateOrConnectWithoutGroupInput | ChatGroupMemberCreateOrConnectWithoutGroupInput[]
@@ -17225,13 +19918,6 @@ export namespace Prisma {
     connectOrCreate?: MessageCreateOrConnectWithoutGroupInput | MessageCreateOrConnectWithoutGroupInput[]
     createMany?: MessageCreateManyGroupInputEnvelope
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
-  }
-
-  export type WorkspaceFileUncheckedCreateNestedManyWithoutChatGroupInput = {
-    create?: XOR<WorkspaceFileCreateWithoutChatGroupInput, WorkspaceFileUncheckedCreateWithoutChatGroupInput> | WorkspaceFileCreateWithoutChatGroupInput[] | WorkspaceFileUncheckedCreateWithoutChatGroupInput[]
-    connectOrCreate?: WorkspaceFileCreateOrConnectWithoutChatGroupInput | WorkspaceFileCreateOrConnectWithoutChatGroupInput[]
-    createMany?: WorkspaceFileCreateManyChatGroupInputEnvelope
-    connect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
   }
 
   export type TeamUpdateOneRequiredWithoutGroupsNestedInput = {
@@ -17270,20 +19956,6 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
-  export type WorkspaceFileUpdateManyWithoutChatGroupNestedInput = {
-    create?: XOR<WorkspaceFileCreateWithoutChatGroupInput, WorkspaceFileUncheckedCreateWithoutChatGroupInput> | WorkspaceFileCreateWithoutChatGroupInput[] | WorkspaceFileUncheckedCreateWithoutChatGroupInput[]
-    connectOrCreate?: WorkspaceFileCreateOrConnectWithoutChatGroupInput | WorkspaceFileCreateOrConnectWithoutChatGroupInput[]
-    upsert?: WorkspaceFileUpsertWithWhereUniqueWithoutChatGroupInput | WorkspaceFileUpsertWithWhereUniqueWithoutChatGroupInput[]
-    createMany?: WorkspaceFileCreateManyChatGroupInputEnvelope
-    set?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    disconnect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    delete?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    connect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    update?: WorkspaceFileUpdateWithWhereUniqueWithoutChatGroupInput | WorkspaceFileUpdateWithWhereUniqueWithoutChatGroupInput[]
-    updateMany?: WorkspaceFileUpdateManyWithWhereWithoutChatGroupInput | WorkspaceFileUpdateManyWithWhereWithoutChatGroupInput[]
-    deleteMany?: WorkspaceFileScalarWhereInput | WorkspaceFileScalarWhereInput[]
-  }
-
   export type ChatGroupMemberUncheckedUpdateManyWithoutGroupNestedInput = {
     create?: XOR<ChatGroupMemberCreateWithoutGroupInput, ChatGroupMemberUncheckedCreateWithoutGroupInput> | ChatGroupMemberCreateWithoutGroupInput[] | ChatGroupMemberUncheckedCreateWithoutGroupInput[]
     connectOrCreate?: ChatGroupMemberCreateOrConnectWithoutGroupInput | ChatGroupMemberCreateOrConnectWithoutGroupInput[]
@@ -17310,20 +19982,6 @@ export namespace Prisma {
     update?: MessageUpdateWithWhereUniqueWithoutGroupInput | MessageUpdateWithWhereUniqueWithoutGroupInput[]
     updateMany?: MessageUpdateManyWithWhereWithoutGroupInput | MessageUpdateManyWithWhereWithoutGroupInput[]
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
-  }
-
-  export type WorkspaceFileUncheckedUpdateManyWithoutChatGroupNestedInput = {
-    create?: XOR<WorkspaceFileCreateWithoutChatGroupInput, WorkspaceFileUncheckedCreateWithoutChatGroupInput> | WorkspaceFileCreateWithoutChatGroupInput[] | WorkspaceFileUncheckedCreateWithoutChatGroupInput[]
-    connectOrCreate?: WorkspaceFileCreateOrConnectWithoutChatGroupInput | WorkspaceFileCreateOrConnectWithoutChatGroupInput[]
-    upsert?: WorkspaceFileUpsertWithWhereUniqueWithoutChatGroupInput | WorkspaceFileUpsertWithWhereUniqueWithoutChatGroupInput[]
-    createMany?: WorkspaceFileCreateManyChatGroupInputEnvelope
-    set?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    disconnect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    delete?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    connect?: WorkspaceFileWhereUniqueInput | WorkspaceFileWhereUniqueInput[]
-    update?: WorkspaceFileUpdateWithWhereUniqueWithoutChatGroupInput | WorkspaceFileUpdateWithWhereUniqueWithoutChatGroupInput[]
-    updateMany?: WorkspaceFileUpdateManyWithWhereWithoutChatGroupInput | WorkspaceFileUpdateManyWithWhereWithoutChatGroupInput[]
-    deleteMany?: WorkspaceFileScalarWhereInput | WorkspaceFileScalarWhereInput[]
   }
 
   export type ChatGroupCreateNestedOneWithoutMembersInput = {
@@ -17354,60 +20012,12 @@ export namespace Prisma {
     update?: XOR<XOR<ChatGroupUpdateToOneWithWhereWithoutMessagesInput, ChatGroupUpdateWithoutMessagesInput>, ChatGroupUncheckedUpdateWithoutMessagesInput>
   }
 
-  export type TenantCreateNestedOneWithoutFilesInput = {
-    create?: XOR<TenantCreateWithoutFilesInput, TenantUncheckedCreateWithoutFilesInput>
-    connectOrCreate?: TenantCreateOrConnectWithoutFilesInput
-    connect?: TenantWhereUniqueInput
-  }
-
-  export type TeamCreateNestedOneWithoutFilesInput = {
-    create?: XOR<TeamCreateWithoutFilesInput, TeamUncheckedCreateWithoutFilesInput>
-    connectOrCreate?: TeamCreateOrConnectWithoutFilesInput
-    connect?: TeamWhereUniqueInput
-  }
-
-  export type ChatGroupCreateNestedOneWithoutFilesInput = {
-    create?: XOR<ChatGroupCreateWithoutFilesInput, ChatGroupUncheckedCreateWithoutFilesInput>
-    connectOrCreate?: ChatGroupCreateOrConnectWithoutFilesInput
-    connect?: ChatGroupWhereUniqueInput
-  }
-
   export type BigIntFieldUpdateOperationsInput = {
     set?: bigint | number
     increment?: bigint | number
     decrement?: bigint | number
     multiply?: bigint | number
     divide?: bigint | number
-  }
-
-  export type TenantUpdateOneWithoutFilesNestedInput = {
-    create?: XOR<TenantCreateWithoutFilesInput, TenantUncheckedCreateWithoutFilesInput>
-    connectOrCreate?: TenantCreateOrConnectWithoutFilesInput
-    upsert?: TenantUpsertWithoutFilesInput
-    disconnect?: TenantWhereInput | boolean
-    delete?: TenantWhereInput | boolean
-    connect?: TenantWhereUniqueInput
-    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutFilesInput, TenantUpdateWithoutFilesInput>, TenantUncheckedUpdateWithoutFilesInput>
-  }
-
-  export type TeamUpdateOneWithoutFilesNestedInput = {
-    create?: XOR<TeamCreateWithoutFilesInput, TeamUncheckedCreateWithoutFilesInput>
-    connectOrCreate?: TeamCreateOrConnectWithoutFilesInput
-    upsert?: TeamUpsertWithoutFilesInput
-    disconnect?: TeamWhereInput | boolean
-    delete?: TeamWhereInput | boolean
-    connect?: TeamWhereUniqueInput
-    update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutFilesInput, TeamUpdateWithoutFilesInput>, TeamUncheckedUpdateWithoutFilesInput>
-  }
-
-  export type ChatGroupUpdateOneWithoutFilesNestedInput = {
-    create?: XOR<ChatGroupCreateWithoutFilesInput, ChatGroupUncheckedCreateWithoutFilesInput>
-    connectOrCreate?: ChatGroupCreateOrConnectWithoutFilesInput
-    upsert?: ChatGroupUpsertWithoutFilesInput
-    disconnect?: ChatGroupWhereInput | boolean
-    delete?: ChatGroupWhereInput | boolean
-    connect?: ChatGroupWhereUniqueInput
-    update?: XOR<XOR<ChatGroupUpdateToOneWithWhereWithoutFilesInput, ChatGroupUpdateWithoutFilesInput>, ChatGroupUncheckedUpdateWithoutFilesInput>
   }
 
   export type TenantCreateNestedOneWithoutApiKeysInput = {
@@ -17440,6 +20050,20 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutApiKeysInput, UserUpdateWithoutApiKeysInput>, UserUncheckedUpdateWithoutApiKeysInput>
+  }
+
+  export type TenantCreateNestedOneWithoutLlmConfigInput = {
+    create?: XOR<TenantCreateWithoutLlmConfigInput, TenantUncheckedCreateWithoutLlmConfigInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutLlmConfigInput
+    connect?: TenantWhereUniqueInput
+  }
+
+  export type TenantUpdateOneRequiredWithoutLlmConfigNestedInput = {
+    create?: XOR<TenantCreateWithoutLlmConfigInput, TenantUncheckedCreateWithoutLlmConfigInput>
+    connectOrCreate?: TenantCreateOrConnectWithoutLlmConfigInput
+    upsert?: TenantUpsertWithoutLlmConfigInput
+    connect?: TenantWhereUniqueInput
+    update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutLlmConfigInput, TenantUpdateWithoutLlmConfigInput>, TenantUncheckedUpdateWithoutLlmConfigInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -17665,7 +20289,6 @@ export namespace Prisma {
     createdAt?: Date | string
     members?: TeamMemberCreateNestedManyWithoutTeamInput
     groups?: ChatGroupCreateNestedManyWithoutTeamInput
-    files?: WorkspaceFileCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutTenantInput = {
@@ -17674,7 +20297,6 @@ export namespace Prisma {
     createdAt?: Date | string
     members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
     groups?: ChatGroupUncheckedCreateNestedManyWithoutTeamInput
-    files?: WorkspaceFileUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutTenantInput = {
@@ -17751,37 +20373,60 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type WorkspaceFileCreateWithoutTenantInput = {
+  export type TenantLlmConfigCreateWithoutTenantInput = {
     id?: string
-    path: string
-    filename: string
-    mimeType: string
-    size: bigint | number
-    uploadedById: string
-    scope: string
+    provider: string
+    apiKeyEnc: string
+    baseUrl?: string | null
+    model?: string | null
     createdAt?: Date | string
-    team?: TeamCreateNestedOneWithoutFilesInput
-    chatGroup?: ChatGroupCreateNestedOneWithoutFilesInput
+    updatedAt?: Date | string
   }
 
-  export type WorkspaceFileUncheckedCreateWithoutTenantInput = {
+  export type TenantLlmConfigUncheckedCreateWithoutTenantInput = {
     id?: string
-    path: string
-    filename: string
-    mimeType: string
-    size: bigint | number
-    uploadedById: string
-    scope: string
+    provider: string
+    apiKeyEnc: string
+    baseUrl?: string | null
+    model?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TenantLlmConfigCreateOrConnectWithoutTenantInput = {
+    where: TenantLlmConfigWhereUniqueInput
+    create: XOR<TenantLlmConfigCreateWithoutTenantInput, TenantLlmConfigUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TenantInvitationCreateWithoutTenantInput = {
+    id?: string
+    email: string
+    role: string
+    token: string
+    invitedBy: string
+    expiresAt: Date | string
+    acceptedAt?: Date | string | null
     createdAt?: Date | string
   }
 
-  export type WorkspaceFileCreateOrConnectWithoutTenantInput = {
-    where: WorkspaceFileWhereUniqueInput
-    create: XOR<WorkspaceFileCreateWithoutTenantInput, WorkspaceFileUncheckedCreateWithoutTenantInput>
+  export type TenantInvitationUncheckedCreateWithoutTenantInput = {
+    id?: string
+    email: string
+    role: string
+    token: string
+    invitedBy: string
+    expiresAt: Date | string
+    acceptedAt?: Date | string | null
+    createdAt?: Date | string
   }
 
-  export type WorkspaceFileCreateManyTenantInputEnvelope = {
-    data: WorkspaceFileCreateManyTenantInput | WorkspaceFileCreateManyTenantInput[]
+  export type TenantInvitationCreateOrConnectWithoutTenantInput = {
+    where: TenantInvitationWhereUniqueInput
+    create: XOR<TenantInvitationCreateWithoutTenantInput, TenantInvitationUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TenantInvitationCreateManyTenantInputEnvelope = {
+    data: TenantInvitationCreateManyTenantInput | TenantInvitationCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -17899,35 +20544,66 @@ export namespace Prisma {
     expiresAt?: DateTimeNullableFilter<"ApiKey"> | Date | string | null
   }
 
-  export type WorkspaceFileUpsertWithWhereUniqueWithoutTenantInput = {
-    where: WorkspaceFileWhereUniqueInput
-    update: XOR<WorkspaceFileUpdateWithoutTenantInput, WorkspaceFileUncheckedUpdateWithoutTenantInput>
-    create: XOR<WorkspaceFileCreateWithoutTenantInput, WorkspaceFileUncheckedCreateWithoutTenantInput>
+  export type TenantLlmConfigUpsertWithoutTenantInput = {
+    update: XOR<TenantLlmConfigUpdateWithoutTenantInput, TenantLlmConfigUncheckedUpdateWithoutTenantInput>
+    create: XOR<TenantLlmConfigCreateWithoutTenantInput, TenantLlmConfigUncheckedCreateWithoutTenantInput>
+    where?: TenantLlmConfigWhereInput
   }
 
-  export type WorkspaceFileUpdateWithWhereUniqueWithoutTenantInput = {
-    where: WorkspaceFileWhereUniqueInput
-    data: XOR<WorkspaceFileUpdateWithoutTenantInput, WorkspaceFileUncheckedUpdateWithoutTenantInput>
+  export type TenantLlmConfigUpdateToOneWithWhereWithoutTenantInput = {
+    where?: TenantLlmConfigWhereInput
+    data: XOR<TenantLlmConfigUpdateWithoutTenantInput, TenantLlmConfigUncheckedUpdateWithoutTenantInput>
   }
 
-  export type WorkspaceFileUpdateManyWithWhereWithoutTenantInput = {
-    where: WorkspaceFileScalarWhereInput
-    data: XOR<WorkspaceFileUpdateManyMutationInput, WorkspaceFileUncheckedUpdateManyWithoutTenantInput>
+  export type TenantLlmConfigUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    apiKeyEnc?: StringFieldUpdateOperationsInput | string
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type WorkspaceFileScalarWhereInput = {
-    AND?: WorkspaceFileScalarWhereInput | WorkspaceFileScalarWhereInput[]
-    OR?: WorkspaceFileScalarWhereInput[]
-    NOT?: WorkspaceFileScalarWhereInput | WorkspaceFileScalarWhereInput[]
-    id?: StringFilter<"WorkspaceFile"> | string
-    path?: StringFilter<"WorkspaceFile"> | string
-    filename?: StringFilter<"WorkspaceFile"> | string
-    mimeType?: StringFilter<"WorkspaceFile"> | string
-    size?: BigIntFilter<"WorkspaceFile"> | bigint | number
-    uploadedById?: StringFilter<"WorkspaceFile"> | string
-    scope?: StringFilter<"WorkspaceFile"> | string
-    scopeId?: StringFilter<"WorkspaceFile"> | string
-    createdAt?: DateTimeFilter<"WorkspaceFile"> | Date | string
+  export type TenantLlmConfigUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    apiKeyEnc?: StringFieldUpdateOperationsInput | string
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantInvitationUpsertWithWhereUniqueWithoutTenantInput = {
+    where: TenantInvitationWhereUniqueInput
+    update: XOR<TenantInvitationUpdateWithoutTenantInput, TenantInvitationUncheckedUpdateWithoutTenantInput>
+    create: XOR<TenantInvitationCreateWithoutTenantInput, TenantInvitationUncheckedCreateWithoutTenantInput>
+  }
+
+  export type TenantInvitationUpdateWithWhereUniqueWithoutTenantInput = {
+    where: TenantInvitationWhereUniqueInput
+    data: XOR<TenantInvitationUpdateWithoutTenantInput, TenantInvitationUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type TenantInvitationUpdateManyWithWhereWithoutTenantInput = {
+    where: TenantInvitationScalarWhereInput
+    data: XOR<TenantInvitationUpdateManyMutationInput, TenantInvitationUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type TenantInvitationScalarWhereInput = {
+    AND?: TenantInvitationScalarWhereInput | TenantInvitationScalarWhereInput[]
+    OR?: TenantInvitationScalarWhereInput[]
+    NOT?: TenantInvitationScalarWhereInput | TenantInvitationScalarWhereInput[]
+    id?: StringFilter<"TenantInvitation"> | string
+    tenantId?: StringFilter<"TenantInvitation"> | string
+    email?: StringFilter<"TenantInvitation"> | string
+    role?: StringFilter<"TenantInvitation"> | string
+    token?: StringFilter<"TenantInvitation"> | string
+    invitedBy?: StringFilter<"TenantInvitation"> | string
+    expiresAt?: DateTimeFilter<"TenantInvitation"> | Date | string
+    acceptedAt?: DateTimeNullableFilter<"TenantInvitation"> | Date | string | null
+    createdAt?: DateTimeFilter<"TenantInvitation"> | Date | string
   }
 
   export type TenantUserCreateWithoutUserInput = {
@@ -18020,6 +20696,10 @@ export namespace Prisma {
     phone?: string | null
     name: string
     passwordHash: string
+    avatar?: string | null
+    gender?: string | null
+    jobTitle?: string | null
+    workLocation?: string | null
     createdAt?: Date | string
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
   }
@@ -18030,6 +20710,10 @@ export namespace Prisma {
     phone?: string | null
     name: string
     passwordHash: string
+    avatar?: string | null
+    gender?: string | null
+    jobTitle?: string | null
+    workLocation?: string | null
     createdAt?: Date | string
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
   }
@@ -18049,7 +20733,8 @@ export namespace Prisma {
     teams?: TeamCreateNestedManyWithoutTenantInput
     robots?: RobotCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
-    files?: WorkspaceFileCreateNestedManyWithoutTenantInput
+    llmConfig?: TenantLlmConfigCreateNestedOneWithoutTenantInput
+    invitations?: TenantInvitationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutUsersInput = {
@@ -18062,7 +20747,8 @@ export namespace Prisma {
     teams?: TeamUncheckedCreateNestedManyWithoutTenantInput
     robots?: RobotUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
-    files?: WorkspaceFileUncheckedCreateNestedManyWithoutTenantInput
+    llmConfig?: TenantLlmConfigUncheckedCreateNestedOneWithoutTenantInput
+    invitations?: TenantInvitationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutUsersInput = {
@@ -18087,6 +20773,10 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    jobTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
   }
@@ -18097,6 +20787,10 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    jobTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -18122,7 +20816,8 @@ export namespace Prisma {
     teams?: TeamUpdateManyWithoutTenantNestedInput
     robots?: RobotUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
-    files?: WorkspaceFileUpdateManyWithoutTenantNestedInput
+    llmConfig?: TenantLlmConfigUpdateOneWithoutTenantNestedInput
+    invitations?: TenantInvitationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -18135,7 +20830,80 @@ export namespace Prisma {
     teams?: TeamUncheckedUpdateManyWithoutTenantNestedInput
     robots?: RobotUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
-    files?: WorkspaceFileUncheckedUpdateManyWithoutTenantNestedInput
+    llmConfig?: TenantLlmConfigUncheckedUpdateOneWithoutTenantNestedInput
+    invitations?: TenantInvitationUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantCreateWithoutInvitationsInput = {
+    id?: string
+    name: string
+    slug: string
+    ownerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: TenantUserCreateNestedManyWithoutTenantInput
+    teams?: TeamCreateNestedManyWithoutTenantInput
+    robots?: RobotCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    llmConfig?: TenantLlmConfigCreateNestedOneWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutInvitationsInput = {
+    id?: string
+    name: string
+    slug: string
+    ownerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: TenantUserUncheckedCreateNestedManyWithoutTenantInput
+    teams?: TeamUncheckedCreateNestedManyWithoutTenantInput
+    robots?: RobotUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    llmConfig?: TenantLlmConfigUncheckedCreateNestedOneWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutInvitationsInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutInvitationsInput, TenantUncheckedCreateWithoutInvitationsInput>
+  }
+
+  export type TenantUpsertWithoutInvitationsInput = {
+    update: XOR<TenantUpdateWithoutInvitationsInput, TenantUncheckedUpdateWithoutInvitationsInput>
+    create: XOR<TenantCreateWithoutInvitationsInput, TenantUncheckedCreateWithoutInvitationsInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutInvitationsInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutInvitationsInput, TenantUncheckedUpdateWithoutInvitationsInput>
+  }
+
+  export type TenantUpdateWithoutInvitationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: TenantUserUpdateManyWithoutTenantNestedInput
+    teams?: TeamUpdateManyWithoutTenantNestedInput
+    robots?: RobotUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    llmConfig?: TenantLlmConfigUpdateOneWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutInvitationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: TenantUserUncheckedUpdateManyWithoutTenantNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutTenantNestedInput
+    robots?: RobotUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    llmConfig?: TenantLlmConfigUncheckedUpdateOneWithoutTenantNestedInput
   }
 
   export type TenantCreateWithoutTeamsInput = {
@@ -18148,7 +20916,8 @@ export namespace Prisma {
     users?: TenantUserCreateNestedManyWithoutTenantInput
     robots?: RobotCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
-    files?: WorkspaceFileCreateNestedManyWithoutTenantInput
+    llmConfig?: TenantLlmConfigCreateNestedOneWithoutTenantInput
+    invitations?: TenantInvitationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutTeamsInput = {
@@ -18161,7 +20930,8 @@ export namespace Prisma {
     users?: TenantUserUncheckedCreateNestedManyWithoutTenantInput
     robots?: RobotUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
-    files?: WorkspaceFileUncheckedCreateNestedManyWithoutTenantInput
+    llmConfig?: TenantLlmConfigUncheckedCreateNestedOneWithoutTenantInput
+    invitations?: TenantInvitationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutTeamsInput = {
@@ -18198,7 +20968,6 @@ export namespace Prisma {
     createdAt?: Date | string
     members?: ChatGroupMemberCreateNestedManyWithoutGroupInput
     messages?: MessageCreateNestedManyWithoutGroupInput
-    files?: WorkspaceFileCreateNestedManyWithoutChatGroupInput
   }
 
   export type ChatGroupUncheckedCreateWithoutTeamInput = {
@@ -18208,7 +20977,6 @@ export namespace Prisma {
     createdAt?: Date | string
     members?: ChatGroupMemberUncheckedCreateNestedManyWithoutGroupInput
     messages?: MessageUncheckedCreateNestedManyWithoutGroupInput
-    files?: WorkspaceFileUncheckedCreateNestedManyWithoutChatGroupInput
   }
 
   export type ChatGroupCreateOrConnectWithoutTeamInput = {
@@ -18218,40 +20986,6 @@ export namespace Prisma {
 
   export type ChatGroupCreateManyTeamInputEnvelope = {
     data: ChatGroupCreateManyTeamInput | ChatGroupCreateManyTeamInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type WorkspaceFileCreateWithoutTeamInput = {
-    id?: string
-    path: string
-    filename: string
-    mimeType: string
-    size: bigint | number
-    uploadedById: string
-    scope: string
-    createdAt?: Date | string
-    tenant?: TenantCreateNestedOneWithoutFilesInput
-    chatGroup?: ChatGroupCreateNestedOneWithoutFilesInput
-  }
-
-  export type WorkspaceFileUncheckedCreateWithoutTeamInput = {
-    id?: string
-    path: string
-    filename: string
-    mimeType: string
-    size: bigint | number
-    uploadedById: string
-    scope: string
-    createdAt?: Date | string
-  }
-
-  export type WorkspaceFileCreateOrConnectWithoutTeamInput = {
-    where: WorkspaceFileWhereUniqueInput
-    create: XOR<WorkspaceFileCreateWithoutTeamInput, WorkspaceFileUncheckedCreateWithoutTeamInput>
-  }
-
-  export type WorkspaceFileCreateManyTeamInputEnvelope = {
-    data: WorkspaceFileCreateManyTeamInput | WorkspaceFileCreateManyTeamInput[]
     skipDuplicates?: boolean
   }
 
@@ -18276,7 +21010,8 @@ export namespace Prisma {
     users?: TenantUserUpdateManyWithoutTenantNestedInput
     robots?: RobotUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
-    files?: WorkspaceFileUpdateManyWithoutTenantNestedInput
+    llmConfig?: TenantLlmConfigUpdateOneWithoutTenantNestedInput
+    invitations?: TenantInvitationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutTeamsInput = {
@@ -18289,7 +21024,8 @@ export namespace Prisma {
     users?: TenantUserUncheckedUpdateManyWithoutTenantNestedInput
     robots?: RobotUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
-    files?: WorkspaceFileUncheckedUpdateManyWithoutTenantNestedInput
+    llmConfig?: TenantLlmConfigUncheckedUpdateOneWithoutTenantNestedInput
+    invitations?: TenantInvitationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
@@ -18345,29 +21081,12 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ChatGroup"> | Date | string
   }
 
-  export type WorkspaceFileUpsertWithWhereUniqueWithoutTeamInput = {
-    where: WorkspaceFileWhereUniqueInput
-    update: XOR<WorkspaceFileUpdateWithoutTeamInput, WorkspaceFileUncheckedUpdateWithoutTeamInput>
-    create: XOR<WorkspaceFileCreateWithoutTeamInput, WorkspaceFileUncheckedCreateWithoutTeamInput>
-  }
-
-  export type WorkspaceFileUpdateWithWhereUniqueWithoutTeamInput = {
-    where: WorkspaceFileWhereUniqueInput
-    data: XOR<WorkspaceFileUpdateWithoutTeamInput, WorkspaceFileUncheckedUpdateWithoutTeamInput>
-  }
-
-  export type WorkspaceFileUpdateManyWithWhereWithoutTeamInput = {
-    where: WorkspaceFileScalarWhereInput
-    data: XOR<WorkspaceFileUpdateManyMutationInput, WorkspaceFileUncheckedUpdateManyWithoutTeamInput>
-  }
-
   export type TeamCreateWithoutMembersInput = {
     id?: string
     name: string
     createdAt?: Date | string
     tenant: TenantCreateNestedOneWithoutTeamsInput
     groups?: ChatGroupCreateNestedManyWithoutTeamInput
-    files?: WorkspaceFileCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutMembersInput = {
@@ -18376,7 +21095,6 @@ export namespace Prisma {
     tenantId: string
     createdAt?: Date | string
     groups?: ChatGroupUncheckedCreateNestedManyWithoutTeamInput
-    files?: WorkspaceFileUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutMembersInput = {
@@ -18401,7 +21119,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutTeamsNestedInput
     groups?: ChatGroupUpdateManyWithoutTeamNestedInput
-    files?: WorkspaceFileUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutMembersInput = {
@@ -18410,7 +21127,6 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     groups?: ChatGroupUncheckedUpdateManyWithoutTeamNestedInput
-    files?: WorkspaceFileUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TenantCreateWithoutRobotsInput = {
@@ -18423,7 +21139,8 @@ export namespace Prisma {
     users?: TenantUserCreateNestedManyWithoutTenantInput
     teams?: TeamCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
-    files?: WorkspaceFileCreateNestedManyWithoutTenantInput
+    llmConfig?: TenantLlmConfigCreateNestedOneWithoutTenantInput
+    invitations?: TenantInvitationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutRobotsInput = {
@@ -18436,7 +21153,8 @@ export namespace Prisma {
     users?: TenantUserUncheckedCreateNestedManyWithoutTenantInput
     teams?: TeamUncheckedCreateNestedManyWithoutTenantInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
-    files?: WorkspaceFileUncheckedCreateNestedManyWithoutTenantInput
+    llmConfig?: TenantLlmConfigUncheckedCreateNestedOneWithoutTenantInput
+    invitations?: TenantInvitationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutRobotsInput = {
@@ -18465,7 +21183,8 @@ export namespace Prisma {
     users?: TenantUserUpdateManyWithoutTenantNestedInput
     teams?: TeamUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
-    files?: WorkspaceFileUpdateManyWithoutTenantNestedInput
+    llmConfig?: TenantLlmConfigUpdateOneWithoutTenantNestedInput
+    invitations?: TenantInvitationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutRobotsInput = {
@@ -18478,7 +21197,8 @@ export namespace Prisma {
     users?: TenantUserUncheckedUpdateManyWithoutTenantNestedInput
     teams?: TeamUncheckedUpdateManyWithoutTenantNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
-    files?: WorkspaceFileUncheckedUpdateManyWithoutTenantNestedInput
+    llmConfig?: TenantLlmConfigUncheckedUpdateOneWithoutTenantNestedInput
+    invitations?: TenantInvitationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TeamCreateWithoutGroupsInput = {
@@ -18487,7 +21207,6 @@ export namespace Prisma {
     createdAt?: Date | string
     tenant: TenantCreateNestedOneWithoutTeamsInput
     members?: TeamMemberCreateNestedManyWithoutTeamInput
-    files?: WorkspaceFileCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateWithoutGroupsInput = {
@@ -18496,7 +21215,6 @@ export namespace Prisma {
     tenantId: string
     createdAt?: Date | string
     members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
-    files?: WorkspaceFileUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamCreateOrConnectWithoutGroupsInput = {
@@ -18556,40 +21274,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type WorkspaceFileCreateWithoutChatGroupInput = {
-    id?: string
-    path: string
-    filename: string
-    mimeType: string
-    size: bigint | number
-    uploadedById: string
-    scope: string
-    createdAt?: Date | string
-    tenant?: TenantCreateNestedOneWithoutFilesInput
-    team?: TeamCreateNestedOneWithoutFilesInput
-  }
-
-  export type WorkspaceFileUncheckedCreateWithoutChatGroupInput = {
-    id?: string
-    path: string
-    filename: string
-    mimeType: string
-    size: bigint | number
-    uploadedById: string
-    scope: string
-    createdAt?: Date | string
-  }
-
-  export type WorkspaceFileCreateOrConnectWithoutChatGroupInput = {
-    where: WorkspaceFileWhereUniqueInput
-    create: XOR<WorkspaceFileCreateWithoutChatGroupInput, WorkspaceFileUncheckedCreateWithoutChatGroupInput>
-  }
-
-  export type WorkspaceFileCreateManyChatGroupInputEnvelope = {
-    data: WorkspaceFileCreateManyChatGroupInput | WorkspaceFileCreateManyChatGroupInput[]
-    skipDuplicates?: boolean
-  }
-
   export type TeamUpsertWithoutGroupsInput = {
     update: XOR<TeamUpdateWithoutGroupsInput, TeamUncheckedUpdateWithoutGroupsInput>
     create: XOR<TeamCreateWithoutGroupsInput, TeamUncheckedCreateWithoutGroupsInput>
@@ -18607,7 +21291,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutTeamsNestedInput
     members?: TeamMemberUpdateManyWithoutTeamNestedInput
-    files?: WorkspaceFileUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutGroupsInput = {
@@ -18616,7 +21299,6 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
-    files?: WorkspaceFileUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type ChatGroupMemberUpsertWithWhereUniqueWithoutGroupInput = {
@@ -18675,22 +21357,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Message"> | Date | string
   }
 
-  export type WorkspaceFileUpsertWithWhereUniqueWithoutChatGroupInput = {
-    where: WorkspaceFileWhereUniqueInput
-    update: XOR<WorkspaceFileUpdateWithoutChatGroupInput, WorkspaceFileUncheckedUpdateWithoutChatGroupInput>
-    create: XOR<WorkspaceFileCreateWithoutChatGroupInput, WorkspaceFileUncheckedCreateWithoutChatGroupInput>
-  }
-
-  export type WorkspaceFileUpdateWithWhereUniqueWithoutChatGroupInput = {
-    where: WorkspaceFileWhereUniqueInput
-    data: XOR<WorkspaceFileUpdateWithoutChatGroupInput, WorkspaceFileUncheckedUpdateWithoutChatGroupInput>
-  }
-
-  export type WorkspaceFileUpdateManyWithWhereWithoutChatGroupInput = {
-    where: WorkspaceFileScalarWhereInput
-    data: XOR<WorkspaceFileUpdateManyMutationInput, WorkspaceFileUncheckedUpdateManyWithoutChatGroupInput>
-  }
-
   export type ChatGroupCreateWithoutMembersInput = {
     id?: string
     name: string
@@ -18698,7 +21364,6 @@ export namespace Prisma {
     createdAt?: Date | string
     team: TeamCreateNestedOneWithoutGroupsInput
     messages?: MessageCreateNestedManyWithoutGroupInput
-    files?: WorkspaceFileCreateNestedManyWithoutChatGroupInput
   }
 
   export type ChatGroupUncheckedCreateWithoutMembersInput = {
@@ -18708,7 +21373,6 @@ export namespace Prisma {
     createdById: string
     createdAt?: Date | string
     messages?: MessageUncheckedCreateNestedManyWithoutGroupInput
-    files?: WorkspaceFileUncheckedCreateNestedManyWithoutChatGroupInput
   }
 
   export type ChatGroupCreateOrConnectWithoutMembersInput = {
@@ -18734,7 +21398,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     team?: TeamUpdateOneRequiredWithoutGroupsNestedInput
     messages?: MessageUpdateManyWithoutGroupNestedInput
-    files?: WorkspaceFileUpdateManyWithoutChatGroupNestedInput
   }
 
   export type ChatGroupUncheckedUpdateWithoutMembersInput = {
@@ -18744,7 +21407,6 @@ export namespace Prisma {
     createdById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUncheckedUpdateManyWithoutGroupNestedInput
-    files?: WorkspaceFileUncheckedUpdateManyWithoutChatGroupNestedInput
   }
 
   export type ChatGroupCreateWithoutMessagesInput = {
@@ -18754,7 +21416,6 @@ export namespace Prisma {
     createdAt?: Date | string
     team: TeamCreateNestedOneWithoutGroupsInput
     members?: ChatGroupMemberCreateNestedManyWithoutGroupInput
-    files?: WorkspaceFileCreateNestedManyWithoutChatGroupInput
   }
 
   export type ChatGroupUncheckedCreateWithoutMessagesInput = {
@@ -18764,7 +21425,6 @@ export namespace Prisma {
     createdById: string
     createdAt?: Date | string
     members?: ChatGroupMemberUncheckedCreateNestedManyWithoutGroupInput
-    files?: WorkspaceFileUncheckedCreateNestedManyWithoutChatGroupInput
   }
 
   export type ChatGroupCreateOrConnectWithoutMessagesInput = {
@@ -18790,7 +21450,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     team?: TeamUpdateOneRequiredWithoutGroupsNestedInput
     members?: ChatGroupMemberUpdateManyWithoutGroupNestedInput
-    files?: WorkspaceFileUpdateManyWithoutChatGroupNestedInput
   }
 
   export type ChatGroupUncheckedUpdateWithoutMessagesInput = {
@@ -18800,183 +21459,6 @@ export namespace Prisma {
     createdById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ChatGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
-    files?: WorkspaceFileUncheckedUpdateManyWithoutChatGroupNestedInput
-  }
-
-  export type TenantCreateWithoutFilesInput = {
-    id?: string
-    name: string
-    slug: string
-    ownerId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: TenantUserCreateNestedManyWithoutTenantInput
-    teams?: TeamCreateNestedManyWithoutTenantInput
-    robots?: RobotCreateNestedManyWithoutTenantInput
-    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
-  }
-
-  export type TenantUncheckedCreateWithoutFilesInput = {
-    id?: string
-    name: string
-    slug: string
-    ownerId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: TenantUserUncheckedCreateNestedManyWithoutTenantInput
-    teams?: TeamUncheckedCreateNestedManyWithoutTenantInput
-    robots?: RobotUncheckedCreateNestedManyWithoutTenantInput
-    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
-  }
-
-  export type TenantCreateOrConnectWithoutFilesInput = {
-    where: TenantWhereUniqueInput
-    create: XOR<TenantCreateWithoutFilesInput, TenantUncheckedCreateWithoutFilesInput>
-  }
-
-  export type TeamCreateWithoutFilesInput = {
-    id?: string
-    name: string
-    createdAt?: Date | string
-    tenant: TenantCreateNestedOneWithoutTeamsInput
-    members?: TeamMemberCreateNestedManyWithoutTeamInput
-    groups?: ChatGroupCreateNestedManyWithoutTeamInput
-  }
-
-  export type TeamUncheckedCreateWithoutFilesInput = {
-    id?: string
-    name: string
-    tenantId: string
-    createdAt?: Date | string
-    members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
-    groups?: ChatGroupUncheckedCreateNestedManyWithoutTeamInput
-  }
-
-  export type TeamCreateOrConnectWithoutFilesInput = {
-    where: TeamWhereUniqueInput
-    create: XOR<TeamCreateWithoutFilesInput, TeamUncheckedCreateWithoutFilesInput>
-  }
-
-  export type ChatGroupCreateWithoutFilesInput = {
-    id?: string
-    name: string
-    createdById: string
-    createdAt?: Date | string
-    team: TeamCreateNestedOneWithoutGroupsInput
-    members?: ChatGroupMemberCreateNestedManyWithoutGroupInput
-    messages?: MessageCreateNestedManyWithoutGroupInput
-  }
-
-  export type ChatGroupUncheckedCreateWithoutFilesInput = {
-    id?: string
-    name: string
-    teamId: string
-    createdById: string
-    createdAt?: Date | string
-    members?: ChatGroupMemberUncheckedCreateNestedManyWithoutGroupInput
-    messages?: MessageUncheckedCreateNestedManyWithoutGroupInput
-  }
-
-  export type ChatGroupCreateOrConnectWithoutFilesInput = {
-    where: ChatGroupWhereUniqueInput
-    create: XOR<ChatGroupCreateWithoutFilesInput, ChatGroupUncheckedCreateWithoutFilesInput>
-  }
-
-  export type TenantUpsertWithoutFilesInput = {
-    update: XOR<TenantUpdateWithoutFilesInput, TenantUncheckedUpdateWithoutFilesInput>
-    create: XOR<TenantCreateWithoutFilesInput, TenantUncheckedCreateWithoutFilesInput>
-    where?: TenantWhereInput
-  }
-
-  export type TenantUpdateToOneWithWhereWithoutFilesInput = {
-    where?: TenantWhereInput
-    data: XOR<TenantUpdateWithoutFilesInput, TenantUncheckedUpdateWithoutFilesInput>
-  }
-
-  export type TenantUpdateWithoutFilesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    ownerId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: TenantUserUpdateManyWithoutTenantNestedInput
-    teams?: TeamUpdateManyWithoutTenantNestedInput
-    robots?: RobotUpdateManyWithoutTenantNestedInput
-    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
-  }
-
-  export type TenantUncheckedUpdateWithoutFilesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    ownerId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: TenantUserUncheckedUpdateManyWithoutTenantNestedInput
-    teams?: TeamUncheckedUpdateManyWithoutTenantNestedInput
-    robots?: RobotUncheckedUpdateManyWithoutTenantNestedInput
-    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
-  }
-
-  export type TeamUpsertWithoutFilesInput = {
-    update: XOR<TeamUpdateWithoutFilesInput, TeamUncheckedUpdateWithoutFilesInput>
-    create: XOR<TeamCreateWithoutFilesInput, TeamUncheckedCreateWithoutFilesInput>
-    where?: TeamWhereInput
-  }
-
-  export type TeamUpdateToOneWithWhereWithoutFilesInput = {
-    where?: TeamWhereInput
-    data: XOR<TeamUpdateWithoutFilesInput, TeamUncheckedUpdateWithoutFilesInput>
-  }
-
-  export type TeamUpdateWithoutFilesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tenant?: TenantUpdateOneRequiredWithoutTeamsNestedInput
-    members?: TeamMemberUpdateManyWithoutTeamNestedInput
-    groups?: ChatGroupUpdateManyWithoutTeamNestedInput
-  }
-
-  export type TeamUncheckedUpdateWithoutFilesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
-    groups?: ChatGroupUncheckedUpdateManyWithoutTeamNestedInput
-  }
-
-  export type ChatGroupUpsertWithoutFilesInput = {
-    update: XOR<ChatGroupUpdateWithoutFilesInput, ChatGroupUncheckedUpdateWithoutFilesInput>
-    create: XOR<ChatGroupCreateWithoutFilesInput, ChatGroupUncheckedCreateWithoutFilesInput>
-    where?: ChatGroupWhereInput
-  }
-
-  export type ChatGroupUpdateToOneWithWhereWithoutFilesInput = {
-    where?: ChatGroupWhereInput
-    data: XOR<ChatGroupUpdateWithoutFilesInput, ChatGroupUncheckedUpdateWithoutFilesInput>
-  }
-
-  export type ChatGroupUpdateWithoutFilesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    createdById?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    team?: TeamUpdateOneRequiredWithoutGroupsNestedInput
-    members?: ChatGroupMemberUpdateManyWithoutGroupNestedInput
-    messages?: MessageUpdateManyWithoutGroupNestedInput
-  }
-
-  export type ChatGroupUncheckedUpdateWithoutFilesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    teamId?: StringFieldUpdateOperationsInput | string
-    createdById?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    members?: ChatGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
-    messages?: MessageUncheckedUpdateManyWithoutGroupNestedInput
   }
 
   export type TenantCreateWithoutApiKeysInput = {
@@ -18989,7 +21471,8 @@ export namespace Prisma {
     users?: TenantUserCreateNestedManyWithoutTenantInput
     teams?: TeamCreateNestedManyWithoutTenantInput
     robots?: RobotCreateNestedManyWithoutTenantInput
-    files?: WorkspaceFileCreateNestedManyWithoutTenantInput
+    llmConfig?: TenantLlmConfigCreateNestedOneWithoutTenantInput
+    invitations?: TenantInvitationCreateNestedManyWithoutTenantInput
   }
 
   export type TenantUncheckedCreateWithoutApiKeysInput = {
@@ -19002,7 +21485,8 @@ export namespace Prisma {
     users?: TenantUserUncheckedCreateNestedManyWithoutTenantInput
     teams?: TeamUncheckedCreateNestedManyWithoutTenantInput
     robots?: RobotUncheckedCreateNestedManyWithoutTenantInput
-    files?: WorkspaceFileUncheckedCreateNestedManyWithoutTenantInput
+    llmConfig?: TenantLlmConfigUncheckedCreateNestedOneWithoutTenantInput
+    invitations?: TenantInvitationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type TenantCreateOrConnectWithoutApiKeysInput = {
@@ -19016,6 +21500,10 @@ export namespace Prisma {
     phone?: string | null
     name: string
     passwordHash: string
+    avatar?: string | null
+    gender?: string | null
+    jobTitle?: string | null
+    workLocation?: string | null
     createdAt?: Date | string
     tenants?: TenantUserCreateNestedManyWithoutUserInput
   }
@@ -19026,6 +21514,10 @@ export namespace Prisma {
     phone?: string | null
     name: string
     passwordHash: string
+    avatar?: string | null
+    gender?: string | null
+    jobTitle?: string | null
+    workLocation?: string | null
     createdAt?: Date | string
     tenants?: TenantUserUncheckedCreateNestedManyWithoutUserInput
   }
@@ -19056,7 +21548,8 @@ export namespace Prisma {
     users?: TenantUserUpdateManyWithoutTenantNestedInput
     teams?: TeamUpdateManyWithoutTenantNestedInput
     robots?: RobotUpdateManyWithoutTenantNestedInput
-    files?: WorkspaceFileUpdateManyWithoutTenantNestedInput
+    llmConfig?: TenantLlmConfigUpdateOneWithoutTenantNestedInput
+    invitations?: TenantInvitationUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUncheckedUpdateWithoutApiKeysInput = {
@@ -19069,7 +21562,8 @@ export namespace Prisma {
     users?: TenantUserUncheckedUpdateManyWithoutTenantNestedInput
     teams?: TeamUncheckedUpdateManyWithoutTenantNestedInput
     robots?: RobotUncheckedUpdateManyWithoutTenantNestedInput
-    files?: WorkspaceFileUncheckedUpdateManyWithoutTenantNestedInput
+    llmConfig?: TenantLlmConfigUncheckedUpdateOneWithoutTenantNestedInput
+    invitations?: TenantInvitationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUpsertWithoutApiKeysInput = {
@@ -19089,6 +21583,10 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    jobTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenants?: TenantUserUpdateManyWithoutUserNestedInput
   }
@@ -19099,8 +21597,84 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    jobTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenants?: TenantUserUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type TenantCreateWithoutLlmConfigInput = {
+    id?: string
+    name: string
+    slug: string
+    ownerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: TenantUserCreateNestedManyWithoutTenantInput
+    teams?: TeamCreateNestedManyWithoutTenantInput
+    robots?: RobotCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutTenantInput
+    invitations?: TenantInvitationCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantUncheckedCreateWithoutLlmConfigInput = {
+    id?: string
+    name: string
+    slug: string
+    ownerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: TenantUserUncheckedCreateNestedManyWithoutTenantInput
+    teams?: TeamUncheckedCreateNestedManyWithoutTenantInput
+    robots?: RobotUncheckedCreateNestedManyWithoutTenantInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutTenantInput
+    invitations?: TenantInvitationUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type TenantCreateOrConnectWithoutLlmConfigInput = {
+    where: TenantWhereUniqueInput
+    create: XOR<TenantCreateWithoutLlmConfigInput, TenantUncheckedCreateWithoutLlmConfigInput>
+  }
+
+  export type TenantUpsertWithoutLlmConfigInput = {
+    update: XOR<TenantUpdateWithoutLlmConfigInput, TenantUncheckedUpdateWithoutLlmConfigInput>
+    create: XOR<TenantCreateWithoutLlmConfigInput, TenantUncheckedCreateWithoutLlmConfigInput>
+    where?: TenantWhereInput
+  }
+
+  export type TenantUpdateToOneWithWhereWithoutLlmConfigInput = {
+    where?: TenantWhereInput
+    data: XOR<TenantUpdateWithoutLlmConfigInput, TenantUncheckedUpdateWithoutLlmConfigInput>
+  }
+
+  export type TenantUpdateWithoutLlmConfigInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: TenantUserUpdateManyWithoutTenantNestedInput
+    teams?: TeamUpdateManyWithoutTenantNestedInput
+    robots?: RobotUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutTenantNestedInput
+    invitations?: TenantInvitationUpdateManyWithoutTenantNestedInput
+  }
+
+  export type TenantUncheckedUpdateWithoutLlmConfigInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: TenantUserUncheckedUpdateManyWithoutTenantNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutTenantNestedInput
+    robots?: RobotUncheckedUpdateManyWithoutTenantNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
+    invitations?: TenantInvitationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type TenantUserCreateManyTenantInput = {
@@ -19137,14 +21711,14 @@ export namespace Prisma {
     expiresAt?: Date | string | null
   }
 
-  export type WorkspaceFileCreateManyTenantInput = {
+  export type TenantInvitationCreateManyTenantInput = {
     id?: string
-    path: string
-    filename: string
-    mimeType: string
-    size: bigint | number
-    uploadedById: string
-    scope: string
+    email: string
+    role: string
+    token: string
+    invitedBy: string
+    expiresAt: Date | string
+    acceptedAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -19172,7 +21746,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: TeamMemberUpdateManyWithoutTeamNestedInput
     groups?: ChatGroupUpdateManyWithoutTeamNestedInput
-    files?: WorkspaceFileUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateWithoutTenantInput = {
@@ -19181,7 +21754,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
     groups?: ChatGroupUncheckedUpdateManyWithoutTeamNestedInput
-    files?: WorkspaceFileUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateManyWithoutTenantInput = {
@@ -19256,38 +21828,36 @@ export namespace Prisma {
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type WorkspaceFileUpdateWithoutTenantInput = {
+  export type TenantInvitationUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
-    path?: StringFieldUpdateOperationsInput | string
-    filename?: StringFieldUpdateOperationsInput | string
-    mimeType?: StringFieldUpdateOperationsInput | string
-    size?: BigIntFieldUpdateOperationsInput | bigint | number
-    uploadedById?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    team?: TeamUpdateOneWithoutFilesNestedInput
-    chatGroup?: ChatGroupUpdateOneWithoutFilesNestedInput
-  }
-
-  export type WorkspaceFileUncheckedUpdateWithoutTenantInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    path?: StringFieldUpdateOperationsInput | string
-    filename?: StringFieldUpdateOperationsInput | string
-    mimeType?: StringFieldUpdateOperationsInput | string
-    size?: BigIntFieldUpdateOperationsInput | bigint | number
-    uploadedById?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    invitedBy?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type WorkspaceFileUncheckedUpdateManyWithoutTenantInput = {
+  export type TenantInvitationUncheckedUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
-    path?: StringFieldUpdateOperationsInput | string
-    filename?: StringFieldUpdateOperationsInput | string
-    mimeType?: StringFieldUpdateOperationsInput | string
-    size?: BigIntFieldUpdateOperationsInput | bigint | number
-    uploadedById?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    invitedBy?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TenantInvitationUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    invitedBy?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -19368,17 +21938,6 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type WorkspaceFileCreateManyTeamInput = {
-    id?: string
-    path: string
-    filename: string
-    mimeType: string
-    size: bigint | number
-    uploadedById: string
-    scope: string
-    createdAt?: Date | string
-  }
-
   export type TeamMemberUpdateWithoutTeamInput = {
     memberId?: StringFieldUpdateOperationsInput | string
     memberType?: StringFieldUpdateOperationsInput | string
@@ -19404,7 +21963,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ChatGroupMemberUpdateManyWithoutGroupNestedInput
     messages?: MessageUpdateManyWithoutGroupNestedInput
-    files?: WorkspaceFileUpdateManyWithoutChatGroupNestedInput
   }
 
   export type ChatGroupUncheckedUpdateWithoutTeamInput = {
@@ -19414,48 +21972,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ChatGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
     messages?: MessageUncheckedUpdateManyWithoutGroupNestedInput
-    files?: WorkspaceFileUncheckedUpdateManyWithoutChatGroupNestedInput
   }
 
   export type ChatGroupUncheckedUpdateManyWithoutTeamInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     createdById?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WorkspaceFileUpdateWithoutTeamInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    path?: StringFieldUpdateOperationsInput | string
-    filename?: StringFieldUpdateOperationsInput | string
-    mimeType?: StringFieldUpdateOperationsInput | string
-    size?: BigIntFieldUpdateOperationsInput | bigint | number
-    uploadedById?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tenant?: TenantUpdateOneWithoutFilesNestedInput
-    chatGroup?: ChatGroupUpdateOneWithoutFilesNestedInput
-  }
-
-  export type WorkspaceFileUncheckedUpdateWithoutTeamInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    path?: StringFieldUpdateOperationsInput | string
-    filename?: StringFieldUpdateOperationsInput | string
-    mimeType?: StringFieldUpdateOperationsInput | string
-    size?: BigIntFieldUpdateOperationsInput | bigint | number
-    uploadedById?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WorkspaceFileUncheckedUpdateManyWithoutTeamInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    path?: StringFieldUpdateOperationsInput | string
-    filename?: StringFieldUpdateOperationsInput | string
-    mimeType?: StringFieldUpdateOperationsInput | string
-    size?: BigIntFieldUpdateOperationsInput | bigint | number
-    uploadedById?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -19473,17 +21995,6 @@ export namespace Prisma {
     mentions?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-  }
-
-  export type WorkspaceFileCreateManyChatGroupInput = {
-    id?: string
-    path: string
-    filename: string
-    mimeType: string
-    size: bigint | number
-    uploadedById: string
-    scope: string
-    createdAt?: Date | string
   }
 
   export type ChatGroupMemberUpdateWithoutGroupInput = {
@@ -19532,41 +22043,6 @@ export namespace Prisma {
     mentions?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WorkspaceFileUpdateWithoutChatGroupInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    path?: StringFieldUpdateOperationsInput | string
-    filename?: StringFieldUpdateOperationsInput | string
-    mimeType?: StringFieldUpdateOperationsInput | string
-    size?: BigIntFieldUpdateOperationsInput | bigint | number
-    uploadedById?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tenant?: TenantUpdateOneWithoutFilesNestedInput
-    team?: TeamUpdateOneWithoutFilesNestedInput
-  }
-
-  export type WorkspaceFileUncheckedUpdateWithoutChatGroupInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    path?: StringFieldUpdateOperationsInput | string
-    filename?: StringFieldUpdateOperationsInput | string
-    mimeType?: StringFieldUpdateOperationsInput | string
-    size?: BigIntFieldUpdateOperationsInput | bigint | number
-    uploadedById?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WorkspaceFileUncheckedUpdateManyWithoutChatGroupInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    path?: StringFieldUpdateOperationsInput | string
-    filename?: StringFieldUpdateOperationsInput | string
-    mimeType?: StringFieldUpdateOperationsInput | string
-    size?: BigIntFieldUpdateOperationsInput | bigint | number
-    uploadedById?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

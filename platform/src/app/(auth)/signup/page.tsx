@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, Suspense } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useAuth } from "@/hooks/use-auth"
 import { ApiClientError } from "@/lib/api/client"
 import { toast } from "sonner"
-import { Loader2 } from "lucide-react"
+import { Loader2, Mail } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -18,24 +18,69 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
 
-export default function SignupPage() {
+interface InvitationInfo {
+  id: string
+  email: string
+  role: string
+  tenantId: string
+  tenantName: string
+}
+
+function SignupForm() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [isVerifying, setIsVerifying] = useState(true)
+  const [invitation, setInvitation] = useState<InvitationInfo | null>(null)
+  const [verificationError, setVerificationError] = useState<string | null>(null)
   const { signup } = useAuth()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const token = searchParams.get("token")
+
+  useEffect(() => {
+    async function verifyToken() {
+      if (!token) {
+        setIsVerifying(false)
+        return
+      }
+
+      try {
+        const res = await fetch(`/api/v1/invitations/verify?token=${encodeURIComponent(token)}`)
+        const data = await res.json()
+
+        if (!res.ok) {
+          setVerificationError(data.error?.message || "Invalid invitation")
+        } else {
+          setInvitation(data.invitation)
+          setEmail(data.invitation.email)
+        }
+      } catch {
+        setVerificationError("Failed to verify invitation")
+      } finally {
+        setIsVerifying(false)
+      }
+    }
+
+    verifyToken()
+  }, [token])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
     try {
-      await signup({ name, email, password })
-      toast.success("Account created successfully")
-      router.push("/select-tenant")
+      const result = await signup({ name, email, password, invitationToken: token || undefined })
+
+      if (result.invitationAccepted) {
+        toast.success("Account created and joined organization")
+        router.push("/select-tenant")
+      } else {
+        toast.success("Account created successfully")
+        router.push("/select-tenant")
+      }
     } catch (error) {
       if (error instanceof ApiClientError) {
         toast.error(error.message)
@@ -47,14 +92,59 @@ export default function SignupPage() {
     }
   }
 
+  if (isVerifying) {
+    return (
+      <Card className="w-full border-zinc-800 bg-zinc-950/50 shadow-2xl backdrop-blur-xl">
+        <CardContent className="flex min-h-[400px] items-center justify-center pt-6">
+          <div className="flex flex-col items-center gap-4">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            <p className="text-sm text-muted-foreground">Verifying invitation...</p>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  if (verificationError) {
+    return (
+      <Card className="w-full border-zinc-800 bg-zinc-950/50 shadow-2xl backdrop-blur-xl">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-center text-2xl font-bold tracking-tight">
+            Invalid Invitation
+          </CardTitle>
+          <p className="text-center text-sm text-muted-foreground">
+            {verificationError}
+          </p>
+        </CardHeader>
+        <CardContent className="flex justify-center pt-4">
+          <Button asChild>
+            <Link href="/signup">Create a new account</Link>
+          </Button>
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Card className="w-full border-zinc-800 bg-zinc-950/50 shadow-2xl backdrop-blur-xl">
       <CardHeader className="space-y-1">
+        {invitation && (
+          <div className="mb-4 flex items-center justify-center gap-2 rounded-lg bg-blue-950/50 p-3 text-sm text-blue-200">
+            <Mail className="h-4 w-4" />
+            <span>
+              You&apos;ve been invited to join{" "}
+              <strong>{invitation.tenantName}</strong> as a{" "}
+              <strong>{invitation.role}</strong>
+            </span>
+          </div>
+        )}
         <CardTitle className="text-center text-2xl font-bold tracking-tight">
           Create an account
         </CardTitle>
         <p className="text-center text-sm text-muted-foreground">
-          Enter your information to get started
+          {invitation
+            ? "Complete your profile to join the organization"
+            : "Enter your information to get started"}
         </p>
       </CardHeader>
       <CardContent className="grid gap-4">
@@ -119,10 +209,15 @@ export default function SignupPage() {
                 placeholder="name@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                disabled={isLoading}
+                disabled={isLoading || !!invitation}
                 required
                 className="bg-background/50"
               />
+              {invitation && (
+                <p className="text-xs text-muted-foreground">
+                  Email is locked to your invitation
+                </p>
+              )}
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
@@ -138,7 +233,7 @@ export default function SignupPage() {
             </div>
             <Button className="w-full" type="submit" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Create Account
+              {invitation ? "Create Account & Join" : "Create Account"}
             </Button>
           </div>
         </form>
@@ -166,5 +261,22 @@ export default function SignupPage() {
         </div>
       </CardFooter>
     </Card>
+  )
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={
+      <Card className="w-full border-zinc-800 bg-zinc-950/50 shadow-2xl backdrop-blur-xl">
+        <CardContent className="flex min-h-[400px] items-center justify-center pt-6">
+          <div className="flex flex-col items-center gap-4">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            <p className="text-sm text-muted-foreground">Loading...</p>
+          </div>
+        </CardContent>
+      </Card>
+    }>
+      <SignupForm />
+    </Suspense>
   )
 }

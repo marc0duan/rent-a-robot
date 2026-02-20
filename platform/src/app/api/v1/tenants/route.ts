@@ -2,12 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAuth, requireTenantAuth, signTenantToken } from "@/lib/auth";
 import { handleError, ApiError } from "@/lib/errors";
+import { applyRateLimit } from "@/lib/rate-limit";
+import { sanitizeString } from "@/lib/sanitize";
 
-// GET /api/v1/tenants - List tenants the user belongs to
 export async function GET(request: NextRequest) {
   try {
     const auth = await requireAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const tenantUsers = await prisma.tenantUser.findMany({
       where: { userId: auth.userId },
@@ -28,11 +31,12 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/v1/tenants - Create a new tenant
 export async function POST(request: NextRequest) {
   try {
     const auth = await requireAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const body = await request.json();
     const { name, slug } = body;
@@ -41,17 +45,18 @@ export async function POST(request: NextRequest) {
       throw new ApiError(400, "validation_error", "Name and slug are required.");
     }
 
-    // Check slug uniqueness
-    const existing = await prisma.tenant.findUnique({ where: { slug } });
+    const sanitizedName = sanitizeString(name);
+    const sanitizedSlug = sanitizeString(slug);
+
+    const existing = await prisma.tenant.findUnique({ where: { slug: sanitizedSlug } });
     if (existing) {
       throw new ApiError(409, "slug_taken", "This slug is already in use.");
     }
 
-    // Create tenant and assign owner role
     const tenant = await prisma.tenant.create({
       data: {
-        name,
-        slug,
+        name: sanitizedName,
+        slug: sanitizedSlug,
         ownerId: auth.userId,
         users: {
           create: {

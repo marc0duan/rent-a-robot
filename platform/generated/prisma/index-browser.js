@@ -135,6 +135,10 @@ exports.Prisma.UserScalarFieldEnum = {
   phone: 'phone',
   name: 'name',
   passwordHash: 'passwordHash',
+  avatar: 'avatar',
+  gender: 'gender',
+  jobTitle: 'jobTitle',
+  workLocation: 'workLocation',
   createdAt: 'createdAt'
 };
 
@@ -143,6 +147,18 @@ exports.Prisma.TenantUserScalarFieldEnum = {
   tenantId: 'tenantId',
   role: 'role',
   joinedAt: 'joinedAt'
+};
+
+exports.Prisma.TenantInvitationScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  email: 'email',
+  role: 'role',
+  token: 'token',
+  invitedBy: 'invitedBy',
+  expiresAt: 'expiresAt',
+  acceptedAt: 'acceptedAt',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.TeamScalarFieldEnum = {
@@ -221,6 +237,17 @@ exports.Prisma.ApiKeyScalarFieldEnum = {
   expiresAt: 'expiresAt'
 };
 
+exports.Prisma.TenantLlmConfigScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  provider: 'provider',
+  apiKeyEnc: 'apiKeyEnc',
+  baseUrl: 'baseUrl',
+  model: 'model',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -252,6 +279,7 @@ exports.Prisma.ModelName = {
   Tenant: 'Tenant',
   User: 'User',
   TenantUser: 'TenantUser',
+  TenantInvitation: 'TenantInvitation',
   Team: 'Team',
   TeamMember: 'TeamMember',
   Robot: 'Robot',
@@ -259,7 +287,8 @@ exports.Prisma.ModelName = {
   ChatGroupMember: 'ChatGroupMember',
   Message: 'Message',
   WorkspaceFile: 'WorkspaceFile',
-  ApiKey: 'ApiKey'
+  ApiKey: 'ApiKey',
+  TenantLlmConfig: 'TenantLlmConfig'
 };
 
 /**

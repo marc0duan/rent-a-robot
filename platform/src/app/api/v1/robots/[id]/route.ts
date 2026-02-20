@@ -3,8 +3,9 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { requireTenantAuth, signRobotToken } from "@/lib/auth";
 import { handleError, ApiError } from "@/lib/errors";
+import { applyRateLimit } from "@/lib/rate-limit";
+import { sanitizeString } from "@/lib/sanitize";
 
-// GET /api/v1/robots/[id] - Get robot details
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -12,6 +13,8 @@ export async function GET(
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const { id } = await params;
 
@@ -31,7 +34,6 @@ export async function GET(
   }
 }
 
-// PUT /api/v1/robots/[id] - Update robot settings
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -40,11 +42,12 @@ export async function PUT(
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
 
+    await applyRateLimit(request, "user", auth.userId);
+
     const { id } = await params;
     const body = await request.json();
     const { name, soulMd, generateToken, tokenExpiresIn } = body;
 
-    // Verify robot belongs to tenant
     const existing = await prisma.robot.findFirst({
       where: { id, tenantId: auth.tenantId },
     });
@@ -54,8 +57,8 @@ export async function PUT(
     }
 
     const updateData: Record<string, unknown> = {};
-    if (name) updateData.name = name;
-    if (soulMd) updateData.soulMd = soulMd;
+    if (name) updateData.name = sanitizeString(name);
+    if (soulMd) updateData.soulMd = sanitizeString(soulMd);
 
     // Generate a new robot token ("Assign a PC" flow)
     let token: string | undefined;
@@ -102,7 +105,6 @@ export async function PUT(
   }
 }
 
-// DELETE /api/v1/robots/[id] - Decommission robot
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -110,6 +112,8 @@ export async function DELETE(
   try {
     const auth = await requireTenantAuth(request);
     if (auth instanceof NextResponse) return auth;
+
+    await applyRateLimit(request, "user", auth.userId);
 
     const { id } = await params;
 
