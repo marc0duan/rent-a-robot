@@ -185,6 +185,10 @@
   },
   "active": "589679839cb29d4c",
   "lastOpenFiles": [
+    "README.md",
+    "favicon.png",
+    "Gemini_Generated_Image_5h5hee5h5hee5h5h.png",
+    "LICENSE",
     "platform/src/app/api/v1/chatgroups/[id]/members/[memberId]/route.ts",
     "platform/src/app/api/v1/chatgroups/[id]/members/[memberId]",
     "platform/src/app/api/v1/chatgroups/[id]/members/route.ts",
@@ -194,8 +198,6 @@
     "platform/src/components/user-avatar.tsx",
     "platform/src/app/api/v1/users/me/route.ts",
     "platform/src/app/api/v1/users/search/route.ts",
-    "platform/src/app/api/v1/users/search",
-    "platform/src/app/api/v1/users/me",
     "platform/node_modules/@types/nodemailer/README.md",
     "platform/node_modules/nodemailer/README.md",
     "platform/node_modules/nodemailer/CODE_OF_CONDUCT.md",
@@ -229,8 +231,6 @@
     "robot/case/scedule.gif",
     "robot/nanobot_logo.png",
     "robot/nanobot_arch.png",
-    "case/search.gif",
-    "case/code.gif",
-    "case/memory.gif"
+    "case/search.gif"
   ]
 }
