@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "doc/12-Email-Invitation-System.md",
+                "file": "doc/07-Robot-Lifecycle.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "12-Email-Invitation-System"
+              "title": "07-Robot-Lifecycle"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "doc/12-Email-Invitation-System.md",
+                "file": "doc/07-Robot-Lifecycle.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for 12-Email-Invitation-System"
+              "title": "Backlinks for 07-Robot-Lifecycle"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "doc/12-Email-Invitation-System.md",
+                "file": "doc/07-Robot-Lifecycle.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from 12-Email-Invitation-System"
+              "title": "Outgoing links from 07-Robot-Lifecycle"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "doc/12-Email-Invitation-System.md",
+                "file": "doc/07-Robot-Lifecycle.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of 12-Email-Invitation-System"
+              "title": "Outline of 07-Robot-Lifecycle"
             }
           }
         ]
@@ -185,26 +185,29 @@
   },
   "active": "589679839cb29d4c",
   "lastOpenFiles": [
+    "robot/nanobot/channels/platform.py",
+    "platform/src/app/api/v1/robots/stream/route.ts",
+    "platform/src/app/api/v1/robots/stream",
+    "robot/nanobot/providers/__pycache__/litellm_provider.cpython-313.pyc",
+    "robot/nanobot/providers/__pycache__/base.cpython-313.pyc",
+    "robot/nanobot/providers/__pycache__/__init__.cpython-313.pyc",
+    "robot/nanobot/providers/__pycache__",
+    "robot/nanobot/agent/__pycache__/loop.cpython-313.pyc",
+    "robot/nanobot/agent/__pycache__/__init__.cpython-313.pyc",
+    "robot/nanobot/agent/__pycache__",
+    "robot/nanobot/bus/__pycache__/queue.cpython-313.pyc",
+    "doc/05-Chat-System.md",
+    "PROGRESS.md",
+    "doc/Perseus-Design-Blueprint.canvas",
+    "doc/12-Email-Invitation-System.md",
     "README.md",
     "favicon.png",
     "Gemini_Generated_Image_5h5hee5h5hee5h5h.png",
-    "LICENSE",
-    "platform/src/app/api/v1/chatgroups/[id]/members/[memberId]/route.ts",
-    "platform/src/app/api/v1/chatgroups/[id]/members/[memberId]",
-    "platform/src/app/api/v1/chatgroups/[id]/members/route.ts",
-    "platform/src/app/api/v1/chatgroups/[id]/members",
-    "platform/src/components/about-modal.tsx",
-    "platform/src/components/profile-modal.tsx",
-    "platform/src/components/user-avatar.tsx",
-    "platform/src/app/api/v1/users/me/route.ts",
-    "platform/src/app/api/v1/users/search/route.ts",
     "platform/node_modules/@types/nodemailer/README.md",
     "platform/node_modules/nodemailer/README.md",
     "platform/node_modules/nodemailer/CODE_OF_CONDUCT.md",
     "platform/node_modules/nodemailer/CHANGELOG.md",
     "CLAUDE.md",
-    "doc/12-Email-Invitation-System.md",
-    "PROGRESS.md",
     "mcp-server/node_modules/@modelcontextprotocol/sdk/README.md",
     "mcp-server/node_modules/hono/README.md",
     "mcp-server/node_modules/ajv/README.md",
@@ -221,10 +224,7 @@
     "mcp-server/node_modules/object-inspect/CHANGELOG.md",
     "mcp-server/node_modules/fast-uri/README.md",
     "mcp-server/node_modules/qs/README.md",
-    "mcp-server/node_modules/qs/LICENSE.md",
-    "mcp-server/node_modules/@hono/node-server/README.md",
     "platform/node_modules/retry/equation.gif",
-    "doc/Perseus-Design-Blueprint.canvas",
     "robot/case/search.gif",
     "robot/case/code.gif",
     "robot/case/memory.gif",

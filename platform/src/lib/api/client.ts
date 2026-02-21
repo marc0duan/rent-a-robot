@@ -150,6 +150,36 @@ export const api = {
       request<{ users: Array<{ userId: string; role: string; joinedAt: string; user: { id: string; email: string; name: string } }> }>(
         `/tenants/${id}/users`
       ),
+    getLlmConfig: (id: string) =>
+      request<{
+        llmConfig: {
+          id: string;
+          tenantId: string;
+          provider: string;
+          apiKeyMasked: string;
+          baseUrl: string | null;
+          model: string | null;
+          createdAt: string;
+          updatedAt: string;
+        } | null;
+      }>(`/tenants/${id}/llm-config`),
+    updateLlmConfig: (id: string, data: { provider: string; apiKey: string; baseUrl?: string; model?: string }) =>
+      request<{
+        llmConfig: {
+          id: string;
+          tenantId: string;
+          provider: string;
+          apiKeyMasked: string;
+          baseUrl: string | null;
+          model: string | null;
+          createdAt: string;
+          updatedAt: string;
+        };
+      }>(`/tenants/${id}/llm-config`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+      }),
+    deleteLlmConfig: (id: string) => request<{ deleted: boolean }>(`/tenants/${id}/llm-config`, { method: "DELETE" }),
   },
 
   invitations: {

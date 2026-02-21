@@ -69,6 +69,9 @@ def _migrate_config(data: dict) -> dict:
     exec_cfg = tools.get("exec", {})
     if "restrictToWorkspace" in exec_cfg and "restrictToWorkspace" not in tools:
         tools["restrictToWorkspace"] = exec_cfg.pop("restrictToWorkspace")
+    # Add platform field if not present (for existing configs)
+    if "platform" not in data:
+        data["platform"] = {"platformUrl": "", "robotToken": ""}
     return data
 
 

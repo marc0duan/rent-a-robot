@@ -136,6 +136,18 @@ class ChannelManager:
                 logger.info("QQ channel enabled")
             except ImportError as e:
                 logger.warning(f"QQ channel not available: {e}")
+
+        # Platform channel (Perseus)
+        if self.config.channels.platform.enabled:
+            try:
+                from nanobot.channels.platform import PlatformChannel
+                self.channels["platform"] = PlatformChannel(
+                    self.config.channels.platform,
+                    self.bus
+                )
+                logger.info("Platform channel enabled")
+            except ImportError as e:
+                logger.warning(f"Platform channel not available: {e}")
     
     async def _start_channel(self, name: str, channel: BaseChannel) -> None:
         """Start a channel and log any exceptions."""

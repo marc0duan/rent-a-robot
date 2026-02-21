@@ -14,6 +14,7 @@ import {
   Building2,
   LogOut,
   Loader2,
+  Settings,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
@@ -46,6 +47,7 @@ export default function DashboardLayout({
     ...(tenant?.role === "owner"
       ? [{ href: "/tenants", label: "Tenant", icon: Building2 }]
       : []),
+    { href: "/settings", label: "Settings", icon: Settings },
   ]
 
   useEffect(() => {

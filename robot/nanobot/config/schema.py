@@ -153,6 +153,7 @@ class ChannelsConfig(BaseModel):
     email: EmailConfig = Field(default_factory=EmailConfig)
     slack: SlackConfig = Field(default_factory=SlackConfig)
     qq: QQConfig = Field(default_factory=QQConfig)
+    platform: PlatformConfig = Field(default_factory=PlatformConfig)
 
 
 class AgentDefaults(BaseModel):
@@ -233,6 +234,20 @@ class ToolsConfig(BaseModel):
     mcp_servers: dict[str, MCPServerConfig] = Field(default_factory=dict)
 
 
+class PlatformConfig(BaseModel):
+    """Platform channel configuration for receiving messages from Perseus."""
+    enabled: bool = False
+    platform_url: str = ""  # Platform URL (e.g., http://localhost:3000)
+    robot_token: str = ""  # Robot token for authentication
+    allow_from: list[str] = Field(default_factory=list)  # Allowed user IDs (empty = all)
+
+
+class PlatformSettingsConfig(BaseSettings):
+    """Platform connection settings (legacy, use PlatformConfig in channels instead)."""
+    platform_url: str = ""
+    robot_token: str = ""
+
+
 class Config(BaseSettings):
     """Root configuration for nanobot."""
     agents: AgentsConfig = Field(default_factory=AgentsConfig)
@@ -240,6 +255,7 @@ class Config(BaseSettings):
     providers: ProvidersConfig = Field(default_factory=ProvidersConfig)
     gateway: GatewayConfig = Field(default_factory=GatewayConfig)
     tools: ToolsConfig = Field(default_factory=ToolsConfig)
+    platform: PlatformSettingsConfig = Field(default_factory=PlatformSettingsConfig)
     
     @property
     def workspace_path(self) -> Path:

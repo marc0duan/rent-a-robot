@@ -1,0 +1,72 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "nanobot: status",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "nanobot",
+      "args": ["status"],
+      "cwd": "${workspaceFolder}/robot",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "nanobot: agent (interactive)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "nanobot",
+      "args": ["agent"],
+      "cwd": "${workspaceFolder}/robot",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "nanobot: agent -m 'hello'",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "nanobot",
+      "args": ["agent", "-m", "hello"],
+      "cwd": "${workspaceFolder}/robot",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "nanobot: gateway",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "nanobot",
+      "args": ["gateway"],
+      "cwd": "${workspaceFolder}/robot",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "nanobot: onboard",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "nanobot",
+      "args": ["onboard"],
+      "cwd": "${workspaceFolder}/robot",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "nanobot: custom command",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "nanobot",
+      "args": ["${input:nanobotCommand}"],
+      "cwd": "${workspaceFolder}/robot",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    }
+  ],
+  "inputs": [
+    {
+      "id": "nanobotCommand",
+      "type": "promptString",
+      "description": "Enter nanobot subcommand (e.g. status, agent, gateway)"
+    }
+  ]
+}

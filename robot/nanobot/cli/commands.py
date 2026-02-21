@@ -154,14 +154,116 @@ def main(
 
 
 @app.command()
-def onboard():
+def onboard(
+    platform_url: str = typer.Option(None, "--platform-url", help="Platform URL (e.g., http://localhost:3000)"),
+    token: str = typer.Option(None, "--token", help="Robot token from the platform"),
+):
     """Initialize nanobot configuration and workspace."""
+    import requests
     from nanobot.config.loader import get_config_path, load_config, save_config
-    from nanobot.config.schema import Config
+    from nanobot.config.schema import Config, PlatformConfig
     from nanobot.utils.helpers import get_workspace_path
-    
+
     config_path = get_config_path()
-    
+    config: Config
+
+    # If platform_url and token are provided, try to fetch config from platform
+    if platform_url and token:
+        console.print(f"{__logo__} Connecting to platform at {platform_url}...")
+        try:
+            onboard_url = f"{platform_url.rstrip('/')}/api/v1/onboard"
+            response = requests.get(
+                onboard_url,
+                headers={"X-Robot-Token": token},
+                timeout=30,
+            )
+            if response.status_code != 200:
+                console.print(f"[red]Failed to connect to platform: {response.status_code}[/red]")
+                console.print(f"[dim]{response.text}[/dim]")
+                raise typer.Exit(1)
+
+            data = response.json()
+            console.print(f"[green]✓[/green] Connected to platform")
+
+            # Extract config from response
+            platform_config = data.get("config", {})
+            llm_config = platform_config.get("llm")
+
+            # Load or create config
+            if config_path.exists():
+                config = load_config()
+            else:
+                config = Config()
+
+            # Update platform config
+            config.platform = PlatformConfig(
+                platform_url=platform_url,
+                robot_token=token,
+            )
+
+            # Update LLM config if provided
+            if llm_config:
+                provider = llm_config.get("provider")
+                api_key = llm_config.get("apiKey")
+                base_url = llm_config.get("baseUrl")
+                model = llm_config.get("model")
+
+                if provider and api_key:
+                    console.print(f"[green]✓[/green] Configuring LLM: {provider}")
+                    # Map platform provider names to nanobot provider names
+                    provider_map = {
+                        "minimax": "minimax",
+                        "openai": "openai",
+                        "anthropic": "anthropic",
+                        "deepseek": "deepseek",
+                        "openrouter": "openrouter",
+                        "dashscope": "dashscope",
+                        "moonshot": "moonshot",
+                        "zhipu": "zhipu",
+                        "custom": "custom",
+                    }
+                    nanobot_provider = provider_map.get(provider, "custom")
+
+                    # Set provider API key
+                    provider_field = getattr(config.providers, nanobot_provider, None)
+                    if provider_field:
+                        provider_field.api_key = api_key
+                    else:
+                        # For custom provider, set api_key and api_base
+                        config.providers.custom.api_key = api_key
+                        if base_url:
+                            config.providers.custom.api_base = base_url
+
+                    # Set default model if provided
+                    if model:
+                        config.agents.defaults.model = model
+
+                    console.print(f"[green]✓[/green] LLM configured with model: {model or 'default'}")
+
+            # Save config
+            save_config(config)
+            console.print(f"[green]✓[/green] Config saved to {config_path}")
+
+            # Update soul.md if provided
+            robot_data = data.get("robot", {})
+            soul_md = robot_data.get("soulMd")
+            workspace = get_workspace_path()
+            if soul_md and workspace.exists():
+                soul_path = workspace / "SOUL.md"
+                soul_path.write_text(soul_md)
+                console.print(f"[green]✓[/green] Soul updated from platform")
+
+            console.print(f"\n{__logo__} nanobot is ready!")
+            console.print(f"\n[green]✓[/green] Connected to platform!")
+            console.print(f"  Robot: {robot_data.get('name', 'unknown')}")
+            console.print(f"  Tenant: {data.get('tenant', {}).get('name', 'unknown')}")
+            return
+
+        except requests.RequestException as e:
+            console.print(f"[red]Network error: {e}[/red]")
+            raise typer.Exit(1)
+
+    # Original onboard flow (without platform connection)
     if config_path.exists():
         console.print(f"[yellow]Config already exists at {config_path}[/yellow]")
         console.print("  [bold]y[/bold] = overwrite with defaults (existing values will be lost)")
@@ -175,19 +277,20 @@ def onboard():
             save_config(config)
             console.print(f"[green]✓[/green] Config refreshed at {config_path} (existing values preserved)")
     else:
-        save_config(Config())
+        config = Config()
+        save_config(config)
         console.print(f"[green]✓[/green] Created config at {config_path}")
-    
+
     # Create workspace
     workspace = get_workspace_path()
-    
+
     if not workspace.exists():
         workspace.mkdir(parents=True, exist_ok=True)
         console.print(f"[green]✓[/green] Created workspace at {workspace}")
-    
+
     # Create default bootstrap files
     _create_workspace_templates(workspace)
-    
+
     console.print(f"\n{__logo__} nanobot is ready!")
     console.print("\nNext steps:")
     console.print("  1. Add your API key to [cyan]~/.nanobot/config.json[/cyan]")
