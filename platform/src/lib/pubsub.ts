@@ -75,6 +75,7 @@ export async function publishMessage(
   chatGroupId: string,
   payload: Record<string, unknown>
 ): Promise<void> {
+  console.log("[PUBSUB] publishMessage to", chatGroupId, "payload:", JSON.stringify(payload).slice(0, 200));
   const publisher = getPublisher();
   const channel = chatGroupChannel(chatGroupId);
   await publisher.publish(channel, JSON.stringify(payload));
@@ -100,6 +101,7 @@ export async function publishToRobot(
   robotId: string,
   payload: Record<string, unknown>
 ): Promise<void> {
+  console.log("[PUBSUB] publishToRobot", robotId, "payload:", JSON.stringify(payload).slice(0, 200));
   const publisher = getPublisher();
   const channel = robotChannel(robotId);
   await publisher.publish(channel, JSON.stringify(payload));

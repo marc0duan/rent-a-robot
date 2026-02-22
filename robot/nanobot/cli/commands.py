@@ -236,8 +236,9 @@ def onboard(
                 config = load_config()
             else:
                 config = Config()
-            # Update platform config with robot identity
-            config.platform = PlatformConfig(
+            # Update platform channel config with robot identity
+            config.channels.platform = PlatformConfig(
+                enabled=True,
                 platform_url=platform_url,
                 robot_token=token,
                 robot_id=robot_data.get("id", robot_id),

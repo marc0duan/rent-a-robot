@@ -210,8 +210,18 @@ class PlatformChannel(BaseChannel):
             return
 
         if event_type == "message" and data:
+            logger.info(f"SSE received event_type={event_type}, data={data[:100]}...")
             try:
-                message = json.loads(data)
+                payload = json.loads(data)
+                # Extract the actual message from the payload
+                # SSE format: {"type": "new_message", "message": {...}}
+                if payload.get("type") == "new_message":
+                    message = payload.get("message", {})
+                elif payload.get("type") == "mention":
+                    message = payload.get("message", {})
+                else:
+                    message = payload
+                logger.info(f"[PLATFORM] Extracted message: {message}")
                 await self._handle_platform_message(message)
             except json.JSONDecodeError as e:
                 logger.warning(f"Failed to parse SSE message: {e}")
@@ -248,9 +258,10 @@ class PlatformChannel(BaseChannel):
         else:
             full_sender_id = sender_id
 
-        logger.debug(f"Platform message from {full_sender_id} in {chat_group_id}: {content[:50]}...")
+        logger.info(f"[PLATFORM] Message from {full_sender_id} in {chat_group_id}: {content[:50]}...")
 
         # Forward to the message bus
+        logger.info(f"[PLATFORM] Sending to bus: sender={full_sender_id}, chat={chat_group_id}")
         await self._handle_message(
             sender_id=full_sender_id,
             chat_id=chat_group_id,
@@ -261,6 +272,7 @@ class PlatformChannel(BaseChannel):
                 "platform_message": True,
             }
         )
+        logger.info(f"[PLATFORM] Message sent to bus")
 
     async def _wait_before_reconnect(self) -> None:
         """Wait with exponential backoff before reconnecting."""

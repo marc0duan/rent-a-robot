@@ -124,17 +124,19 @@ export async function POST(
 
     const sanitizedContent = sanitizeString(content);
 
-    const mentionPattern = /@(\w+(?:\s\w+)?)/g;
+    const mentionPattern = /@(\w+)/g;
     const mentionNames: string[] = [];
     let match;
     while ((match = mentionPattern.exec(sanitizedContent)) !== null) {
       mentionNames.push(match[1]);
     }
+    console.log("[MESSAGES] mentionNames:", mentionNames);
 
     let mentions: { id: string; name: string; type: string }[] | null = null;
 
     if (mentionNames.length > 0) {
       const memberIds = group.members.map((m) => m.memberId);
+      console.log("[MESSAGES] memberIds:", memberIds);
 
       const [mentionedUsers, mentionedRobots] = await Promise.all([
         prisma.user.findMany({
