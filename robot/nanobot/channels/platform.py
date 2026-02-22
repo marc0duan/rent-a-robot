@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import json
 import re
+import httpx
 from loguru import logger
 
 from nanobot.bus.events import InboundMessage, OutboundMessage
@@ -50,7 +51,7 @@ class PlatformChannel(BaseChannel):
         if not platform_url.startswith("http://") and not platform_url.startswith("https://"):
             platform_url = "http://" + platform_url
 
-        return platform_url + "/api/v1/robots/stream"
+        return platform_url + f"/api/v1/robots/{self.config.robot_id}/stream"
 
     async def start(self) -> None:
         """Start the platform channel and connect to SSE stream."""
@@ -62,6 +63,10 @@ class PlatformChannel(BaseChannel):
             logger.error("Robot token not configured")
             return
 
+
+        if not self.config.robot_id:
+            logger.error("Robot ID not configured, cannot connect to per-robot stream")
+            return
         self._running = True
         self._stream_url = self._get_stream_url()
         logger.info(f"Platform channel connecting to {self._stream_url}")
@@ -94,8 +99,36 @@ class PlatformChannel(BaseChannel):
         logger.info("Platform channel stopped")
 
     async def send(self, msg: OutboundMessage) -> None:
-        """Platform channel doesn't send messages - they go through MCP."""
-        logger.debug(f"Platform channel received outbound message (not implemented)")
+        """Send a message to the platform via POST."""
+        if not self.config.robot_id:
+            logger.warning("Cannot send: robot_id not configured")
+            return
+
+        platform_url = self.config.platform_url.rstrip("/")
+        if not platform_url.startswith("http://") and not platform_url.startswith("https://"):
+            platform_url = "http://" + platform_url
+
+        url = f"{platform_url}/api/v1/robots/{self.config.robot_id}/messages"
+        headers = {
+            "X-Robot-Token": self.config.robot_token,
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "chatGroupId": msg.chat_id,
+            "content": msg.content,
+        }
+
+        try:
+            async with httpx.AsyncClient(timeout=httpx.Timeout(10.0)) as client:
+                response = await client.post(url, json=payload, headers=headers)
+                if response.status_code != 201:
+                    logger.warning(
+                        f"Platform POST failed: {response.status_code} {response.text}"
+                    )
+                else:
+                    logger.debug(f"Message sent to chatgroup {msg.chat_id}")
+        except Exception as e:
+            logger.warning(f"Failed to send message to platform: {e}")
 
     async def _heartbeat_loop(self) -> None:
         """Send periodic heartbeats to keep connection alive."""
@@ -118,7 +151,6 @@ class PlatformChannel(BaseChannel):
 
     async def _connect_sse(self) -> None:
         """Connect to SSE endpoint using HTTP and process stream."""
-        import httpx
 
         url = self._stream_url
         headers = {
@@ -202,6 +234,11 @@ class PlatformChannel(BaseChannel):
         sender_type = message.get("senderType", "user")
         message_id = message.get("id", "")
 
+
+        # Skip self-sent messages to avoid echo loops
+        if sender_id == self.config.robot_id:
+            logger.debug(f"Ignoring self-sent message {message_id}")
+            return
         if not content:
             return
 

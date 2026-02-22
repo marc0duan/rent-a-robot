@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireTenantAuth } from "@/lib/auth";
 import { handleError, ApiError } from "@/lib/errors";
-import { publishMessage } from "@/lib/pubsub";
+import { publishMessage, publishToRobot } from "@/lib/pubsub";
 import { applyRateLimit } from "@/lib/rate-limit";
 import { sanitizeString } from "@/lib/sanitize";
 
@@ -183,6 +183,30 @@ export async function POST(
         sender: { name: sender?.name ?? "Unknown", type: "human" },
       },
     }).catch(() => {});
+
+
+    // Route @mentions to robot-specific pub/sub channels
+    if (mentions) {
+      const robotMentions = mentions.filter((m) => m.type === "robot");
+      if (robotMentions.length > 0) {
+        const mentionPayload = {
+          type: "mention",
+          message: {
+            id: message.id,
+            chatGroupId: id,
+            content: message.content,
+            senderId: auth.userId,
+            senderType: "human",
+            senderName: sender?.name ?? "Unknown",
+            createdAt: message.createdAt,
+            mentions: message.mentions,
+          },
+        };
+        Promise.all(
+          robotMentions.map((r) => publishToRobot(r.id, mentionPayload))
+        ).catch(() => {});
+      }
+    }
 
     return NextResponse.json({ message }, { status: 201 });
   } catch (err) {

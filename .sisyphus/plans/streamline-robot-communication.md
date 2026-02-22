@@ -928,7 +928,7 @@ Max Concurrent: 5 (Wave 1)
   - Files: `platform/src/app/api/v1/robots/[id]/messages/route.ts`
   - Pre-commit: `npm run lint`
 
-- [ ] 9. Update nanobot onboard CLI to use SQLite3 + new config endpoint
+ [x] 9. Update nanobot onboard CLI to use SQLite3 + new config endpoint
 
   **What to do**:
   - Modify `robot/nanobot/cli/commands.py` — update the `onboard` command's platform flow (lines 170-260)
@@ -1034,7 +1034,7 @@ Max Concurrent: 5 (Wave 1)
 
 ### Wave 3 (After Wave 2 — routing + channel integration)
 
-- [ ] 10. Wire @mention routing to robot pub/sub channels
+ [x] 10. Wire @mention routing to robot pub/sub channels
 
   **What to do**:
   - In `platform/src/app/api/v1/chatgroups/[id]/messages/route.ts`, after the `publishMessage()` call (line 185), add robot-specific routing
@@ -1146,7 +1146,7 @@ Max Concurrent: 5 (Wave 1)
   - Files: `platform/src/app/api/v1/chatgroups/[id]/messages/route.ts`
   - Pre-commit: `npm run lint`
 
-- [ ] 11. Implement PlatformChannel.send() via POST
+ [x] 11. Implement PlatformChannel.send() via POST
 
   **What to do**:
   - In `robot/nanobot/channels/platform.py`, replace the no-op `send()` method (lines 96-98) with a working implementation
@@ -1238,7 +1238,7 @@ Max Concurrent: 5 (Wave 1)
   - Files: `robot/nanobot/channels/platform.py`
   - Pre-commit: —
 
-- [ ] 12. Update PlatformChannel to use per-robot stream URL + self-mention filter
+ [x] 12. Update PlatformChannel to use per-robot stream URL + self-mention filter
 
   **What to do**:
   - In `robot/nanobot/channels/platform.py`, update `_get_stream_url()` (lines 45-53) to use the per-robot endpoint:
