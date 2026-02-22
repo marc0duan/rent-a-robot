@@ -1,0 +1,12 @@
+95:export function robotChannel(robotId: string): string {
+99:export async function publishToRobot(
+104:  const channel = robotChannel(robotId);
+108:export async function subscribeToRobot(
+113:  const channel = robotChannel(robotId);
+70:export function chatGroupChannel(chatGroupId: string): string {
+74:export async function publishMessage(
+79:  const channel = chatGroupChannel(chatGroupId);
+83:export async function subscribeToChatGroup(
+88:  const channel = chatGroupChannel(chatGroupId);
+---
+All 6 functions present (3 chatgroup + 3 robot)

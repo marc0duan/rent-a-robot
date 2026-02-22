@@ -57,7 +57,18 @@ export async function PUT(
     }
 
     const updateData: Record<string, unknown> = {};
-    if (name) updateData.name = sanitizeString(name);
+    if (name) {
+      const sanitizedName = sanitizeString(name);
+      // Validate name format (1-2 words, alphanumeric) for @mention compatibility
+      if (!/^\w+(?:\s\w+)?$/.test(sanitizedName)) {
+        throw new ApiError(
+          400,
+          "validation_error",
+          "Robot name must be 1-2 words (alphanumeric) for @mention compatibility"
+        );
+      }
+      updateData.name = sanitizedName;
+    }
     if (soulMd) updateData.soulMd = sanitizeString(soulMd);
 
     // Generate a new robot token ("Assign a PC" flow)

@@ -45,6 +45,15 @@ export async function POST(request: NextRequest) {
     }
 
     const sanitizedName = sanitizeString(name);
+
+    // Validate name format (1-2 words, alphanumeric) for @mention compatibility
+    if (!/^\w+(?:\s\w+)?$/.test(sanitizedName)) {
+      throw new ApiError(
+        400,
+        "validation_error",
+        "Robot name must be 1-2 words (alphanumeric) for @mention compatibility"
+      );
+    }
     const sanitizedSoulMd = sanitizeString(soulMd || '');
 
     const robot = await prisma.robot.create({

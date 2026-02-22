@@ -91,3 +91,28 @@ export async function subscribeToChatGroup(
     await hub.unsubscribe(channel, callback);
   };
 }
+
+export function robotChannel(robotId: string): string {
+  return `robot:${robotId}:messages`;
+}
+
+export async function publishToRobot(
+  robotId: string,
+  payload: Record<string, unknown>
+): Promise<void> {
+  const publisher = getPublisher();
+  const channel = robotChannel(robotId);
+  await publisher.publish(channel, JSON.stringify(payload));
+}
+
+export async function subscribeToRobot(
+  robotId: string,
+  callback: MessageCallback
+): Promise<() => Promise<void>> {
+  const hub = getHub();
+  const channel = robotChannel(robotId);
+  await hub.subscribe(channel, callback);
+  return async () => {
+    await hub.unsubscribe(channel, callback);
+  };
+}

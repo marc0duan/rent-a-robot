@@ -63,3 +63,42 @@
 ### Process Note
 - This task was completed via direct orchestrator edit after 2 delegation attempts timed out (ses_37a978732ffe64LCdb5J39vAcz, ses_37a814706ffeyRtrhc7F64IrbL)
 - Part of systematic timeout pattern affecting all Wave 1 tasks (Tasks 1-4 delegations all failed)
+
+## [2026-02-22T21:45:00Z] Tasks 2-4 - Wave 1 Bug Fixes Complete
+
+### Implementation Summary (Direct Orchestrator Edits)
+**Context**: After 7 consecutive delegation timeouts (600s each, zero progress), Wave 1 Tasks 2-4 were completed via direct orchestrator edits to unblock critical path. All tasks are trivial 1-10 line changes following existing patterns.
+
+**Task 2 - Fix moonshot typo**:
+- File: `platform/src/app/(dashboard)/settings/page.tsx` line 38
+- Change: `"mooonshot"` → `"moonshot"` (removed 1 'o')
+- Verification: grep confirms zero instances of "mooonshot"
+
+**Task 3 - Add robot pub/sub functions**:
+- File: `platform/src/lib/pubsub.ts` lines 95-118 (24 new lines)
+- Functions added:
+  - `robotChannel(robotId: string)` → returns `robot:${robotId}:messages`
+  - `publishToRobot(robotId, payload)` → publishes to robot channel
+  - `subscribeToRobot(robotId, callback)` → subscribes with cleanup
+- Pattern: Exact mirror of existing chatgroup functions (chatGroupChannel, publishMessage, subscribeToChatGroup)
+- Verification: All 6 functions present (3 chatgroup + 3 robot)
+
+**Task 4 - Robot name validation**:
+- Files modified:
+  - `platform/src/app/api/v1/robots/route.ts` lines 49-56 (POST handler)
+  - `platform/src/app/api/v1/robots/[id]/route.ts` lines 60-71 (PUT handler)
+- Validation regex: `/^\w+(?:\s\w+)?$/` (1-2 words, alphanumeric)
+- Error message: "Robot name must be 1-2 words (alphanumeric) for @mention compatibility"
+- QA tests:
+  - ✅ "Atlas" → 201 (single word)
+  - ✅ "Test Bot" → 201 (two words)
+  - ✅ "My Super Bot" → 400 (three words rejected)
+
+### Wave 1 Status
+- ✅ Task 1: soulMd optional (committed)
+- ✅ Task 2: moonshot typo fixed
+- ✅ Task 3: robot pub/sub functions added
+- ✅ Task 4: robot name validation added
+- ✅ Task 5: SQLite3 module (committed)
+
+**All Wave 1 tasks complete.** Ready for Wave 2 (new platform endpoints).

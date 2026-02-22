@@ -35,7 +35,7 @@ const PROVIDERS = [
   { value: "deepseek", label: "DeepSeek" },
   { value: "openrouter", label: "OpenRouter" },
   { value: "dashscope", label: "DashScope (Alibaba)" },
-  { value: "mooonshot", label: "Moonshot" },
+  { value: "moonshot", label: "Moonshot" },
   { value: "zhipu", label: "Zhipu AI" },
   { value: "minimax", label: "MiniMax" },
   { value: "custom", label: "Custom (OpenAI-compatible)" },
