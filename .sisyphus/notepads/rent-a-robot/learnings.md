@@ -1,1 +1,0 @@
-- Project blueprint: 'perseus project design blue print.md'

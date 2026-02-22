@@ -1,1 +1,0 @@
-- Entity specifications in 'doc/04-Platform-Entities.md' focus on business logic and relationships, delegating schema details to '02-Data-Model'.
