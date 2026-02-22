@@ -159,21 +159,41 @@ def onboard(
     token: str = typer.Option(None, "--token", help="Robot token from the platform"),
 ):
     """Initialize nanobot configuration and workspace."""
+    import base64
+    import json as json_mod
     import requests
     from nanobot.config.loader import get_config_path, load_config, save_config
     from nanobot.config.schema import Config, PlatformConfig
+    from nanobot.config.database import ConfigDatabase
     from nanobot.utils.helpers import get_workspace_path
-
     config_path = get_config_path()
     config: Config
-
     # If platform_url and token are provided, try to fetch config from platform
     if platform_url and token:
         console.print(f"{__logo__} Connecting to platform at {platform_url}...")
         try:
-            onboard_url = f"{platform_url.rstrip('/')}/api/v1/onboard"
+            # Decode JWT token to extract robot_id (no signature verification)
+            try:
+                parts = token.split(".")
+                if len(parts) != 3:
+                    console.print("[red]Invalid token format — expected JWT with 3 segments[/red]")
+                    raise typer.Exit(1)
+                payload = parts[1]
+                # Add base64 padding
+                payload += "=" * (4 - len(payload) % 4)
+                claims = json_mod.loads(base64.urlsafe_b64decode(payload))
+                robot_id = claims.get("robotId", "")
+                if not robot_id:
+                    console.print("[red]Token does not contain robotId claim[/red]")
+                    raise typer.Exit(1)
+            except (ValueError, json_mod.JSONDecodeError) as e:
+                console.print(f"[red]Failed to decode token: {e}[/red]")
+                raise typer.Exit(1)
+
+            # Fetch config from per-robot config endpoint
+            config_url = f"{platform_url.rstrip('/')}/api/v1/robots/{robot_id}/config"
             response = requests.get(
-                onboard_url,
+                config_url,
                 headers={"X-Robot-Token": token},
                 timeout=30,
             )
@@ -181,33 +201,54 @@ def onboard(
                 console.print(f"[red]Failed to connect to platform: {response.status_code}[/red]")
                 console.print(f"[dim]{response.text}[/dim]")
                 raise typer.Exit(1)
-
             data = response.json()
             console.print(f"[green]✓[/green] Connected to platform")
+            robot_data = data.get("robot", {})
+            tenant_data = data.get("tenant", {})
+            teams = data.get("teams", [])
+            chatgroups = data.get("chatgroups", [])
+            llm_config = data.get("config", {}).get("llm", {})
 
-            # Extract config from response
-            platform_config = data.get("config", {})
-            llm_config = platform_config.get("llm")
+            # Store in SQLite (primary storage)
+            db = ConfigDatabase()
+            db.init_db()
+            db.save_robot_info({
+                "robot_id": robot_data.get("id", robot_id),
+                "robot_name": robot_data.get("name", ""),
+                "tenant_id": tenant_data.get("id", ""),
+                "team_ids": [t.get("id") for t in teams],
+                "chat_group_ids": [cg.get("id") for cg in chatgroups],
+                "platform_url": platform_url,
+                "robot_token": token,
+            })
+            console.print(f"[green]✓[/green] Robot info saved to SQLite")
+            if llm_config:
+                db.save_llm_config({
+                    "provider": llm_config.get("provider", ""),
+                    "api_key": llm_config.get("apiKey", ""),
+                    "base_url": llm_config.get("baseUrl", ""),
+                    "model": llm_config.get("model", ""),
+                })
+                console.print(f"[green]✓[/green] LLM config saved to SQLite")
 
-            # Load or create config
+            # JSON config fallback — keep existing system working
             if config_path.exists():
                 config = load_config()
             else:
                 config = Config()
-
-            # Update platform config
+            # Update platform config with robot identity
             config.platform = PlatformConfig(
                 platform_url=platform_url,
                 robot_token=token,
+                robot_id=robot_data.get("id", robot_id),
+                robot_name=robot_data.get("name", ""),
             )
-
             # Update LLM config if provided
             if llm_config:
                 provider = llm_config.get("provider")
                 api_key = llm_config.get("apiKey")
                 base_url = llm_config.get("baseUrl")
                 model = llm_config.get("model")
-
                 if provider and api_key:
                     console.print(f"[green]✓[/green] Configuring LLM: {provider}")
                     # Map platform provider names to nanobot provider names
@@ -223,42 +264,31 @@ def onboard(
                         "custom": "custom",
                     }
                     nanobot_provider = provider_map.get(provider, "custom")
-
-                    # Set provider API key
                     provider_field = getattr(config.providers, nanobot_provider, None)
                     if provider_field:
                         provider_field.api_key = api_key
                     else:
-                        # For custom provider, set api_key and api_base
                         config.providers.custom.api_key = api_key
                         if base_url:
                             config.providers.custom.api_base = base_url
-
-                    # Set default model if provided
                     if model:
                         config.agents.defaults.model = model
-
                     console.print(f"[green]✓[/green] LLM configured with model: {model or 'default'}")
 
-            # Save config
+            # Save JSON config (fallback)
             save_config(config)
             console.print(f"[green]✓[/green] Config saved to {config_path}")
-
-            # Update soul.md if provided
-            robot_data = data.get("robot", {})
             soul_md = robot_data.get("soulMd")
             workspace = get_workspace_path()
             if soul_md and workspace.exists():
                 soul_path = workspace / "SOUL.md"
                 soul_path.write_text(soul_md)
                 console.print(f"[green]✓[/green] Soul updated from platform")
-
-            console.print(f"\n{__logo__} nanobot is ready!")
             console.print(f"\n[green]✓[/green] Connected to platform!")
             console.print(f"  Robot: {robot_data.get('name', 'unknown')}")
-            console.print(f"  Tenant: {data.get('tenant', {}).get('name', 'unknown')}")
+            console.print(f"  Tenant: {tenant_data.get('name', 'unknown')}")
+            console.print(f"  Storage: {db.db_path}")
             return
-
         except requests.RequestException as e:
             console.print(f"[red]Network error: {e}[/red]")
             raise typer.Exit(1)
