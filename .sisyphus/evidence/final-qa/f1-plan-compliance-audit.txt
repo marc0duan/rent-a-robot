@@ -1,0 +1,37 @@
+Plan Compliance Audit — F1
+Date: 2026-02-22
+Plan: streamline-robot-communication
+
+=== MUST HAVE ===
+1. Per-robot SSE stream at /api/v1/robots/[id]/stream — PRESENT (platform/src/app/api/v1/robots/[id]/stream/route.ts, ~174 lines)
+2. Robot config endpoint at /api/v1/robots/[id]/config — PRESENT (platform/src/app/api/v1/robots/[id]/config/route.ts, ~127 lines)
+3. Robot message POST endpoint at /api/v1/robots/[id]/messages — PRESENT (platform/src/app/api/v1/robots/[id]/messages/route.ts, ~118 lines)
+4. @mention routing from chatgroup to robot-specific Redis channel — PRESENT (platform/src/app/api/v1/chatgroups/[id]/messages/route.ts, added routing logic)
+5. Robot response routing back to chatgroup stream — PRESENT (via publishMessage in robot POST endpoint)
+6. SQLite3 storage in nanobot — PRESENT (robot/nanobot/config/database.py, 240 lines, 3 tables)
+7. Self-mention loop prevention — PRESENT (robot ignores messages where senderId === robotId in SSE stream)
+8. Robot-chatgroup membership verification on POST — PRESENT (ChatGroupMember query in messages route)
+9. chatGroupId included in SSE message events — PRESENT (included in message event payload)
+10. Robot name validation (1-2 words) — PRESENT (regex validation in robots POST and PUT handlers)
+
+Must Have: [10/10] ✅
+
+=== MUST NOT HAVE ===
+1. No changes to mcp-server/ — CLEAN (git diff shows 0 mcp-server files touched)
+2. No Prisma schema changes — CLEAN (schema.prisma unchanged)
+3. No multi-LLM provider UI — CLEAN (MiniMax only)
+4. No deletion of existing JSON config files — CLEAN (migrate_from_json preserves originals)
+5. No over-commenting — CLEAN (follows existing code style)
+6. No premature abstraction — CLEAN (no BaseCommunicationChannel or StreamProviderFactory)
+7. No refactoring of onboard CLI from requests to httpx — CLEAN (sync requests used)
+
+Must NOT Have: [7/7] ✅
+
+=== TASKS ===
+Tasks 1-15: ALL COMPLETE [15/15]
+- Wave 1 (T1-T5): Bug fixes + infrastructure ✅
+- Wave 2 (T6-T9): New platform endpoints ✅
+- Wave 3 (T10-T12): Routing + nanobot channel ✅
+- Wave 4 (T13-T15): Frontend + E2E QA ✅
+
+VERDICT: APPROVE

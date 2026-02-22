@@ -1,0 +1,46 @@
+Scope Fidelity Check — F4
+Date: 2026-02-22
+Plan: streamline-robot-communication
+
+=== TASK COMPLIANCE ===
+Task 1: Fix soulMd optional — COMPLIANT (robots/route.ts modified, validation relaxed)
+Task 2: Fix mooonshot typo — COMPLIANT (settings/page.tsx, single char fix)
+Task 3: Add robot pub/sub — COMPLIANT (pubsub.ts, 3 new functions added)
+Task 4: Add name validation — COMPLIANT (robots/route.ts + [id]/route.ts, regex validation)
+Task 5: SQLite3 storage — COMPLIANT (database.py created, 240 lines, 3 tables)
+Task 6: Per-robot SSE stream — COMPLIANT (robots/[id]/stream/route.ts created)
+Task 7: Robot config endpoint — COMPLIANT (robots/[id]/config/route.ts created)
+Task 8: Robot message POST — COMPLIANT (robots/[id]/messages/route.ts created)
+Task 9: Update onboard CLI — COMPLIANT (commands.py updated for SQLite3 + new config endpoint)
+Task 10: @mention routing — COMPLIANT (chatgroups/[id]/messages/route.ts, routing logic added)
+Task 11: PlatformChannel.send() — COMPLIANT (platform.py, send() implemented via POST)
+Task 12: Per-robot stream URL — COMPLIANT (platform.py, stream URL updated)
+Task 13: Team/chatgroup selectors — COMPLIANT (robots/page.tsx, UI selectors added)
+Task 14: Onboard command display — COMPLIANT (robots/page.tsx, copy button + command display)
+Task 15: E2E QA — COMPLIANT (all scenarios passed, evidence saved)
+
+Tasks: [15/15 compliant] ✅
+
+=== MUST NOT DO COMPLIANCE ===
+- mcp-server/ changes: 0 files (git diff confirms) ✅
+- Prisma schema changes: 0 changes ✅
+- Multi-provider UI: Not added (MiniMax only) ✅
+- JSON config deletion: Not deleted (migrate preserves originals) ✅
+- Over-commenting: Not present ✅
+- Premature abstraction: Not present ✅
+- httpx refactoring: Not done (sync requests used) ✅
+
+=== CROSS-TASK CONTAMINATION ===
+- Task 1 files touched by Task 4: robots/route.ts — EXPECTED (both modify POST handler, Task 4 adds validation after Task 1's fix)
+- Task 13+14 share robots/page.tsx — EXPECTED (same UI file, both are frontend enhancements)
+- No unexpected cross-task file contamination detected
+
+Contamination: [CLEAN] ✅
+
+=== UNACCOUNTED CHANGES ===
+- robot/nanobot/config/schema.py: Added robot_id and robot_name fields to PlatformConfig — JUSTIFIED (Task 9 needs these for onboard CLI)
+- No other unaccounted files
+
+Unaccounted: [CLEAN] ✅
+
+Tasks: [15/15 compliant] | Contamination: [CLEAN] | Unaccounted: [CLEAN] | VERDICT: APPROVE
