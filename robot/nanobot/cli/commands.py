@@ -267,6 +267,8 @@ def onboard(
                     provider_field = getattr(config.providers, nanobot_provider, None)
                     if provider_field:
                         provider_field.api_key = api_key
+                        if base_url:
+                            provider_field.api_base = base_url
                     else:
                         config.providers.custom.api_key = api_key
                         if base_url:
