@@ -40,12 +40,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { name, soulMd } = body;
 
-    if (!name || !soulMd) {
-      throw new ApiError(400, "validation_error", "Robot name and soulMd are required.");
+    if (!name) {
+      throw new ApiError(400, "validation_error", "Robot name is required.");
     }
 
     const sanitizedName = sanitizeString(name);
-    const sanitizedSoulMd = sanitizeString(soulMd);
+    const sanitizedSoulMd = sanitizeString(soulMd || '');
 
     const robot = await prisma.robot.create({
       data: {
