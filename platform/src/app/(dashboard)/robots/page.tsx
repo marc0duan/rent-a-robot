@@ -14,6 +14,7 @@ import {
   Monitor,
   FileText,
   Settings,
+  Terminal,
 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -30,6 +31,13 @@ import {
   DialogFooter,
   DialogDescription,
 } from "@/components/ui/dialog"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 interface RobotInfo {
   id: string
@@ -38,6 +46,17 @@ interface RobotInfo {
   soulMd: string | null
   createdAt: string
   updatedAt: string
+}
+
+interface TeamOption {
+  id: string
+  name: string
+}
+
+interface ChatGroupOption {
+  id: string
+  name: string
+  teamId: string
 }
 
 const statusColor: Record<string, string> = {
@@ -57,11 +76,18 @@ export default function RobotsPage() {
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
 
+
+  const [teams, setTeams] = useState<TeamOption[]>([])
+  const [chatgroups, setChatgroups] = useState<ChatGroupOption[]>([])
+  const [newTeamId, setNewTeamId] = useState("")
+  const [newChatGroupId, setNewChatGroupId] = useState("")
+
   // Assign PC flow
   const [assignRobotId, setAssignRobotId] = useState<string | null>(null)
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedToken, setGeneratedToken] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
+  const [copiedCommand, setCopiedCommand] = useState(false)
 
   // Edit flow
   const [editRobot, setEditRobot] = useState<RobotInfo | null>(null)
@@ -84,20 +110,90 @@ export default function RobotsPage() {
     load()
   }, [load])
 
+
+  useEffect(() => {
+    if (!createOpen) return
+    const fetchTeams = async () => {
+      try {
+        const res = await api.teams.list()
+        setTeams(res.teams.map((t) => ({ id: t.id, name: t.name })))
+      } catch {
+        toast.error("Failed to load teams")
+      }
+    }
+    fetchTeams()
+  }, [createOpen])
+
+
+  useEffect(() => {
+    if (!newTeamId) {
+      setChatgroups([])
+      setNewChatGroupId("")
+      return
+    }
+    const fetchChatgroups = async () => {
+      try {
+        const res = await api.chatGroups.list(newTeamId)
+        setChatgroups(
+          res.chatgroups.map((cg) => ({
+            id: cg.id,
+            name: cg.name,
+            teamId: cg.teamId,
+          }))
+        )
+        setNewChatGroupId("")
+      } catch {
+        toast.error("Failed to load chatgroups")
+      }
+    }
+    fetchChatgroups()
+  }, [newTeamId])
+
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsCreating(true)
     try {
-      await api.robots.create({
+
+      const { robot } = await api.robots.create({
         name: newName,
         soulMd: newSoul || undefined,
       })
-      toast.success("Robot created")
+
+
+      await api.teams.addMember(newTeamId, {
+        memberId: robot.id,
+        memberType: "robot",
+      })
+
+
+      await api.chatGroups.addMember(newChatGroupId, {
+        memberId: robot.id,
+        memberType: "robot",
+      })
+
+
+      const tokenRes = await api.robots.update(robot.id, {
+        generateToken: true,
+      })
+
+      toast.success("Robot created and assigned")
       setCreateOpen(false)
       setNewName("")
       setNewSoul("")
+      setNewTeamId("")
+      setNewChatGroupId("")
+      setTeams([])
+      setChatgroups([])
       setIsLoading(true)
       load()
+
+
+      if (tokenRes.token) {
+        setAssignRobotId(robot.id)
+        setGeneratedToken(tokenRes.token)
+        setCopied(false)
+        setCopiedCommand(false)
+      }
     } catch (error) {
       if (error instanceof ApiClientError) {
         toast.error(error.message)
@@ -160,6 +256,15 @@ export default function RobotsPage() {
     setTimeout(() => setCopied(false), 2000)
   }
 
+  const handleCopyCommand = async () => {
+    if (!generatedToken) return
+    const command = `nanobot onboard --platform-url ${window.location.origin} --token ${generatedToken}`
+    await navigator.clipboard.writeText(command)
+    setCopiedCommand(true)
+    toast.success("Onboard command copied to clipboard")
+    setTimeout(() => setCopiedCommand(false), 2000)
+  }
+
   const handleEditSave = async () => {
     if (!editRobot) return
     setIsSaving(true)
@@ -182,6 +287,8 @@ export default function RobotsPage() {
       setIsSaving(false)
     }
   }
+
+  const canCreate = newName.trim() && newTeamId && newChatGroupId
 
   return (
     <div className="space-y-8">
@@ -262,6 +369,7 @@ export default function RobotsPage() {
                       setAssignRobotId(robot.id)
                       setGeneratedToken(null)
                       setCopied(false)
+                      setCopiedCommand(false)
                     }}
                   >
                     <Monitor className="mr-1.5 h-3.5 w-3.5" />
@@ -295,13 +403,25 @@ export default function RobotsPage() {
       )}
 
       {/* Create Dialog */}
-      <Dialog open={createOpen} onOpenChange={setCreateOpen}>
+      <Dialog
+        open={createOpen}
+        onOpenChange={(open) => {
+          setCreateOpen(open)
+          if (!open) {
+            setNewName("")
+            setNewSoul("")
+            setNewTeamId("")
+            setNewChatGroupId("")
+            setTeams([])
+            setChatgroups([])
+          }
+        }}
+      >
         <DialogContent className="border-zinc-800 bg-zinc-950">
           <DialogHeader>
             <DialogTitle>Create Robot</DialogTitle>
             <DialogDescription>
-              Define a new robot agent. You can configure its soul (personality)
-              with markdown.
+              Define a new robot agent, assign it to a team and chatgroup.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleCreate}>
@@ -331,6 +451,64 @@ export default function RobotsPage() {
                   Optional. Defines the robot&apos;s personality and behavior.
                 </p>
               </div>
+              <div className="grid gap-2">
+                <Label>Assign to Team</Label>
+                {teams.length === 0 ? (
+                  <Select disabled>
+                    <SelectTrigger className="w-full bg-background/50">
+                      <SelectValue placeholder="No teams available — create a team first" />
+                    </SelectTrigger>
+                    <SelectContent />
+                  </Select>
+                ) : (
+                  <Select value={newTeamId} onValueChange={setNewTeamId}>
+                    <SelectTrigger className="w-full bg-background/50">
+                      <SelectValue placeholder="Select a team" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {teams.map((team) => (
+                        <SelectItem key={team.id} value={team.id}>
+                          {team.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
+              <div className="grid gap-2">
+                <Label>Assign to Chat Group</Label>
+                {!newTeamId ? (
+                  <Select disabled>
+                    <SelectTrigger className="w-full bg-background/50">
+                      <SelectValue placeholder="Select a team first" />
+                    </SelectTrigger>
+                    <SelectContent />
+                  </Select>
+                ) : chatgroups.length === 0 ? (
+                  <Select disabled>
+                    <SelectTrigger className="w-full bg-background/50">
+                      <SelectValue placeholder="No chatgroups in this team" />
+                    </SelectTrigger>
+                    <SelectContent />
+                  </Select>
+                ) : (
+                  <Select
+                    value={newChatGroupId}
+                    onValueChange={setNewChatGroupId}
+                  >
+                    <SelectTrigger className="w-full bg-background/50">
+                      <SelectValue placeholder="Select a chatgroup" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {chatgroups.map((cg) => (
+                        <SelectItem key={cg.id} value={cg.id}>
+                          {cg.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
             </div>
             <DialogFooter>
               <Button
@@ -341,7 +519,7 @@ export default function RobotsPage() {
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={isCreating}>
+              <Button type="submit" disabled={isCreating || !canCreate}>
                 {isCreating && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
@@ -358,6 +536,7 @@ export default function RobotsPage() {
         onOpenChange={() => {
           setAssignRobotId(null)
           setGeneratedToken(null)
+          setCopiedCommand(false)
         }}
       >
         <DialogContent className="border-zinc-800 bg-zinc-950">
@@ -370,24 +549,55 @@ export default function RobotsPage() {
           </DialogHeader>
           <div className="py-4">
             {generatedToken ? (
-              <div className="space-y-3">
-                <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-3">
-                  <code className="break-all text-xs text-emerald-400">
-                    {generatedToken}
-                  </code>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label className="text-xs text-muted-foreground">
+                    Robot Token
+                  </Label>
+                  <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-3">
+                    <code className="break-all text-xs text-emerald-400">
+                      {generatedToken}
+                    </code>
+                  </div>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={handleCopy}
+                  >
+                    {copied ? (
+                      <Check className="mr-2 h-4 w-4" />
+                    ) : (
+                      <Copy className="mr-2 h-4 w-4" />
+                    )}
+                    {copied ? "Copied!" : "Copy Token"}
+                  </Button>
                 </div>
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  onClick={handleCopy}
-                >
-                  {copied ? (
-                    <Check className="mr-2 h-4 w-4" />
-                  ) : (
-                    <Copy className="mr-2 h-4 w-4" />
-                  )}
-                  {copied ? "Copied!" : "Copy Token"}
-                </Button>
+                <div className="space-y-2">
+                  <Label className="text-xs text-muted-foreground">
+                    Onboard Command
+                  </Label>
+                  <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-3">
+                    <code className="break-all text-xs text-sky-400">
+                      nanobot onboard --platform-url{" "}
+                      {typeof window !== "undefined"
+                        ? window.location.origin
+                        : "http://localhost:3000"}{" "}
+                      --token {generatedToken}
+                    </code>
+                  </div>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={handleCopyCommand}
+                  >
+                    {copiedCommand ? (
+                      <Check className="mr-2 h-4 w-4" />
+                    ) : (
+                      <Terminal className="mr-2 h-4 w-4" />
+                    )}
+                    {copiedCommand ? "Copied!" : "Copy Onboard Command"}
+                  </Button>
+                </div>
                 <p className="text-center text-xs text-amber-400">
                   This token will only be shown once. Store it securely.
                 </p>
@@ -408,6 +618,7 @@ export default function RobotsPage() {
               onClick={() => {
                 setAssignRobotId(null)
                 setGeneratedToken(null)
+                setCopiedCommand(false)
               }}
             >
               {generatedToken ? "Done" : "Cancel"}
