@@ -142,6 +142,16 @@ class QQConfig(BaseModel):
     allow_from: list[str] = Field(default_factory=list)  # Allowed user openids (empty = public access)
 
 
+class PlatformConfig(BaseModel):
+    """Platform channel configuration for receiving messages from Perseus."""
+    enabled: bool = False
+    platform_url: str = ""  # Platform URL (e.g., http://localhost:3000)
+    robot_token: str = ""  # Robot token for authentication
+    robot_id: str = ""  # Robot ID from JWT claims
+    robot_name: str = ""  # Robot name from config endpoint
+    allow_from: list[str] = Field(default_factory=list)  # Allowed user IDs (empty = all)
+
+
 class ChannelsConfig(BaseModel):
     """Configuration for chat channels."""
     whatsapp: WhatsAppConfig = Field(default_factory=WhatsAppConfig)
@@ -232,14 +242,6 @@ class ToolsConfig(BaseModel):
     exec: ExecToolConfig = Field(default_factory=ExecToolConfig)
     restrict_to_workspace: bool = False  # If true, restrict all tool access to workspace directory
     mcp_servers: dict[str, MCPServerConfig] = Field(default_factory=dict)
-
-
-class PlatformConfig(BaseModel):
-    """Platform channel configuration for receiving messages from Perseus."""
-    enabled: bool = False
-    platform_url: str = ""  # Platform URL (e.g., http://localhost:3000)
-    robot_token: str = ""  # Robot token for authentication
-    allow_from: list[str] = Field(default_factory=list)  # Allowed user IDs (empty = all)
 
 
 class PlatformSettingsConfig(BaseSettings):

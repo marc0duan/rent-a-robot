@@ -1,9 +1,7 @@
 {
-  "active_plan": "/Users/marco/Documents/repo/rent-a-robot/.sisyphus/plans/perseus-design-docs.md",
+  "active_plan": "/Users/marco/Documents/repo/rent-a-robot/.sisyphus/plans/streamline-robot-communication.md",
   "started_at": "2026-02-19T13:15:47.974Z",
-  "session_ids": [
-    "ses_38a056e76ffeX2OHc3KzXE556y"
-  ],
-  "plan_name": "perseus-design-docs",
+  "session_ids": [],
+  "plan_name": "streamline-robot-communication",
   "agent": "atlas"
 }

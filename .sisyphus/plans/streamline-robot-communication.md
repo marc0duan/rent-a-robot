@@ -606,7 +606,7 @@ Max Concurrent: 5 (Wave 1)
 
 ### Wave 2 — New Platform Endpoints
 
-- [ ] 6. Create per-robot SSE stream endpoint
+ [x] 6. Create per-robot SSE stream endpoint
 
   **What to do**:
   - Create new file `platform/src/app/api/v1/robots/[id]/stream/route.ts`
@@ -700,7 +700,7 @@ Max Concurrent: 5 (Wave 1)
   - Files: `platform/src/app/api/v1/robots/[id]/stream/route.ts`
   - Pre-commit: `npm run lint`
 
-- [ ] 7. Create robot config endpoint
+ [x] 7. Create robot config endpoint
 
   **What to do**:
   - Create new file `platform/src/app/api/v1/robots/[id]/config/route.ts`
@@ -802,7 +802,7 @@ Max Concurrent: 5 (Wave 1)
   - Files: `platform/src/app/api/v1/robots/[id]/config/route.ts`
   - Pre-commit: `npm run lint`
 
-- [ ] 8. Create robot message POST endpoint
+ [x] 8. Create robot message POST endpoint
 
   **What to do**:
   - Create `platform/src/app/api/v1/robots/[id]/messages/route.ts` with a POST handler
