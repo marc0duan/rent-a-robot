@@ -56,6 +56,19 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 
+// Helper to get current user ID from JWT token
+function getCurrentUserId(): string | null {
+  if (typeof window === "undefined") return null;
+  const token = localStorage.getItem("token");
+  if (!token) return null;
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload.userId || null;
+  } catch {
+    return null;
+  }
+}
+
 interface ChatGroupInfo {
   id: string
   name: string
@@ -96,6 +109,7 @@ export default function ChatPage() {
   const [search, setSearch] = useState("")
   const [activeGroupId, setActiveGroupId] = useState<string | null>(null)
   const [messages, setMessages] = useState<MessageInfo[]>([])
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null)
   const [isLoadingGroups, setIsLoadingGroups] = useState(true)
   const [isLoadingMessages, setIsLoadingMessages] = useState(false)
   const [messageText, setMessageText] = useState("")
@@ -179,11 +193,18 @@ export default function ChatPage() {
     }
   }, [search, groups])
 
+  // Initialize current user ID
+  useEffect(() => {
+    setCurrentUserId(getCurrentUserId())
+  }, [])
+
   const loadMessages = useCallback(async (groupId: string) => {
     setIsLoadingMessages(true)
     try {
       const res = await api.messages.list(groupId)
-      setMessages(res.messages)
+      // Reverse to show oldest first (ascending order)
+      const sortedMessages = [...res.messages].reverse()
+      setMessages(sortedMessages)
     } catch {
       toast.error("Failed to load messages")
     } finally {
@@ -668,6 +689,7 @@ export default function ChatPage() {
                       idx === 0 ||
                       formatDate(messages[idx - 1].createdAt) !==
                         formatDate(msg.createdAt)
+                    const isCurrentUser = msg.senderId === currentUserId && msg.senderType === "human"
                     return (
                       <div key={msg.id}>
                         {showDate && (
@@ -679,7 +701,7 @@ export default function ChatPage() {
                             <Separator className="flex-1 bg-zinc-800" />
                           </div>
                         )}
-                        <div className="flex gap-3">
+                        <div className={cn("flex gap-3", isCurrentUser ? "flex-row-reverse" : "flex-row")}>
                           <div
                             className={cn(
                               "flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
@@ -694,8 +716,8 @@ export default function ChatPage() {
                               <User className="h-4 w-4" />
                             )}
                           </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-baseline gap-2">
+                          <div className={cn("min-w-0 flex-1", isCurrentUser ? "text-right" : "text-left")}>
+                            <div className={cn("flex items-baseline gap-2", isCurrentUser ? "justify-end" : "justify-start")}>
                               <span
                                 className={cn(
                                   "text-sm font-semibold",
@@ -710,7 +732,7 @@ export default function ChatPage() {
                                 {formatTime(msg.createdAt)}
                               </span>
                             </div>
-                            <p className="mt-0.5 whitespace-pre-wrap text-sm text-foreground/90">
+                            <p className={cn("mt-0.5 whitespace-pre-wrap text-sm text-foreground/90", isCurrentUser && "bg-zinc-800/50 rounded-lg px-3 py-2 -mx-1")}>
                               {msg.content}
                             </p>
                           </div>
