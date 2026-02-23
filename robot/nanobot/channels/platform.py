@@ -244,7 +244,6 @@ class PlatformChannel(BaseChannel):
         sender_type = message.get("senderType", "user")
         message_id = message.get("id", "")
 
-
         # Skip self-sent messages to avoid echo loops
         if sender_id == self.config.robot_id:
             logger.debug(f"Ignoring self-sent message {message_id}")

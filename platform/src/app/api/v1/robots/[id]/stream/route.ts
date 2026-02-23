@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifyToken, type RobotAuthPayload } from "@/lib/auth";
 import { handleError } from "@/lib/errors";
-import { subscribeToRobot, subscribeToChatGroup } from "@/lib/pubsub";
+import { subscribeToRobot } from "@/lib/pubsub";
 
 const HEARTBEAT_INTERVAL_MS = 30_000;
 
@@ -119,23 +119,6 @@ export async function GET(
           }
         );
         unsubscribers.push(unsubscribeRobot);
-
-        // Subscribe to all chatgroup channels (for general awareness)
-        for (const group of chatGroups) {
-          const unsubscribe = await subscribeToChatGroup(
-            group.id,
-            (data: string) => {
-              try {
-                controller.enqueue(
-                  encoder.encode(`event: message\ndata: ${data}\n\n`)
-                );
-              } catch {
-                /* stream already closed */
-              }
-            }
-          );
-          unsubscribers.push(unsubscribe);
-        }
 
         // Send heartbeat every 30 seconds
         heartbeatTimer = setInterval(() => {
