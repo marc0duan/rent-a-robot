@@ -526,8 +526,12 @@ def gateway(
         enabled=True
     )
     
-    # Create channel manager
-    channels = ChannelManager(config, bus)
+    # Create channel manager with skills loader callback
+    def skills_loader_callback(skills: dict) -> None:
+        """Callback to update platform skills in agent context."""
+        agent.context.skills.set_platform_skills(skills)
+
+    channels = ChannelManager(config, bus, skills_loader_callback)
     
     if channels.enabled_channels:
         console.print(f"[green]✓[/green] Channels enabled: {', '.join(channels.enabled_channels)}")

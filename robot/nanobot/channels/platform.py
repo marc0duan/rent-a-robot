@@ -34,6 +34,7 @@ class PlatformChannel(BaseChannel):
         self,
         config: PlatformConfig,
         bus: MessageBus,
+        skills_loader_callback: callable | None = None,
     ):
         super().__init__(config, bus)
         self.config: PlatformConfig = config
@@ -42,6 +43,7 @@ class PlatformChannel(BaseChannel):
         self._heartbeat_task: asyncio.Task | None = None
         self._stream_url: str = ""
         self._reconnect_delay = self.RECONNECT_BASE_DELAY
+        self._skills_loader_callback = skills_loader_callback
 
     def _get_stream_url(self) -> str:
         """Get the SSE stream URL from platform URL."""
@@ -173,7 +175,7 @@ class PlatformChannel(BaseChannel):
 
                 # Process SSE stream
                 buffer = ""
-                async for chunk in response.aiter_bytes(chunk_size=1024):
+                async for chunk in response.aiter_bytes(chunk_size=256):
                     if not self._running:
                         break
 
@@ -207,6 +209,15 @@ class PlatformChannel(BaseChannel):
             return
 
         if event_type == "keepalive":
+            return
+
+        if event_type == "sync_skills" and data:
+            logger.info(f"SSE received event_type={event_type}, data={data[:100]}...")
+            try:
+                payload = json.loads(data)
+                await self._handle_sync_skills(payload)
+            except json.JSONDecodeError as e:
+                logger.warning(f"Failed to parse SSE sync_skills: {e}")
             return
 
         if event_type == "message" and data:
@@ -282,3 +293,64 @@ class PlatformChannel(BaseChannel):
         )
         logger.info(f"Reconnecting in {delay}s...")
         await asyncio.sleep(delay)
+
+    async def _handle_sync_skills(self, payload: dict) -> None:
+        """
+        Handle sync_skills event from platform.
+
+        Payload format:
+        {
+          "type": "sync_skills",
+          "action": "created" | "updated" | "deleted",
+          "skillId": "...",
+          "skillName": "..."
+        }
+
+        On any skill change, fetch all skills from platform to ensure consistency.
+        """
+        action = payload.get("action")
+        skill_name = payload.get("skillName", "unknown")
+
+        logger.info(f"[PLATFORM] Sync skills event: action={action}, skill={skill_name}")
+
+        if not self._skills_loader_callback:
+            logger.warning("[PLATFORM] No skills_loader_callback configured, skipping sync")
+            return
+
+        # Fetch all skills from platform
+        try:
+            await self._fetch_and_update_skills()
+        except Exception as e:
+            logger.error(f"[PLATFORM] Failed to sync skills: {e}")
+
+    async def _fetch_and_update_skills(self) -> None:
+        """Fetch all skills from platform API and update the skills loader."""
+        platform_url = self.config.platform_url.rstrip("/")
+        if not platform_url.startswith("http://") and not platform_url.startswith("https://"):
+            platform_url = "http://" + platform_url
+
+        url = f"{platform_url}/api/v1/robots/{self.config.robot_id}/skills"
+        headers = {
+            "X-Robot-Token": self.config.robot_token,
+            "Accept": "application/json",
+        }
+
+        try:
+            async with httpx.AsyncClient(timeout=httpx.Timeout(30.0)) as client:
+                response = await client.get(url, headers=headers)
+                if response.status_code != 200:
+                    logger.warning(f"[PLATFORM] Failed to fetch skills: {response.status_code}")
+                    return
+
+                data = response.json()
+                skills = data.get("skills", [])
+
+                # Convert to dict {name: skillMd}
+                skills_dict = {s["name"]: s["skillMd"] for s in skills}
+
+                # Update skills loader
+                self._skills_loader_callback(skills_dict)
+                logger.info(f"[PLATFORM] Updated {len(skills_dict)} platform skills")
+        except Exception as e:
+            logger.error(f"[PLATFORM] Error fetching skills: {e}")
+

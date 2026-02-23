@@ -23,9 +23,14 @@ async function request<T>(
 ): Promise<T> {
   const token = getToken();
   const headers: Record<string, string> = {
-    "Content-Type": "application/json",
     ...((options.headers as Record<string, string>) || {}),
   };
+
+  // Don't set Content-Type for FormData - browser will set it with boundary
+  const isFormData = options.body instanceof FormData;
+  if (!isFormData) {
+    headers["Content-Type"] = "application/json";
+  }
 
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
@@ -270,6 +275,87 @@ export const api = {
         body: JSON.stringify(data),
       }),
     delete: (id: string) => request<void>(`/robots/${id}`, { method: "DELETE" }),
+    skills: {
+      list: (robotId: string) =>
+        request<{
+          skills: Array<{
+            id: string;
+            robotId: string;
+            name: string;
+            description: string | null;
+            skillMd: string;
+            scripts: unknown;
+            metadata: unknown;
+            createdAt: string;
+            updatedAt: string;
+          }>;
+        }>(`/robots/${robotId}/skills`),
+      create: (
+        robotId: string,
+        data: { name: string; description?: string; skillMd: string } | { name: string; description?: string; file: File }
+      ) => {
+        // Check if this is a file upload
+        if ("file" in data) {
+          const formData = new FormData();
+          formData.append("name", data.name);
+          if (data.description) formData.append("description", data.description);
+          formData.append("file", data.file);
+          return request<{
+            skill: {
+              id: string;
+              robotId: string;
+              name: string;
+              description: string | null;
+              skillMd: string;
+            };
+          }>(`/robots/${robotId}/skills`, {
+            method: "POST",
+            body: formData,
+          });
+        }
+        return request<{
+          skill: {
+            id: string;
+            robotId: string;
+            name: string;
+            description: string | null;
+            skillMd: string;
+          };
+        }>(`/robots/${robotId}/skills`, {
+          method: "POST",
+          body: JSON.stringify(data),
+        });
+      },
+      get: (robotId: string, skillId: string) =>
+        request<{
+          skill: {
+            id: string;
+            robotId: string;
+            name: string;
+            description: string | null;
+            skillMd: string;
+            scripts: unknown;
+            metadata: unknown;
+            createdAt: string;
+            updatedAt: string;
+          };
+        }>(`/robots/${robotId}/skills/${skillId}`),
+      update: (robotId: string, skillId: string, data: { name?: string; description?: string; skillMd?: string }) =>
+        request<{
+          skill: {
+            id: string;
+            robotId: string;
+            name: string;
+            description: string | null;
+            skillMd: string;
+          };
+        }>(`/robots/${robotId}/skills/${skillId}`, {
+          method: "PUT",
+          body: JSON.stringify(data),
+        }),
+      delete: (robotId: string, skillId: string) =>
+        request<{ deleted: boolean }>(`/robots/${robotId}/skills/${skillId}`, { method: "DELETE" }),
+    },
   },
 
   chatGroups: {
@@ -331,15 +417,20 @@ export const api = {
   },
 
   messages: {
-    list: (chatGroupId: string, cursor?: string) =>
-      request<{
+    list: (chatGroupId: string, options?: { cursor?: string; limit?: number }) => {
+      const params = new URLSearchParams();
+      if (options?.cursor) params.set("cursor", options.cursor);
+      if (options?.limit) params.set("limit", String(options.limit));
+      const query = params.toString();
+      return request<{
         messages: Array<{
           id: string; chatGroupId: string; senderId: string; senderType: string;
           content: string; mentions: string[] | null; createdAt: string; updatedAt: string;
           sender: { name: string; type: string };
         }>;
         nextCursor: string | null;
-      }>(`/chatgroups/${chatGroupId}/messages${cursor ? `?cursor=${cursor}` : ""}`),
+      }>(`/chatgroups/${chatGroupId}/messages${query ? `?${query}` : ""}`);
+    },
     send: (chatGroupId: string, data: { content: string }) =>
       request<{ message: unknown }>(`/chatgroups/${chatGroupId}/messages`, {
         method: "POST",

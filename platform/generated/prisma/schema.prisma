@@ -116,7 +116,25 @@ model Robot {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
-  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenant Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  skills PlatformSkill[]
+}
+
+// Platform-defined skills synced to robots
+model PlatformSkill {
+  id          String   @id @default(uuid())
+  robotId     String
+  name        String
+  description String?
+  skillMd     String   @db.Text
+  scripts     Json? // Array of {path, content}
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  robot       Robot    @relation(fields: [robotId], references: [id], onDelete: Cascade)
+
+  @@unique([robotId, name])
+  @@index([robotId])
 }
 
 // ============================================================

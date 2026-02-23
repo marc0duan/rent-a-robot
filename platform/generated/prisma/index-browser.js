@@ -188,6 +188,18 @@ exports.Prisma.RobotScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PlatformSkillScalarFieldEnum = {
+  id: 'id',
+  robotId: 'robotId',
+  name: 'name',
+  description: 'description',
+  skillMd: 'skillMd',
+  scripts: 'scripts',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ChatGroupScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -283,6 +295,7 @@ exports.Prisma.ModelName = {
   Team: 'Team',
   TeamMember: 'TeamMember',
   Robot: 'Robot',
+  PlatformSkill: 'PlatformSkill',
   ChatGroup: 'ChatGroup',
   ChatGroupMember: 'ChatGroupMember',
   Message: 'Message',

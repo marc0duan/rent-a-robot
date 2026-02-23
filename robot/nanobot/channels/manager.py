@@ -16,18 +16,19 @@ from nanobot.config.schema import Config
 class ChannelManager:
     """
     Manages chat channels and coordinates message routing.
-    
+
     Responsibilities:
     - Initialize enabled channels (Telegram, WhatsApp, etc.)
     - Start/stop channels
     - Route outbound messages
     """
-    
-    def __init__(self, config: Config, bus: MessageBus):
+
+    def __init__(self, config: Config, bus: MessageBus, skills_loader_callback: callable | None = None):
         self.config = config
         self.bus = bus
         self.channels: dict[str, BaseChannel] = {}
         self._dispatch_task: asyncio.Task | None = None
+        self._skills_loader_callback = skills_loader_callback
         
         self._init_channels()
     
@@ -143,7 +144,8 @@ class ChannelManager:
                 from nanobot.channels.platform import PlatformChannel
                 self.channels["platform"] = PlatformChannel(
                     self.config.channels.platform,
-                    self.bus
+                    self.bus,
+                    self._skills_loader_callback
                 )
                 logger.info("Platform channel enabled")
             except ImportError as e:

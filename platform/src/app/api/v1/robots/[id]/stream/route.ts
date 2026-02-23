@@ -105,13 +105,23 @@ export async function GET(
           )
         );
 
-        // Subscribe to robot-specific channel (for @mention tasks)
+        // Subscribe to robot-specific channel (for @mention tasks and skill sync)
         const unsubscribeRobot = await subscribeToRobot(
           auth.robotId,
           (data: string) => {
             try {
+              // Parse the payload to get the event type
+              let eventType = "message";
+              try {
+                const payload = JSON.parse(data);
+                if (payload.type) {
+                  eventType = payload.type;
+                }
+              } catch {
+                // Use default "message" if parse fails
+              }
               controller.enqueue(
-                encoder.encode(`event: message\ndata: ${data}\n\n`)
+                encoder.encode(`event: ${eventType}\ndata: ${data}\n\n`)
               );
             } catch {
               /* stream already closed */

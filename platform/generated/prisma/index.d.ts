@@ -49,6 +49,11 @@ export type TeamMember = $Result.DefaultSelection<Prisma.$TeamMemberPayload>
  */
 export type Robot = $Result.DefaultSelection<Prisma.$RobotPayload>
 /**
+ * Model PlatformSkill
+ * 
+ */
+export type PlatformSkill = $Result.DefaultSelection<Prisma.$PlatformSkillPayload>
+/**
  * Model ChatGroup
  * 
  */
@@ -265,6 +270,16 @@ export class PrismaClient<
     * ```
     */
   get robot(): Prisma.RobotDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.platformSkill`: Exposes CRUD operations for the **PlatformSkill** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PlatformSkills
+    * const platformSkills = await prisma.platformSkill.findMany()
+    * ```
+    */
+  get platformSkill(): Prisma.PlatformSkillDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.chatGroup`: Exposes CRUD operations for the **ChatGroup** model.
@@ -766,6 +781,7 @@ export namespace Prisma {
     Team: 'Team',
     TeamMember: 'TeamMember',
     Robot: 'Robot',
+    PlatformSkill: 'PlatformSkill',
     ChatGroup: 'ChatGroup',
     ChatGroupMember: 'ChatGroupMember',
     Message: 'Message',
@@ -787,7 +803,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenant" | "user" | "tenantUser" | "tenantInvitation" | "team" | "teamMember" | "robot" | "chatGroup" | "chatGroupMember" | "message" | "workspaceFile" | "apiKey" | "tenantLlmConfig"
+      modelProps: "tenant" | "user" | "tenantUser" | "tenantInvitation" | "team" | "teamMember" | "robot" | "platformSkill" | "chatGroup" | "chatGroupMember" | "message" | "workspaceFile" | "apiKey" | "tenantLlmConfig"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1306,6 +1322,80 @@ export namespace Prisma {
           count: {
             args: Prisma.RobotCountArgs<ExtArgs>
             result: $Utils.Optional<RobotCountAggregateOutputType> | number
+          }
+        }
+      }
+      PlatformSkill: {
+        payload: Prisma.$PlatformSkillPayload<ExtArgs>
+        fields: Prisma.PlatformSkillFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PlatformSkillFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSkillPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PlatformSkillFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSkillPayload>
+          }
+          findFirst: {
+            args: Prisma.PlatformSkillFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSkillPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PlatformSkillFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSkillPayload>
+          }
+          findMany: {
+            args: Prisma.PlatformSkillFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSkillPayload>[]
+          }
+          create: {
+            args: Prisma.PlatformSkillCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSkillPayload>
+          }
+          createMany: {
+            args: Prisma.PlatformSkillCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PlatformSkillCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSkillPayload>[]
+          }
+          delete: {
+            args: Prisma.PlatformSkillDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSkillPayload>
+          }
+          update: {
+            args: Prisma.PlatformSkillUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSkillPayload>
+          }
+          deleteMany: {
+            args: Prisma.PlatformSkillDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PlatformSkillUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PlatformSkillUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSkillPayload>[]
+          }
+          upsert: {
+            args: Prisma.PlatformSkillUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSkillPayload>
+          }
+          aggregate: {
+            args: Prisma.PlatformSkillAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePlatformSkill>
+          }
+          groupBy: {
+            args: Prisma.PlatformSkillGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PlatformSkillGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PlatformSkillCountArgs<ExtArgs>
+            result: $Utils.Optional<PlatformSkillCountAggregateOutputType> | number
           }
         }
       }
@@ -1868,6 +1958,7 @@ export namespace Prisma {
     team?: TeamOmit
     teamMember?: TeamMemberOmit
     robot?: RobotOmit
+    platformSkill?: PlatformSkillOmit
     chatGroup?: ChatGroupOmit
     chatGroupMember?: ChatGroupMemberOmit
     message?: MessageOmit
@@ -2093,6 +2184,37 @@ export namespace Prisma {
    */
   export type TeamCountOutputTypeCountGroupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ChatGroupWhereInput
+  }
+
+
+  /**
+   * Count Type RobotCountOutputType
+   */
+
+  export type RobotCountOutputType = {
+    skills: number
+  }
+
+  export type RobotCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    skills?: boolean | RobotCountOutputTypeCountSkillsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * RobotCountOutputType without action
+   */
+  export type RobotCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RobotCountOutputType
+     */
+    select?: RobotCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * RobotCountOutputType without action
+   */
+  export type RobotCountOutputTypeCountSkillsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlatformSkillWhereInput
   }
 
 
@@ -9037,6 +9159,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    skills?: boolean | Robot$skillsArgs<ExtArgs>
+    _count?: boolean | RobotCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["robot"]>
 
   export type RobotSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -9083,6 +9207,8 @@ export namespace Prisma {
   export type RobotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "tenantId" | "createdById" | "soulMd" | "status" | "tokenHash" | "tokenExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["robot"]>
   export type RobotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
+    skills?: boolean | Robot$skillsArgs<ExtArgs>
+    _count?: boolean | RobotCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type RobotIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -9095,6 +9221,7 @@ export namespace Prisma {
     name: "Robot"
     objects: {
       tenant: Prisma.$TenantPayload<ExtArgs>
+      skills: Prisma.$PlatformSkillPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9502,6 +9629,7 @@ export namespace Prisma {
   export interface Prisma__RobotClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends TenantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TenantDefaultArgs<ExtArgs>>): Prisma__TenantClient<$Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    skills<T extends Robot$skillsArgs<ExtArgs> = {}>(args?: Subset<T, Robot$skillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformSkillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9937,6 +10065,30 @@ export namespace Prisma {
   }
 
   /**
+   * Robot.skills
+   */
+  export type Robot$skillsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSkill
+     */
+    select?: PlatformSkillSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSkill
+     */
+    omit?: PlatformSkillOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSkillInclude<ExtArgs> | null
+    where?: PlatformSkillWhereInput
+    orderBy?: PlatformSkillOrderByWithRelationInput | PlatformSkillOrderByWithRelationInput[]
+    cursor?: PlatformSkillWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlatformSkillScalarFieldEnum | PlatformSkillScalarFieldEnum[]
+  }
+
+  /**
    * Robot without action
    */
   export type RobotDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9952,6 +10104,1108 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: RobotInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PlatformSkill
+   */
+
+  export type AggregatePlatformSkill = {
+    _count: PlatformSkillCountAggregateOutputType | null
+    _min: PlatformSkillMinAggregateOutputType | null
+    _max: PlatformSkillMaxAggregateOutputType | null
+  }
+
+  export type PlatformSkillMinAggregateOutputType = {
+    id: string | null
+    robotId: string | null
+    name: string | null
+    description: string | null
+    skillMd: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PlatformSkillMaxAggregateOutputType = {
+    id: string | null
+    robotId: string | null
+    name: string | null
+    description: string | null
+    skillMd: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PlatformSkillCountAggregateOutputType = {
+    id: number
+    robotId: number
+    name: number
+    description: number
+    skillMd: number
+    scripts: number
+    metadata: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PlatformSkillMinAggregateInputType = {
+    id?: true
+    robotId?: true
+    name?: true
+    description?: true
+    skillMd?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PlatformSkillMaxAggregateInputType = {
+    id?: true
+    robotId?: true
+    name?: true
+    description?: true
+    skillMd?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PlatformSkillCountAggregateInputType = {
+    id?: true
+    robotId?: true
+    name?: true
+    description?: true
+    skillMd?: true
+    scripts?: true
+    metadata?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PlatformSkillAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlatformSkill to aggregate.
+     */
+    where?: PlatformSkillWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformSkills to fetch.
+     */
+    orderBy?: PlatformSkillOrderByWithRelationInput | PlatformSkillOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PlatformSkillWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformSkills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformSkills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PlatformSkills
+    **/
+    _count?: true | PlatformSkillCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PlatformSkillMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PlatformSkillMaxAggregateInputType
+  }
+
+  export type GetPlatformSkillAggregateType<T extends PlatformSkillAggregateArgs> = {
+        [P in keyof T & keyof AggregatePlatformSkill]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePlatformSkill[P]>
+      : GetScalarType<T[P], AggregatePlatformSkill[P]>
+  }
+
+
+
+
+  export type PlatformSkillGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlatformSkillWhereInput
+    orderBy?: PlatformSkillOrderByWithAggregationInput | PlatformSkillOrderByWithAggregationInput[]
+    by: PlatformSkillScalarFieldEnum[] | PlatformSkillScalarFieldEnum
+    having?: PlatformSkillScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PlatformSkillCountAggregateInputType | true
+    _min?: PlatformSkillMinAggregateInputType
+    _max?: PlatformSkillMaxAggregateInputType
+  }
+
+  export type PlatformSkillGroupByOutputType = {
+    id: string
+    robotId: string
+    name: string
+    description: string | null
+    skillMd: string
+    scripts: JsonValue | null
+    metadata: JsonValue | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PlatformSkillCountAggregateOutputType | null
+    _min: PlatformSkillMinAggregateOutputType | null
+    _max: PlatformSkillMaxAggregateOutputType | null
+  }
+
+  type GetPlatformSkillGroupByPayload<T extends PlatformSkillGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PlatformSkillGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PlatformSkillGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PlatformSkillGroupByOutputType[P]>
+            : GetScalarType<T[P], PlatformSkillGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PlatformSkillSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    robotId?: boolean
+    name?: boolean
+    description?: boolean
+    skillMd?: boolean
+    scripts?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    robot?: boolean | RobotDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["platformSkill"]>
+
+  export type PlatformSkillSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    robotId?: boolean
+    name?: boolean
+    description?: boolean
+    skillMd?: boolean
+    scripts?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    robot?: boolean | RobotDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["platformSkill"]>
+
+  export type PlatformSkillSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    robotId?: boolean
+    name?: boolean
+    description?: boolean
+    skillMd?: boolean
+    scripts?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    robot?: boolean | RobotDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["platformSkill"]>
+
+  export type PlatformSkillSelectScalar = {
+    id?: boolean
+    robotId?: boolean
+    name?: boolean
+    description?: boolean
+    skillMd?: boolean
+    scripts?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PlatformSkillOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "robotId" | "name" | "description" | "skillMd" | "scripts" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["platformSkill"]>
+  export type PlatformSkillInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    robot?: boolean | RobotDefaultArgs<ExtArgs>
+  }
+  export type PlatformSkillIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    robot?: boolean | RobotDefaultArgs<ExtArgs>
+  }
+  export type PlatformSkillIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    robot?: boolean | RobotDefaultArgs<ExtArgs>
+  }
+
+  export type $PlatformSkillPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PlatformSkill"
+    objects: {
+      robot: Prisma.$RobotPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      robotId: string
+      name: string
+      description: string | null
+      skillMd: string
+      scripts: Prisma.JsonValue | null
+      metadata: Prisma.JsonValue | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["platformSkill"]>
+    composites: {}
+  }
+
+  type PlatformSkillGetPayload<S extends boolean | null | undefined | PlatformSkillDefaultArgs> = $Result.GetResult<Prisma.$PlatformSkillPayload, S>
+
+  type PlatformSkillCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PlatformSkillFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PlatformSkillCountAggregateInputType | true
+    }
+
+  export interface PlatformSkillDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PlatformSkill'], meta: { name: 'PlatformSkill' } }
+    /**
+     * Find zero or one PlatformSkill that matches the filter.
+     * @param {PlatformSkillFindUniqueArgs} args - Arguments to find a PlatformSkill
+     * @example
+     * // Get one PlatformSkill
+     * const platformSkill = await prisma.platformSkill.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PlatformSkillFindUniqueArgs>(args: SelectSubset<T, PlatformSkillFindUniqueArgs<ExtArgs>>): Prisma__PlatformSkillClient<$Result.GetResult<Prisma.$PlatformSkillPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PlatformSkill that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PlatformSkillFindUniqueOrThrowArgs} args - Arguments to find a PlatformSkill
+     * @example
+     * // Get one PlatformSkill
+     * const platformSkill = await prisma.platformSkill.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PlatformSkillFindUniqueOrThrowArgs>(args: SelectSubset<T, PlatformSkillFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PlatformSkillClient<$Result.GetResult<Prisma.$PlatformSkillPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlatformSkill that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSkillFindFirstArgs} args - Arguments to find a PlatformSkill
+     * @example
+     * // Get one PlatformSkill
+     * const platformSkill = await prisma.platformSkill.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PlatformSkillFindFirstArgs>(args?: SelectSubset<T, PlatformSkillFindFirstArgs<ExtArgs>>): Prisma__PlatformSkillClient<$Result.GetResult<Prisma.$PlatformSkillPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlatformSkill that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSkillFindFirstOrThrowArgs} args - Arguments to find a PlatformSkill
+     * @example
+     * // Get one PlatformSkill
+     * const platformSkill = await prisma.platformSkill.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PlatformSkillFindFirstOrThrowArgs>(args?: SelectSubset<T, PlatformSkillFindFirstOrThrowArgs<ExtArgs>>): Prisma__PlatformSkillClient<$Result.GetResult<Prisma.$PlatformSkillPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PlatformSkills that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSkillFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PlatformSkills
+     * const platformSkills = await prisma.platformSkill.findMany()
+     * 
+     * // Get first 10 PlatformSkills
+     * const platformSkills = await prisma.platformSkill.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const platformSkillWithIdOnly = await prisma.platformSkill.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PlatformSkillFindManyArgs>(args?: SelectSubset<T, PlatformSkillFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformSkillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PlatformSkill.
+     * @param {PlatformSkillCreateArgs} args - Arguments to create a PlatformSkill.
+     * @example
+     * // Create one PlatformSkill
+     * const PlatformSkill = await prisma.platformSkill.create({
+     *   data: {
+     *     // ... data to create a PlatformSkill
+     *   }
+     * })
+     * 
+     */
+    create<T extends PlatformSkillCreateArgs>(args: SelectSubset<T, PlatformSkillCreateArgs<ExtArgs>>): Prisma__PlatformSkillClient<$Result.GetResult<Prisma.$PlatformSkillPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PlatformSkills.
+     * @param {PlatformSkillCreateManyArgs} args - Arguments to create many PlatformSkills.
+     * @example
+     * // Create many PlatformSkills
+     * const platformSkill = await prisma.platformSkill.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PlatformSkillCreateManyArgs>(args?: SelectSubset<T, PlatformSkillCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PlatformSkills and returns the data saved in the database.
+     * @param {PlatformSkillCreateManyAndReturnArgs} args - Arguments to create many PlatformSkills.
+     * @example
+     * // Create many PlatformSkills
+     * const platformSkill = await prisma.platformSkill.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PlatformSkills and only return the `id`
+     * const platformSkillWithIdOnly = await prisma.platformSkill.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PlatformSkillCreateManyAndReturnArgs>(args?: SelectSubset<T, PlatformSkillCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformSkillPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PlatformSkill.
+     * @param {PlatformSkillDeleteArgs} args - Arguments to delete one PlatformSkill.
+     * @example
+     * // Delete one PlatformSkill
+     * const PlatformSkill = await prisma.platformSkill.delete({
+     *   where: {
+     *     // ... filter to delete one PlatformSkill
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PlatformSkillDeleteArgs>(args: SelectSubset<T, PlatformSkillDeleteArgs<ExtArgs>>): Prisma__PlatformSkillClient<$Result.GetResult<Prisma.$PlatformSkillPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PlatformSkill.
+     * @param {PlatformSkillUpdateArgs} args - Arguments to update one PlatformSkill.
+     * @example
+     * // Update one PlatformSkill
+     * const platformSkill = await prisma.platformSkill.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PlatformSkillUpdateArgs>(args: SelectSubset<T, PlatformSkillUpdateArgs<ExtArgs>>): Prisma__PlatformSkillClient<$Result.GetResult<Prisma.$PlatformSkillPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PlatformSkills.
+     * @param {PlatformSkillDeleteManyArgs} args - Arguments to filter PlatformSkills to delete.
+     * @example
+     * // Delete a few PlatformSkills
+     * const { count } = await prisma.platformSkill.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PlatformSkillDeleteManyArgs>(args?: SelectSubset<T, PlatformSkillDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlatformSkills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSkillUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PlatformSkills
+     * const platformSkill = await prisma.platformSkill.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PlatformSkillUpdateManyArgs>(args: SelectSubset<T, PlatformSkillUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlatformSkills and returns the data updated in the database.
+     * @param {PlatformSkillUpdateManyAndReturnArgs} args - Arguments to update many PlatformSkills.
+     * @example
+     * // Update many PlatformSkills
+     * const platformSkill = await prisma.platformSkill.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PlatformSkills and only return the `id`
+     * const platformSkillWithIdOnly = await prisma.platformSkill.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PlatformSkillUpdateManyAndReturnArgs>(args: SelectSubset<T, PlatformSkillUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformSkillPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PlatformSkill.
+     * @param {PlatformSkillUpsertArgs} args - Arguments to update or create a PlatformSkill.
+     * @example
+     * // Update or create a PlatformSkill
+     * const platformSkill = await prisma.platformSkill.upsert({
+     *   create: {
+     *     // ... data to create a PlatformSkill
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PlatformSkill we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PlatformSkillUpsertArgs>(args: SelectSubset<T, PlatformSkillUpsertArgs<ExtArgs>>): Prisma__PlatformSkillClient<$Result.GetResult<Prisma.$PlatformSkillPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PlatformSkills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSkillCountArgs} args - Arguments to filter PlatformSkills to count.
+     * @example
+     * // Count the number of PlatformSkills
+     * const count = await prisma.platformSkill.count({
+     *   where: {
+     *     // ... the filter for the PlatformSkills we want to count
+     *   }
+     * })
+    **/
+    count<T extends PlatformSkillCountArgs>(
+      args?: Subset<T, PlatformSkillCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PlatformSkillCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PlatformSkill.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSkillAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PlatformSkillAggregateArgs>(args: Subset<T, PlatformSkillAggregateArgs>): Prisma.PrismaPromise<GetPlatformSkillAggregateType<T>>
+
+    /**
+     * Group by PlatformSkill.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSkillGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PlatformSkillGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PlatformSkillGroupByArgs['orderBy'] }
+        : { orderBy?: PlatformSkillGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PlatformSkillGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPlatformSkillGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PlatformSkill model
+   */
+  readonly fields: PlatformSkillFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PlatformSkill.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PlatformSkillClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    robot<T extends RobotDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RobotDefaultArgs<ExtArgs>>): Prisma__RobotClient<$Result.GetResult<Prisma.$RobotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PlatformSkill model
+   */
+  interface PlatformSkillFieldRefs {
+    readonly id: FieldRef<"PlatformSkill", 'String'>
+    readonly robotId: FieldRef<"PlatformSkill", 'String'>
+    readonly name: FieldRef<"PlatformSkill", 'String'>
+    readonly description: FieldRef<"PlatformSkill", 'String'>
+    readonly skillMd: FieldRef<"PlatformSkill", 'String'>
+    readonly scripts: FieldRef<"PlatformSkill", 'Json'>
+    readonly metadata: FieldRef<"PlatformSkill", 'Json'>
+    readonly createdAt: FieldRef<"PlatformSkill", 'DateTime'>
+    readonly updatedAt: FieldRef<"PlatformSkill", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PlatformSkill findUnique
+   */
+  export type PlatformSkillFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSkill
+     */
+    select?: PlatformSkillSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSkill
+     */
+    omit?: PlatformSkillOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSkillInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformSkill to fetch.
+     */
+    where: PlatformSkillWhereUniqueInput
+  }
+
+  /**
+   * PlatformSkill findUniqueOrThrow
+   */
+  export type PlatformSkillFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSkill
+     */
+    select?: PlatformSkillSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSkill
+     */
+    omit?: PlatformSkillOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSkillInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformSkill to fetch.
+     */
+    where: PlatformSkillWhereUniqueInput
+  }
+
+  /**
+   * PlatformSkill findFirst
+   */
+  export type PlatformSkillFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSkill
+     */
+    select?: PlatformSkillSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSkill
+     */
+    omit?: PlatformSkillOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSkillInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformSkill to fetch.
+     */
+    where?: PlatformSkillWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformSkills to fetch.
+     */
+    orderBy?: PlatformSkillOrderByWithRelationInput | PlatformSkillOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlatformSkills.
+     */
+    cursor?: PlatformSkillWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformSkills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformSkills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlatformSkills.
+     */
+    distinct?: PlatformSkillScalarFieldEnum | PlatformSkillScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformSkill findFirstOrThrow
+   */
+  export type PlatformSkillFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSkill
+     */
+    select?: PlatformSkillSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSkill
+     */
+    omit?: PlatformSkillOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSkillInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformSkill to fetch.
+     */
+    where?: PlatformSkillWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformSkills to fetch.
+     */
+    orderBy?: PlatformSkillOrderByWithRelationInput | PlatformSkillOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlatformSkills.
+     */
+    cursor?: PlatformSkillWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformSkills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformSkills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlatformSkills.
+     */
+    distinct?: PlatformSkillScalarFieldEnum | PlatformSkillScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformSkill findMany
+   */
+  export type PlatformSkillFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSkill
+     */
+    select?: PlatformSkillSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSkill
+     */
+    omit?: PlatformSkillOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSkillInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformSkills to fetch.
+     */
+    where?: PlatformSkillWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformSkills to fetch.
+     */
+    orderBy?: PlatformSkillOrderByWithRelationInput | PlatformSkillOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PlatformSkills.
+     */
+    cursor?: PlatformSkillWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformSkills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformSkills.
+     */
+    skip?: number
+    distinct?: PlatformSkillScalarFieldEnum | PlatformSkillScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformSkill create
+   */
+  export type PlatformSkillCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSkill
+     */
+    select?: PlatformSkillSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSkill
+     */
+    omit?: PlatformSkillOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSkillInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PlatformSkill.
+     */
+    data: XOR<PlatformSkillCreateInput, PlatformSkillUncheckedCreateInput>
+  }
+
+  /**
+   * PlatformSkill createMany
+   */
+  export type PlatformSkillCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PlatformSkills.
+     */
+    data: PlatformSkillCreateManyInput | PlatformSkillCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PlatformSkill createManyAndReturn
+   */
+  export type PlatformSkillCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSkill
+     */
+    select?: PlatformSkillSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSkill
+     */
+    omit?: PlatformSkillOmit<ExtArgs> | null
+    /**
+     * The data used to create many PlatformSkills.
+     */
+    data: PlatformSkillCreateManyInput | PlatformSkillCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSkillIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PlatformSkill update
+   */
+  export type PlatformSkillUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSkill
+     */
+    select?: PlatformSkillSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSkill
+     */
+    omit?: PlatformSkillOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSkillInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PlatformSkill.
+     */
+    data: XOR<PlatformSkillUpdateInput, PlatformSkillUncheckedUpdateInput>
+    /**
+     * Choose, which PlatformSkill to update.
+     */
+    where: PlatformSkillWhereUniqueInput
+  }
+
+  /**
+   * PlatformSkill updateMany
+   */
+  export type PlatformSkillUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PlatformSkills.
+     */
+    data: XOR<PlatformSkillUpdateManyMutationInput, PlatformSkillUncheckedUpdateManyInput>
+    /**
+     * Filter which PlatformSkills to update
+     */
+    where?: PlatformSkillWhereInput
+    /**
+     * Limit how many PlatformSkills to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlatformSkill updateManyAndReturn
+   */
+  export type PlatformSkillUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSkill
+     */
+    select?: PlatformSkillSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSkill
+     */
+    omit?: PlatformSkillOmit<ExtArgs> | null
+    /**
+     * The data used to update PlatformSkills.
+     */
+    data: XOR<PlatformSkillUpdateManyMutationInput, PlatformSkillUncheckedUpdateManyInput>
+    /**
+     * Filter which PlatformSkills to update
+     */
+    where?: PlatformSkillWhereInput
+    /**
+     * Limit how many PlatformSkills to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSkillIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PlatformSkill upsert
+   */
+  export type PlatformSkillUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSkill
+     */
+    select?: PlatformSkillSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSkill
+     */
+    omit?: PlatformSkillOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSkillInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PlatformSkill to update in case it exists.
+     */
+    where: PlatformSkillWhereUniqueInput
+    /**
+     * In case the PlatformSkill found by the `where` argument doesn't exist, create a new PlatformSkill with this data.
+     */
+    create: XOR<PlatformSkillCreateInput, PlatformSkillUncheckedCreateInput>
+    /**
+     * In case the PlatformSkill was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PlatformSkillUpdateInput, PlatformSkillUncheckedUpdateInput>
+  }
+
+  /**
+   * PlatformSkill delete
+   */
+  export type PlatformSkillDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSkill
+     */
+    select?: PlatformSkillSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSkill
+     */
+    omit?: PlatformSkillOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSkillInclude<ExtArgs> | null
+    /**
+     * Filter which PlatformSkill to delete.
+     */
+    where: PlatformSkillWhereUniqueInput
+  }
+
+  /**
+   * PlatformSkill deleteMany
+   */
+  export type PlatformSkillDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlatformSkills to delete
+     */
+    where?: PlatformSkillWhereInput
+    /**
+     * Limit how many PlatformSkills to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlatformSkill without action
+   */
+  export type PlatformSkillDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSkill
+     */
+    select?: PlatformSkillSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSkill
+     */
+    omit?: PlatformSkillOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformSkillInclude<ExtArgs> | null
   }
 
 
@@ -16633,6 +17887,21 @@ export namespace Prisma {
   export type RobotScalarFieldEnum = (typeof RobotScalarFieldEnum)[keyof typeof RobotScalarFieldEnum]
 
 
+  export const PlatformSkillScalarFieldEnum: {
+    id: 'id',
+    robotId: 'robotId',
+    name: 'name',
+    description: 'description',
+    skillMd: 'skillMd',
+    scripts: 'scripts',
+    metadata: 'metadata',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PlatformSkillScalarFieldEnum = (typeof PlatformSkillScalarFieldEnum)[keyof typeof PlatformSkillScalarFieldEnum]
+
+
   export const ChatGroupScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -17253,6 +18522,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Robot"> | Date | string
     updatedAt?: DateTimeFilter<"Robot"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    skills?: PlatformSkillListRelationFilter
   }
 
   export type RobotOrderByWithRelationInput = {
@@ -17267,6 +18537,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: TenantOrderByWithRelationInput
+    skills?: PlatformSkillOrderByRelationAggregateInput
   }
 
   export type RobotWhereUniqueInput = Prisma.AtLeast<{
@@ -17284,6 +18555,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Robot"> | Date | string
     updatedAt?: DateTimeFilter<"Robot"> | Date | string
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
+    skills?: PlatformSkillListRelationFilter
   }, "id">
 
   export type RobotOrderByWithAggregationInput = {
@@ -17316,6 +18588,82 @@ export namespace Prisma {
     tokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"Robot"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Robot"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Robot"> | Date | string
+  }
+
+  export type PlatformSkillWhereInput = {
+    AND?: PlatformSkillWhereInput | PlatformSkillWhereInput[]
+    OR?: PlatformSkillWhereInput[]
+    NOT?: PlatformSkillWhereInput | PlatformSkillWhereInput[]
+    id?: StringFilter<"PlatformSkill"> | string
+    robotId?: StringFilter<"PlatformSkill"> | string
+    name?: StringFilter<"PlatformSkill"> | string
+    description?: StringNullableFilter<"PlatformSkill"> | string | null
+    skillMd?: StringFilter<"PlatformSkill"> | string
+    scripts?: JsonNullableFilter<"PlatformSkill">
+    metadata?: JsonNullableFilter<"PlatformSkill">
+    createdAt?: DateTimeFilter<"PlatformSkill"> | Date | string
+    updatedAt?: DateTimeFilter<"PlatformSkill"> | Date | string
+    robot?: XOR<RobotScalarRelationFilter, RobotWhereInput>
+  }
+
+  export type PlatformSkillOrderByWithRelationInput = {
+    id?: SortOrder
+    robotId?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    skillMd?: SortOrder
+    scripts?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    robot?: RobotOrderByWithRelationInput
+  }
+
+  export type PlatformSkillWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    robotId_name?: PlatformSkillRobotIdNameCompoundUniqueInput
+    AND?: PlatformSkillWhereInput | PlatformSkillWhereInput[]
+    OR?: PlatformSkillWhereInput[]
+    NOT?: PlatformSkillWhereInput | PlatformSkillWhereInput[]
+    robotId?: StringFilter<"PlatformSkill"> | string
+    name?: StringFilter<"PlatformSkill"> | string
+    description?: StringNullableFilter<"PlatformSkill"> | string | null
+    skillMd?: StringFilter<"PlatformSkill"> | string
+    scripts?: JsonNullableFilter<"PlatformSkill">
+    metadata?: JsonNullableFilter<"PlatformSkill">
+    createdAt?: DateTimeFilter<"PlatformSkill"> | Date | string
+    updatedAt?: DateTimeFilter<"PlatformSkill"> | Date | string
+    robot?: XOR<RobotScalarRelationFilter, RobotWhereInput>
+  }, "id" | "robotId_name">
+
+  export type PlatformSkillOrderByWithAggregationInput = {
+    id?: SortOrder
+    robotId?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    skillMd?: SortOrder
+    scripts?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PlatformSkillCountOrderByAggregateInput
+    _max?: PlatformSkillMaxOrderByAggregateInput
+    _min?: PlatformSkillMinOrderByAggregateInput
+  }
+
+  export type PlatformSkillScalarWhereWithAggregatesInput = {
+    AND?: PlatformSkillScalarWhereWithAggregatesInput | PlatformSkillScalarWhereWithAggregatesInput[]
+    OR?: PlatformSkillScalarWhereWithAggregatesInput[]
+    NOT?: PlatformSkillScalarWhereWithAggregatesInput | PlatformSkillScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PlatformSkill"> | string
+    robotId?: StringWithAggregatesFilter<"PlatformSkill"> | string
+    name?: StringWithAggregatesFilter<"PlatformSkill"> | string
+    description?: StringNullableWithAggregatesFilter<"PlatformSkill"> | string | null
+    skillMd?: StringWithAggregatesFilter<"PlatformSkill"> | string
+    scripts?: JsonNullableWithAggregatesFilter<"PlatformSkill">
+    metadata?: JsonNullableWithAggregatesFilter<"PlatformSkill">
+    createdAt?: DateTimeWithAggregatesFilter<"PlatformSkill"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PlatformSkill"> | Date | string
   }
 
   export type ChatGroupWhereInput = {
@@ -18148,6 +19496,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: TenantCreateNestedOneWithoutRobotsInput
+    skills?: PlatformSkillCreateNestedManyWithoutRobotInput
   }
 
   export type RobotUncheckedCreateInput = {
@@ -18161,6 +19510,7 @@ export namespace Prisma {
     tokenExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    skills?: PlatformSkillUncheckedCreateNestedManyWithoutRobotInput
   }
 
   export type RobotUpdateInput = {
@@ -18174,6 +19524,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: TenantUpdateOneRequiredWithoutRobotsNestedInput
+    skills?: PlatformSkillUpdateManyWithoutRobotNestedInput
   }
 
   export type RobotUncheckedUpdateInput = {
@@ -18187,6 +19538,7 @@ export namespace Prisma {
     tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skills?: PlatformSkillUncheckedUpdateManyWithoutRobotNestedInput
   }
 
   export type RobotCreateManyInput = {
@@ -18223,6 +19575,89 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     tokenHash?: NullableStringFieldUpdateOperationsInput | string | null
     tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformSkillCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    skillMd: string
+    scripts?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    robot: RobotCreateNestedOneWithoutSkillsInput
+  }
+
+  export type PlatformSkillUncheckedCreateInput = {
+    id?: string
+    robotId: string
+    name: string
+    description?: string | null
+    skillMd: string
+    scripts?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlatformSkillUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    skillMd?: StringFieldUpdateOperationsInput | string
+    scripts?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    robot?: RobotUpdateOneRequiredWithoutSkillsNestedInput
+  }
+
+  export type PlatformSkillUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    robotId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    skillMd?: StringFieldUpdateOperationsInput | string
+    scripts?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformSkillCreateManyInput = {
+    id?: string
+    robotId: string
+    name: string
+    description?: string | null
+    skillMd: string
+    scripts?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlatformSkillUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    skillMd?: StringFieldUpdateOperationsInput | string
+    scripts?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformSkillUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    robotId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    skillMd?: StringFieldUpdateOperationsInput | string
+    scripts?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19035,6 +20470,16 @@ export namespace Prisma {
     joinedAt?: SortOrder
   }
 
+  export type PlatformSkillListRelationFilter = {
+    every?: PlatformSkillWhereInput
+    some?: PlatformSkillWhereInput
+    none?: PlatformSkillWhereInput
+  }
+
+  export type PlatformSkillOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type RobotCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -19072,6 +20517,97 @@ export namespace Prisma {
     tokenExpiresAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type RobotScalarRelationFilter = {
+    is?: RobotWhereInput
+    isNot?: RobotWhereInput
+  }
+
+  export type PlatformSkillRobotIdNameCompoundUniqueInput = {
+    robotId: string
+    name: string
+  }
+
+  export type PlatformSkillCountOrderByAggregateInput = {
+    id?: SortOrder
+    robotId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    skillMd?: SortOrder
+    scripts?: SortOrder
+    metadata?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PlatformSkillMaxOrderByAggregateInput = {
+    id?: SortOrder
+    robotId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    skillMd?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PlatformSkillMinOrderByAggregateInput = {
+    id?: SortOrder
+    robotId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    skillMd?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type ChatGroupMemberListRelationFilter = {
@@ -19148,29 +20684,6 @@ export namespace Prisma {
     memberType?: SortOrder
     joinedAt?: SortOrder
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type MessageCountOrderByAggregateInput = {
     id?: SortOrder
@@ -19201,32 +20714,6 @@ export namespace Prisma {
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type BigIntFilter<$PrismaModel = never> = {
@@ -19878,12 +21365,68 @@ export namespace Prisma {
     connect?: TenantWhereUniqueInput
   }
 
+  export type PlatformSkillCreateNestedManyWithoutRobotInput = {
+    create?: XOR<PlatformSkillCreateWithoutRobotInput, PlatformSkillUncheckedCreateWithoutRobotInput> | PlatformSkillCreateWithoutRobotInput[] | PlatformSkillUncheckedCreateWithoutRobotInput[]
+    connectOrCreate?: PlatformSkillCreateOrConnectWithoutRobotInput | PlatformSkillCreateOrConnectWithoutRobotInput[]
+    createMany?: PlatformSkillCreateManyRobotInputEnvelope
+    connect?: PlatformSkillWhereUniqueInput | PlatformSkillWhereUniqueInput[]
+  }
+
+  export type PlatformSkillUncheckedCreateNestedManyWithoutRobotInput = {
+    create?: XOR<PlatformSkillCreateWithoutRobotInput, PlatformSkillUncheckedCreateWithoutRobotInput> | PlatformSkillCreateWithoutRobotInput[] | PlatformSkillUncheckedCreateWithoutRobotInput[]
+    connectOrCreate?: PlatformSkillCreateOrConnectWithoutRobotInput | PlatformSkillCreateOrConnectWithoutRobotInput[]
+    createMany?: PlatformSkillCreateManyRobotInputEnvelope
+    connect?: PlatformSkillWhereUniqueInput | PlatformSkillWhereUniqueInput[]
+  }
+
   export type TenantUpdateOneRequiredWithoutRobotsNestedInput = {
     create?: XOR<TenantCreateWithoutRobotsInput, TenantUncheckedCreateWithoutRobotsInput>
     connectOrCreate?: TenantCreateOrConnectWithoutRobotsInput
     upsert?: TenantUpsertWithoutRobotsInput
     connect?: TenantWhereUniqueInput
     update?: XOR<XOR<TenantUpdateToOneWithWhereWithoutRobotsInput, TenantUpdateWithoutRobotsInput>, TenantUncheckedUpdateWithoutRobotsInput>
+  }
+
+  export type PlatformSkillUpdateManyWithoutRobotNestedInput = {
+    create?: XOR<PlatformSkillCreateWithoutRobotInput, PlatformSkillUncheckedCreateWithoutRobotInput> | PlatformSkillCreateWithoutRobotInput[] | PlatformSkillUncheckedCreateWithoutRobotInput[]
+    connectOrCreate?: PlatformSkillCreateOrConnectWithoutRobotInput | PlatformSkillCreateOrConnectWithoutRobotInput[]
+    upsert?: PlatformSkillUpsertWithWhereUniqueWithoutRobotInput | PlatformSkillUpsertWithWhereUniqueWithoutRobotInput[]
+    createMany?: PlatformSkillCreateManyRobotInputEnvelope
+    set?: PlatformSkillWhereUniqueInput | PlatformSkillWhereUniqueInput[]
+    disconnect?: PlatformSkillWhereUniqueInput | PlatformSkillWhereUniqueInput[]
+    delete?: PlatformSkillWhereUniqueInput | PlatformSkillWhereUniqueInput[]
+    connect?: PlatformSkillWhereUniqueInput | PlatformSkillWhereUniqueInput[]
+    update?: PlatformSkillUpdateWithWhereUniqueWithoutRobotInput | PlatformSkillUpdateWithWhereUniqueWithoutRobotInput[]
+    updateMany?: PlatformSkillUpdateManyWithWhereWithoutRobotInput | PlatformSkillUpdateManyWithWhereWithoutRobotInput[]
+    deleteMany?: PlatformSkillScalarWhereInput | PlatformSkillScalarWhereInput[]
+  }
+
+  export type PlatformSkillUncheckedUpdateManyWithoutRobotNestedInput = {
+    create?: XOR<PlatformSkillCreateWithoutRobotInput, PlatformSkillUncheckedCreateWithoutRobotInput> | PlatformSkillCreateWithoutRobotInput[] | PlatformSkillUncheckedCreateWithoutRobotInput[]
+    connectOrCreate?: PlatformSkillCreateOrConnectWithoutRobotInput | PlatformSkillCreateOrConnectWithoutRobotInput[]
+    upsert?: PlatformSkillUpsertWithWhereUniqueWithoutRobotInput | PlatformSkillUpsertWithWhereUniqueWithoutRobotInput[]
+    createMany?: PlatformSkillCreateManyRobotInputEnvelope
+    set?: PlatformSkillWhereUniqueInput | PlatformSkillWhereUniqueInput[]
+    disconnect?: PlatformSkillWhereUniqueInput | PlatformSkillWhereUniqueInput[]
+    delete?: PlatformSkillWhereUniqueInput | PlatformSkillWhereUniqueInput[]
+    connect?: PlatformSkillWhereUniqueInput | PlatformSkillWhereUniqueInput[]
+    update?: PlatformSkillUpdateWithWhereUniqueWithoutRobotInput | PlatformSkillUpdateWithWhereUniqueWithoutRobotInput[]
+    updateMany?: PlatformSkillUpdateManyWithWhereWithoutRobotInput | PlatformSkillUpdateManyWithWhereWithoutRobotInput[]
+    deleteMany?: PlatformSkillScalarWhereInput | PlatformSkillScalarWhereInput[]
+  }
+
+  export type RobotCreateNestedOneWithoutSkillsInput = {
+    create?: XOR<RobotCreateWithoutSkillsInput, RobotUncheckedCreateWithoutSkillsInput>
+    connectOrCreate?: RobotCreateOrConnectWithoutSkillsInput
+    connect?: RobotWhereUniqueInput
+  }
+
+  export type RobotUpdateOneRequiredWithoutSkillsNestedInput = {
+    create?: XOR<RobotCreateWithoutSkillsInput, RobotUncheckedCreateWithoutSkillsInput>
+    connectOrCreate?: RobotCreateOrConnectWithoutSkillsInput
+    upsert?: RobotUpsertWithoutSkillsInput
+    connect?: RobotWhereUniqueInput
+    update?: XOR<XOR<RobotUpdateToOneWithWhereWithoutSkillsInput, RobotUpdateWithoutSkillsInput>, RobotUncheckedUpdateWithoutSkillsInput>
   }
 
   export type TeamCreateNestedOneWithoutGroupsInput = {
@@ -20319,6 +21862,7 @@ export namespace Prisma {
     tokenExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    skills?: PlatformSkillCreateNestedManyWithoutRobotInput
   }
 
   export type RobotUncheckedCreateWithoutTenantInput = {
@@ -20331,6 +21875,7 @@ export namespace Prisma {
     tokenExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    skills?: PlatformSkillUncheckedCreateNestedManyWithoutRobotInput
   }
 
   export type RobotCreateOrConnectWithoutTenantInput = {
@@ -21162,6 +22707,38 @@ export namespace Prisma {
     create: XOR<TenantCreateWithoutRobotsInput, TenantUncheckedCreateWithoutRobotsInput>
   }
 
+  export type PlatformSkillCreateWithoutRobotInput = {
+    id?: string
+    name: string
+    description?: string | null
+    skillMd: string
+    scripts?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlatformSkillUncheckedCreateWithoutRobotInput = {
+    id?: string
+    name: string
+    description?: string | null
+    skillMd: string
+    scripts?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlatformSkillCreateOrConnectWithoutRobotInput = {
+    where: PlatformSkillWhereUniqueInput
+    create: XOR<PlatformSkillCreateWithoutRobotInput, PlatformSkillUncheckedCreateWithoutRobotInput>
+  }
+
+  export type PlatformSkillCreateManyRobotInputEnvelope = {
+    data: PlatformSkillCreateManyRobotInput | PlatformSkillCreateManyRobotInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TenantUpsertWithoutRobotsInput = {
     update: XOR<TenantUpdateWithoutRobotsInput, TenantUncheckedUpdateWithoutRobotsInput>
     create: XOR<TenantCreateWithoutRobotsInput, TenantUncheckedCreateWithoutRobotsInput>
@@ -21199,6 +22776,105 @@ export namespace Prisma {
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutTenantNestedInput
     llmConfig?: TenantLlmConfigUncheckedUpdateOneWithoutTenantNestedInput
     invitations?: TenantInvitationUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type PlatformSkillUpsertWithWhereUniqueWithoutRobotInput = {
+    where: PlatformSkillWhereUniqueInput
+    update: XOR<PlatformSkillUpdateWithoutRobotInput, PlatformSkillUncheckedUpdateWithoutRobotInput>
+    create: XOR<PlatformSkillCreateWithoutRobotInput, PlatformSkillUncheckedCreateWithoutRobotInput>
+  }
+
+  export type PlatformSkillUpdateWithWhereUniqueWithoutRobotInput = {
+    where: PlatformSkillWhereUniqueInput
+    data: XOR<PlatformSkillUpdateWithoutRobotInput, PlatformSkillUncheckedUpdateWithoutRobotInput>
+  }
+
+  export type PlatformSkillUpdateManyWithWhereWithoutRobotInput = {
+    where: PlatformSkillScalarWhereInput
+    data: XOR<PlatformSkillUpdateManyMutationInput, PlatformSkillUncheckedUpdateManyWithoutRobotInput>
+  }
+
+  export type PlatformSkillScalarWhereInput = {
+    AND?: PlatformSkillScalarWhereInput | PlatformSkillScalarWhereInput[]
+    OR?: PlatformSkillScalarWhereInput[]
+    NOT?: PlatformSkillScalarWhereInput | PlatformSkillScalarWhereInput[]
+    id?: StringFilter<"PlatformSkill"> | string
+    robotId?: StringFilter<"PlatformSkill"> | string
+    name?: StringFilter<"PlatformSkill"> | string
+    description?: StringNullableFilter<"PlatformSkill"> | string | null
+    skillMd?: StringFilter<"PlatformSkill"> | string
+    scripts?: JsonNullableFilter<"PlatformSkill">
+    metadata?: JsonNullableFilter<"PlatformSkill">
+    createdAt?: DateTimeFilter<"PlatformSkill"> | Date | string
+    updatedAt?: DateTimeFilter<"PlatformSkill"> | Date | string
+  }
+
+  export type RobotCreateWithoutSkillsInput = {
+    id?: string
+    name: string
+    createdById: string
+    soulMd: string
+    status?: string
+    tokenHash?: string | null
+    tokenExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: TenantCreateNestedOneWithoutRobotsInput
+  }
+
+  export type RobotUncheckedCreateWithoutSkillsInput = {
+    id?: string
+    name: string
+    tenantId: string
+    createdById: string
+    soulMd: string
+    status?: string
+    tokenHash?: string | null
+    tokenExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RobotCreateOrConnectWithoutSkillsInput = {
+    where: RobotWhereUniqueInput
+    create: XOR<RobotCreateWithoutSkillsInput, RobotUncheckedCreateWithoutSkillsInput>
+  }
+
+  export type RobotUpsertWithoutSkillsInput = {
+    update: XOR<RobotUpdateWithoutSkillsInput, RobotUncheckedUpdateWithoutSkillsInput>
+    create: XOR<RobotCreateWithoutSkillsInput, RobotUncheckedCreateWithoutSkillsInput>
+    where?: RobotWhereInput
+  }
+
+  export type RobotUpdateToOneWithWhereWithoutSkillsInput = {
+    where?: RobotWhereInput
+    data: XOR<RobotUpdateWithoutSkillsInput, RobotUncheckedUpdateWithoutSkillsInput>
+  }
+
+  export type RobotUpdateWithoutSkillsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdById?: StringFieldUpdateOperationsInput | string
+    soulMd?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    tokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: TenantUpdateOneRequiredWithoutRobotsNestedInput
+  }
+
+  export type RobotUncheckedUpdateWithoutSkillsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    createdById?: StringFieldUpdateOperationsInput | string
+    soulMd?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    tokenHash?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TeamCreateWithoutGroupsInput = {
@@ -21772,6 +23448,7 @@ export namespace Prisma {
     tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skills?: PlatformSkillUpdateManyWithoutRobotNestedInput
   }
 
   export type RobotUncheckedUpdateWithoutTenantInput = {
@@ -21784,6 +23461,7 @@ export namespace Prisma {
     tokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skills?: PlatformSkillUncheckedUpdateManyWithoutRobotNestedInput
   }
 
   export type RobotUncheckedUpdateManyWithoutTenantInput = {
@@ -21979,6 +23657,50 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     createdById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformSkillCreateManyRobotInput = {
+    id?: string
+    name: string
+    description?: string | null
+    skillMd: string
+    scripts?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlatformSkillUpdateWithoutRobotInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    skillMd?: StringFieldUpdateOperationsInput | string
+    scripts?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformSkillUncheckedUpdateWithoutRobotInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    skillMd?: StringFieldUpdateOperationsInput | string
+    scripts?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformSkillUncheckedUpdateManyWithoutRobotInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    skillMd?: StringFieldUpdateOperationsInput | string
+    scripts?: NullableJsonNullValueInput | InputJsonValue
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChatGroupMemberCreateManyGroupInput = {

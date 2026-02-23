@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback, useRef } from "react"
+import { useState, useEffect, useCallback, useRef, useMemo, memo } from "react"
 import { api } from "@/lib/api/client"
 import { ApiClientError } from "@/lib/api/client"
 import { toast } from "sonner"
@@ -30,6 +30,7 @@ import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
+import { MarkdownContent } from "@/components/chat/markdown-content"
 import {
   Dialog,
   DialogContent,
@@ -112,9 +113,14 @@ export default function ChatPage() {
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
   const [isLoadingGroups, setIsLoadingGroups] = useState(true)
   const [isLoadingMessages, setIsLoadingMessages] = useState(false)
+  const [isLoadingMoreMessages, setIsLoadingMoreMessages] = useState(false)
+  const [hasMoreMessages, setHasMoreMessages] = useState(true)
+  const [nextCursor, setNextCursor] = useState<string | null>(null)
+  const MESSAGE_PAGE_SIZE = 10
   const [messageText, setMessageText] = useState("")
   const [isSending, setIsSending] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const messagesStartRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const [files, setFiles] = useState<FileInfo[]>([])
@@ -198,19 +204,46 @@ export default function ChatPage() {
     setCurrentUserId(getCurrentUserId())
   }, [])
 
-  const loadMessages = useCallback(async (groupId: string) => {
-    setIsLoadingMessages(true)
+  const loadMessages = useCallback(async (groupId: string, cursor?: string, append = false) => {
+    if (append) {
+      setIsLoadingMoreMessages(true)
+    } else {
+      setIsLoadingMessages(true)
+    }
     try {
-      const res = await api.messages.list(groupId)
-      // Reverse to show oldest first (ascending order)
-      const sortedMessages = [...res.messages].reverse()
-      setMessages(sortedMessages)
+      const res = await api.messages.list(groupId, { cursor, limit: MESSAGE_PAGE_SIZE })
+      const newMessages = [...res.messages].reverse()
+
+      if (append) {
+        setMessages((prev) => [...newMessages, ...prev])
+      } else {
+        setMessages(newMessages)
+      }
+
+      // Check if there are more messages to load
+      const hasMore = res.messages.length === MESSAGE_PAGE_SIZE && res.nextCursor !== null
+      setHasMoreMessages(hasMore)
+      setNextCursor(hasMore ? res.nextCursor : null)
     } catch {
       toast.error("Failed to load messages")
     } finally {
       setIsLoadingMessages(false)
+      setIsLoadingMoreMessages(false)
     }
   }, [])
+
+  const loadMoreMessages = useCallback(async () => {
+    if (!activeGroupId || !nextCursor || isLoadingMoreMessages || !hasMoreMessages) return
+    await loadMessages(activeGroupId, nextCursor, true)
+  }, [activeGroupId, nextCursor, isLoadingMoreMessages, hasMoreMessages, loadMessages])
+
+  const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLDivElement
+    // Load more when scrolled to top (within 50px)
+    if (target.scrollTop <= 50) {
+      loadMoreMessages()
+    }
+  }, [loadMoreMessages])
 
   const loadFiles = useCallback(async (groupId: string) => {
     try {
@@ -281,6 +314,7 @@ export default function ChatPage() {
 
   const selectGroup = (groupId: string) => {
     setActiveGroupId(groupId)
+    setHasMoreMessages(true)
     loadMessages(groupId)
     loadMembers(groupId)
   }
@@ -478,7 +512,7 @@ export default function ChatPage() {
     }
   }
 
-  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTextChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const val = e.target.value
     setMessageText(val)
 
@@ -492,9 +526,9 @@ export default function ChatPage() {
     } else {
       setShowMentions(false)
     }
-  }
+  }, [])
 
-  const insertMention = (name: string) => {
+  const insertMention = useCallback((name: string) => {
     const cursorPos = textareaRef.current?.selectionStart ?? messageText.length
     const textBefore = messageText.slice(0, cursorPos)
     const textAfter = messageText.slice(cursorPos)
@@ -503,12 +537,13 @@ export default function ChatPage() {
     setMessageText(newText)
     setShowMentions(false)
     textareaRef.current?.focus()
-  }
+  }, [messageText])
 
   const activeGroup = groups.find((g) => g.id === activeGroupId)
 
-  const filteredMembers = members.filter((m) =>
-    m.name.toLowerCase().includes(debouncedMentionSearch.toLowerCase())
+  const filteredMembers = useMemo(
+    () => members.filter((m) => m.name.toLowerCase().includes(debouncedMentionSearch.toLowerCase())),
+    [members, debouncedMentionSearch]
   )
 
   const formatTime = (iso: string) => {
@@ -524,6 +559,60 @@ export default function ChatPage() {
       year: "numeric",
     })
   }
+
+  // Memoized message item component to prevent re-renders when typing
+  const MessageItem = memo(function MessageItem({
+    msg,
+    idx,
+    messages,
+    currentUserId,
+  }: {
+    msg: MessageInfo
+    idx: number
+    messages: MessageInfo[]
+    currentUserId: string | null
+  }) {
+    const isRobot = msg.senderType === "robot"
+    const showDate =
+      idx === 0 ||
+      formatDate(messages[idx - 1].createdAt) !== formatDate(msg.createdAt)
+    const isCurrentUser = msg.senderId === currentUserId && msg.senderType === "human"
+    const timeStr = formatTime(msg.createdAt)
+    const dateStr = formatDate(msg.createdAt)
+
+    return (
+      <div>
+        {showDate && (
+          <div className="my-4 flex items-center gap-4">
+            <Separator className="flex-1 bg-zinc-800" />
+            <span className="text-xs text-muted-foreground">{dateStr}</span>
+            <Separator className="flex-1 bg-zinc-800" />
+          </div>
+        )}
+        <div className={cn("flex gap-3", isCurrentUser ? "flex-row-reverse" : "flex-row")}>
+          <div
+            className={cn(
+              "flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
+              isRobot ? "bg-emerald-950 text-emerald-400" : "bg-zinc-800 text-zinc-400"
+            )}
+          >
+            {isRobot ? <Bot className="h-4 w-4" /> : <User className="h-4 w-4" />}
+          </div>
+          <div className={cn("min-w-0 flex-1", isCurrentUser ? "text-right" : "text-left")}>
+            <div className={cn("flex items-baseline gap-2", isCurrentUser ? "justify-end" : "justify-start")}>
+              <span className={cn("text-sm font-semibold", isRobot ? "text-emerald-400" : "text-foreground")}>
+                {msg.sender.name}
+              </span>
+              <span className="text-xs text-muted-foreground">{timeStr}</span>
+            </div>
+            <div className={cn("mt-0.5", isCurrentUser && "bg-zinc-800/50 rounded-lg px-3 py-2 -mx-1")}>
+              <MarkdownContent content={msg.content} />
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  })
 
   return (
     <div className="-mx-6 -my-8 flex h-screen">
@@ -661,7 +750,7 @@ export default function ChatPage() {
 
             <div className="flex flex-1 overflow-hidden">
               {/* Messages — 60% viewer area */}
-              <ScrollArea className="flex-1 px-4 py-4">
+              <ScrollArea className="flex-1 px-4 py-4" onScroll={handleScroll}>
                 {isLoadingMessages ? (
                 <div className="space-y-4">
                   {[1, 2, 3].map((i) => (
@@ -683,63 +772,20 @@ export default function ChatPage() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {messages.map((msg, idx) => {
-                    const isRobot = msg.senderType === "robot"
-                    const showDate =
-                      idx === 0 ||
-                      formatDate(messages[idx - 1].createdAt) !==
-                        formatDate(msg.createdAt)
-                    const isCurrentUser = msg.senderId === currentUserId && msg.senderType === "human"
-                    return (
-                      <div key={msg.id}>
-                        {showDate && (
-                          <div className="my-4 flex items-center gap-4">
-                            <Separator className="flex-1 bg-zinc-800" />
-                            <span className="text-xs text-muted-foreground">
-                              {formatDate(msg.createdAt)}
-                            </span>
-                            <Separator className="flex-1 bg-zinc-800" />
-                          </div>
-                        )}
-                        <div className={cn("flex gap-3", isCurrentUser ? "flex-row-reverse" : "flex-row")}>
-                          <div
-                            className={cn(
-                              "flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
-                              isRobot
-                                ? "bg-emerald-950 text-emerald-400"
-                                : "bg-zinc-800 text-zinc-400"
-                            )}
-                          >
-                            {isRobot ? (
-                              <Bot className="h-4 w-4" />
-                            ) : (
-                              <User className="h-4 w-4" />
-                            )}
-                          </div>
-                          <div className={cn("min-w-0 flex-1", isCurrentUser ? "text-right" : "text-left")}>
-                            <div className={cn("flex items-baseline gap-2", isCurrentUser ? "justify-end" : "justify-start")}>
-                              <span
-                                className={cn(
-                                  "text-sm font-semibold",
-                                  isRobot
-                                    ? "text-emerald-400"
-                                    : "text-foreground"
-                                )}
-                              >
-                                {msg.sender.name}
-                              </span>
-                              <span className="text-xs text-muted-foreground">
-                                {formatTime(msg.createdAt)}
-                              </span>
-                            </div>
-                            <p className={cn("mt-0.5 whitespace-pre-wrap text-sm text-foreground/90", isCurrentUser && "bg-zinc-800/50 rounded-lg px-3 py-2 -mx-1")}>
-                              {msg.content}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    )
-                  })}
+                  {isLoadingMoreMessages && (
+                    <div className="flex justify-center py-2">
+                      <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                    </div>
+                  )}
+                  {messages.map((msg, idx) => (
+                    <MessageItem
+                      key={msg.id}
+                      msg={msg}
+                      idx={idx}
+                      messages={messages}
+                      currentUserId={currentUserId}
+                    />
+                  ))}
                   <div ref={messagesEndRef} />
                 </div>
               )}

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
+import { useRouter } from "next/navigation"
 import { api } from "@/lib/api/client"
 import { ApiClientError } from "@/lib/api/client"
 import { toast } from "sonner"
@@ -9,18 +10,13 @@ import {
   Plus,
   Trash2,
   Loader2,
-  Copy,
-  Check,
-  Monitor,
   FileText,
-  Settings,
-  Terminal,
+  ArrowRight,
 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Textarea } from "@/components/ui/textarea"
 import {
@@ -67,6 +63,7 @@ const statusColor: Record<string, string> = {
 }
 
 export default function RobotsPage() {
+  const router = useRouter()
   const [robots, setRobots] = useState<RobotInfo[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [createOpen, setCreateOpen] = useState(false)
@@ -81,13 +78,6 @@ export default function RobotsPage() {
   const [chatgroups, setChatgroups] = useState<ChatGroupOption[]>([])
   const [newTeamId, setNewTeamId] = useState("")
   const [newChatGroupId, setNewChatGroupId] = useState("")
-
-  // Assign PC flow
-  const [assignRobotId, setAssignRobotId] = useState<string | null>(null)
-  const [isGenerating, setIsGenerating] = useState(false)
-  const [generatedToken, setGeneratedToken] = useState<string | null>(null)
-  const [copied, setCopied] = useState(false)
-  const [copiedCommand, setCopiedCommand] = useState(false)
 
   // Edit flow
   const [editRobot, setEditRobot] = useState<RobotInfo | null>(null)
@@ -172,11 +162,7 @@ export default function RobotsPage() {
       })
 
 
-      const tokenRes = await api.robots.update(robot.id, {
-        generateToken: true,
-      })
-
-      toast.success("Robot created and assigned")
+      toast.success("Robot created")
       setCreateOpen(false)
       setNewName("")
       setNewSoul("")
@@ -187,13 +173,6 @@ export default function RobotsPage() {
       setIsLoading(true)
       load()
 
-
-      if (tokenRes.token) {
-        setAssignRobotId(robot.id)
-        setGeneratedToken(tokenRes.token)
-        setCopied(false)
-        setCopiedCommand(false)
-      }
     } catch (error) {
       if (error instanceof ApiClientError) {
         toast.error(error.message)
@@ -223,46 +202,6 @@ export default function RobotsPage() {
     } finally {
       setIsDeleting(false)
     }
-  }
-
-  const handleAssignPC = async () => {
-    if (!assignRobotId) return
-    setIsGenerating(true)
-    try {
-      const res = await api.robots.update(assignRobotId, {
-        generateToken: true,
-      })
-      if (res.token) {
-        setGeneratedToken(res.token)
-      } else {
-        toast.error("No token returned")
-      }
-    } catch (error) {
-      if (error instanceof ApiClientError) {
-        toast.error(error.message)
-      } else {
-        toast.error("Failed to generate token")
-      }
-    } finally {
-      setIsGenerating(false)
-    }
-  }
-
-  const handleCopy = async () => {
-    if (!generatedToken) return
-    await navigator.clipboard.writeText(generatedToken)
-    setCopied(true)
-    toast.success("Token copied to clipboard")
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  const handleCopyCommand = async () => {
-    if (!generatedToken) return
-    const command = `nanobot onboard --platform-url ${window.location.origin} --token ${generatedToken}`
-    await navigator.clipboard.writeText(command)
-    setCopiedCommand(true)
-    toast.success("Onboard command copied to clipboard")
-    setTimeout(() => setCopiedCommand(false), 2000)
   }
 
   const handleEditSave = async () => {
@@ -333,7 +272,8 @@ export default function RobotsPage() {
           {robots.map((robot) => (
             <Card
               key={robot.id}
-              className="group border-zinc-800 bg-zinc-950/50 transition-colors hover:border-zinc-700"
+              className="group cursor-pointer border-zinc-800 bg-zinc-950/50 transition-colors hover:border-zinc-700"
+              onClick={() => router.push(`/robots/${robot.id}`)}
             >
               <CardHeader className="flex flex-row items-start justify-between pb-2">
                 <div className="flex items-center gap-2">
@@ -360,38 +300,23 @@ export default function RobotsPage() {
                     </p>
                   </div>
                 )}
-                <div className="flex gap-2">
+                <div className="flex items-center justify-between">
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex-1"
-                    onClick={() => {
-                      setAssignRobotId(robot.id)
-                      setGeneratedToken(null)
-                      setCopied(false)
-                      setCopiedCommand(false)
-                    }}
+                    onClick={() => router.push(`/robots/${robot.id}`)}
                   >
-                    <Monitor className="mr-1.5 h-3.5 w-3.5" />
-                    Assign PC
+                    Settings
+                    <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
-                    onClick={() => {
-                      setEditRobot(robot)
-                      setEditName(robot.name)
-                      setEditSoul(robot.soulMd ?? "")
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setDeleteId(robot.id)
                     }}
-                  >
-                    <Settings className="h-3.5 w-3.5" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => setDeleteId(robot.id)}
                   >
                     <Trash2 className="h-3.5 w-3.5 text-muted-foreground hover:text-destructive" />
                   </Button>
@@ -527,111 +452,6 @@ export default function RobotsPage() {
               </Button>
             </DialogFooter>
           </form>
-        </DialogContent>
-      </Dialog>
-
-      {/* Assign PC Dialog */}
-      <Dialog
-        open={!!assignRobotId}
-        onOpenChange={() => {
-          setAssignRobotId(null)
-          setGeneratedToken(null)
-          setCopiedCommand(false)
-        }}
-      >
-        <DialogContent className="border-zinc-800 bg-zinc-950">
-          <DialogHeader>
-            <DialogTitle>Assign to PC</DialogTitle>
-            <DialogDescription>
-              Generate a one-time token for this robot to connect to a physical
-              or virtual machine.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="py-4">
-            {generatedToken ? (
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label className="text-xs text-muted-foreground">
-                    Robot Token
-                  </Label>
-                  <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-3">
-                    <code className="break-all text-xs text-emerald-400">
-                      {generatedToken}
-                    </code>
-                  </div>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={handleCopy}
-                  >
-                    {copied ? (
-                      <Check className="mr-2 h-4 w-4" />
-                    ) : (
-                      <Copy className="mr-2 h-4 w-4" />
-                    )}
-                    {copied ? "Copied!" : "Copy Token"}
-                  </Button>
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-xs text-muted-foreground">
-                    Onboard Command
-                  </Label>
-                  <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-3">
-                    <code className="break-all text-xs text-sky-400">
-                      nanobot onboard --platform-url{" "}
-                      {typeof window !== "undefined"
-                        ? window.location.origin
-                        : "http://localhost:3000"}{" "}
-                      --token {generatedToken}
-                    </code>
-                  </div>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={handleCopyCommand}
-                  >
-                    {copiedCommand ? (
-                      <Check className="mr-2 h-4 w-4" />
-                    ) : (
-                      <Terminal className="mr-2 h-4 w-4" />
-                    )}
-                    {copiedCommand ? "Copied!" : "Copy Onboard Command"}
-                  </Button>
-                </div>
-                <p className="text-center text-xs text-amber-400">
-                  This token will only be shown once. Store it securely.
-                </p>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center gap-4 py-4">
-                <Monitor className="h-12 w-12 text-muted-foreground/50" />
-                <p className="text-center text-sm text-muted-foreground">
-                  Click below to generate a connection token. The robot&apos;s
-                  status will change to &quot;onboarding&quot;.
-                </p>
-              </div>
-            )}
-          </div>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setAssignRobotId(null)
-                setGeneratedToken(null)
-                setCopiedCommand(false)
-              }}
-            >
-              {generatedToken ? "Done" : "Cancel"}
-            </Button>
-            {!generatedToken && (
-              <Button onClick={handleAssignPC} disabled={isGenerating}>
-                {isGenerating && (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                Generate Token
-              </Button>
-            )}
-          </DialogFooter>
         </DialogContent>
       </Dialog>
 
