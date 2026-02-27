@@ -38,10 +38,10 @@ yarn-error.log*
 next-env.d.ts
 
 # obsidian
-.obsidian
+.obsidian/
 
 # sisphus
-.sisphus
+.sisphus/
 
 # python
 __pycache__/
